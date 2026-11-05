@@ -2,7 +2,7 @@
 
 ## Phase 1: Foundational Digital Literacy
 
-- [ ] 1. **Module 1 Interactive Classroom Stage** - Fullscreen presentation shell with keyboard navigation (`←`/`→`) and interactive Module 1 lesson beats (What is a Computer definition, IPOS cycle simulator with analogies, History timeline explorer, Device classification lab, Real-world applications, and 10-question review quiz).
+- [x] 1. **Module 1 Interactive Classroom Stage** - Fullscreen presentation shell with keyboard navigation (`←`/`→`) and interactive Module 1 lesson beats (What is a Computer definition, IPOS cycle simulator with analogies, History timeline explorer, Device classification lab, Real-world applications, and 10-question review quiz).
 - [ ] 2. **Module 2: Parts of a Computer** - Interactive hardware anatomy (Motherboard, CPU, RAM, Storage, and Input/Output/Storage sorting lab).
 - [ ] 3. **Module 3: Computer Usage & Core Terminology** - Mouse/keyboard practice, booting simulation, and core terminology cards.
 - [ ] 4. **Module 4: Operating Systems & Basic Configurations** - Virtual OS desktop explorer, window management, and basic settings simulator.
