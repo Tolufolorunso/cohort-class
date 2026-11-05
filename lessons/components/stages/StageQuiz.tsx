@@ -2,23 +2,62 @@
 
 import React, { useState } from 'react';
 import { quizQuestions } from '../../data/module1';
-import { Award, CheckCircle, RefreshCw, Sparkles, ChevronLeft, ChevronRight } from '../icons/Icons';
+import { UserRole } from '../../types/platform';
+import {
+  Award,
+  CheckCircle,
+  RefreshCw,
+  Sparkles,
+  ChevronLeft,
+  ChevronRight,
+  Eye,
+  EyeOff,
+  Shield,
+  Lock,
+} from '../icons/Icons';
 
-export function StageQuiz() {
+interface StageQuizProps {
+  userRole?: UserRole;
+}
+
+export function StageQuiz({ userRole = 'student' }: StageQuizProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState<Record<number, number>>({});
+  const [revealedQuestions, setRevealedQuestions] = useState<Record<number, boolean>>({});
   const [showSummary, setShowSummary] = useState(false);
 
   const currentQuestion = quizQuestions[currentQuestionIndex];
   const selectedOptionIndex = userAnswers[currentQuestion.id];
   const isAnswered = selectedOptionIndex !== undefined;
 
+  // Answer is revealed if instructor has toggled reveal, or if in teacher mode with active reveal
+  const isRevealed = Boolean(revealedQuestions[currentQuestion.id]);
+
   const handleSelectOption = (optionIndex: number) => {
-    if (isAnswered) return; // Prevent changing after answered
+    // If student has already answered and locked, don't allow changing
+    if (isAnswered && isRevealed) return;
+
     setUserAnswers((prev) => ({
       ...prev,
       [currentQuestion.id]: optionIndex,
     }));
+  };
+
+  const handleToggleReveal = (qId: number) => {
+    if (userRole !== 'teacher') return;
+    setRevealedQuestions((prev) => ({
+      ...prev,
+      [qId]: !prev[qId],
+    }));
+  };
+
+  const handleRevealAll = () => {
+    if (userRole !== 'teacher') return;
+    const all: Record<number, boolean> = {};
+    quizQuestions.forEach((q) => {
+      all[q.id] = true;
+    });
+    setRevealedQuestions(all);
   };
 
   const handleNext = () => {
@@ -38,10 +77,11 @@ export function StageQuiz() {
   const handleReset = () => {
     setCurrentQuestionIndex(0);
     setUserAnswers({});
+    setRevealedQuestions({});
     setShowSummary(false);
   };
 
-  // Calculate score
+  // Calculate score based on user answers
   const correctCount = Object.entries(userAnswers).filter(
     ([qId, ans]) => quizQuestions.find((q) => q.id === Number(qId))?.correctIndex === ans
   ).length;
@@ -58,22 +98,37 @@ export function StageQuiz() {
             Module 1 Review Challenge (10 Questions)
           </h2>
           <p className="text-zinc-400 text-sm mt-0.5">
-            Take a classroom vote on each question, select the class choice, and review the teaching explanation!
+            {userRole === 'teacher'
+              ? 'Instructor Control Mode: You decide when to reveal the correct answer and explanation to the classroom.'
+              : 'Select your answer choice. Your instructor will reveal the correct answers on the main classroom screen.'}
           </p>
         </div>
 
-        {/* Live Score Counter */}
-        <div className="flex items-center gap-4 bg-zinc-950 px-5 py-2.5 rounded-xl border border-zinc-800">
-          <div>
-            <span className="text-zinc-500 text-xs uppercase block font-bold">Answered</span>
-            <span className="text-white font-bold">
-              {Object.keys(userAnswers).length} / {quizQuestions.length}
-            </span>
-          </div>
-          <div className="h-8 w-px bg-zinc-800" />
-          <div>
-            <span className="text-zinc-500 text-xs uppercase block font-bold">Class Score</span>
-            <span className="text-emerald-400 font-black">{correctCount} Correct</span>
+        {/* Live Status & Teacher Reveal Controls */}
+        <div className="flex items-center flex-wrap gap-3">
+          {userRole === 'teacher' && (
+            <button
+              onClick={handleRevealAll}
+              className="px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 hover:bg-amber-500/30 transition-colors flex items-center gap-1.5"
+              title="Reveal all 10 answers at once"
+            >
+              <Eye size={14} />
+              <span>Reveal All</span>
+            </button>
+          )}
+
+          <div className="flex items-center gap-4 bg-zinc-950 px-5 py-2.5 rounded-xl border border-zinc-800">
+            <div>
+              <span className="text-zinc-500 text-xs uppercase block font-bold">Answered</span>
+              <span className="text-white font-bold">
+                {Object.keys(userAnswers).length} / {quizQuestions.length}
+              </span>
+            </div>
+            <div className="h-8 w-px bg-zinc-800" />
+            <div>
+              <span className="text-zinc-500 text-xs uppercase block font-bold">Class Score</span>
+              <span className="text-emerald-400 font-black">{correctCount} Correct</span>
+            </div>
           </div>
         </div>
       </section>
@@ -84,6 +139,7 @@ export function StageQuiz() {
           const isCurrent = idx === currentQuestionIndex;
           const ans = userAnswers[q.id];
           const hasAnswered = ans !== undefined;
+          const isQRevealed = Boolean(revealedQuestions[q.id]);
           const isCorrect = hasAnswered && ans === q.correctIndex;
 
           return (
@@ -96,10 +152,12 @@ export function StageQuiz() {
               className={`w-9 h-9 rounded-xl font-bold text-xs flex items-center justify-center transition-all cursor-pointer border ${
                 isCurrent
                   ? 'ring-2 ring-emerald-400 bg-emerald-500 text-zinc-950 border-emerald-300 font-black shadow-md'
-                  : hasAnswered
+                  : isQRevealed
                   ? isCorrect
                     ? 'bg-emerald-950/80 text-emerald-400 border-emerald-800'
                     : 'bg-rose-950/80 text-rose-400 border-rose-800'
+                  : hasAnswered
+                  ? 'bg-zinc-800 text-emerald-300 border-emerald-700/60'
                   : 'bg-zinc-800/80 text-zinc-400 border-zinc-700 hover:bg-zinc-700'
               }`}
               title={`Question ${idx + 1}`}
@@ -117,9 +175,45 @@ export function StageQuiz() {
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">
               Question {currentQuestionIndex + 1} of {quizQuestions.length} — Topic: {currentQuestion.topic}
             </span>
-            <span className="text-xs font-bold text-zinc-400">
-              {isAnswered ? 'Answer Revealed' : 'Awaiting Vote'}
-            </span>
+
+            {/* Answer State Pill */}
+            <div className="flex items-center gap-2">
+              {userRole === 'teacher' ? (
+                <button
+                  onClick={() => handleToggleReveal(currentQuestion.id)}
+                  className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold border transition-all ${
+                    isRevealed
+                      ? 'bg-emerald-950/60 text-emerald-300 border-emerald-600/60 hover:bg-emerald-900/60'
+                      : 'bg-amber-950/60 text-amber-300 border-amber-600/60 hover:bg-amber-900/60 animate-pulse'
+                  }`}
+                  title="Click to reveal or hide answer to class"
+                >
+                  {isRevealed ? (
+                    <>
+                      <EyeOff size={14} />
+                      <span>Hide Answer</span>
+                    </>
+                  ) : (
+                    <>
+                      <Eye size={14} />
+                      <span>Reveal Answer to Class</span>
+                    </>
+                  )}
+                </button>
+              ) : (
+                <span className="text-xs font-bold text-zinc-400 flex items-center gap-1">
+                  {isRevealed ? (
+                    <span className="text-emerald-400 flex items-center gap-1">
+                      <Eye size={13} /> Answer Revealed
+                    </span>
+                  ) : (
+                    <span className="text-zinc-500 flex items-center gap-1">
+                      <Lock size={12} /> Instructor Controls Answer
+                    </span>
+                  )}
+                </span>
+              )}
+            </div>
           </div>
 
           <h3 className="text-xl sm:text-3xl font-extrabold text-white leading-snug">
@@ -135,7 +229,8 @@ export function StageQuiz() {
 
               let style = 'bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border-zinc-700';
 
-              if (isAnswered) {
+              if (isRevealed) {
+                // If instructor has revealed answer
                 if (isCorrectOption) {
                   style =
                     'bg-emerald-500/20 text-emerald-300 border-emerald-500 ring-2 ring-emerald-500 font-bold';
@@ -145,21 +240,27 @@ export function StageQuiz() {
                 } else {
                   style = 'bg-zinc-900/60 text-zinc-500 border-zinc-800 opacity-60';
                 }
+              } else if (isSelected) {
+                // Not revealed, but selected by student/class
+                style =
+                  'bg-emerald-950/70 text-emerald-300 border-emerald-500/80 ring-2 ring-emerald-500/50 font-bold';
               }
 
               return (
                 <button
                   key={optIdx}
                   onClick={() => handleSelectOption(optIdx)}
-                  disabled={isAnswered}
+                  disabled={isRevealed}
                   className={`p-4 rounded-xl text-left border transition-all flex items-start gap-3 cursor-pointer text-sm sm:text-base ${style}`}
                 >
                   <span
                     className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black flex-shrink-0 ${
-                      isAnswered && isCorrectOption
+                      isRevealed && isCorrectOption
                         ? 'bg-emerald-500 text-zinc-950'
-                        : isAnswered && isSelected
+                        : isRevealed && isSelected
                         ? 'bg-rose-500 text-white'
+                        : isSelected
+                        ? 'bg-emerald-500 text-zinc-950'
                         : 'bg-zinc-700 text-zinc-200'
                     }`}
                   >
@@ -171,10 +272,38 @@ export function StageQuiz() {
             })}
           </div>
 
-          {/* Answer Explanation Box */}
-          {isAnswered && (
+          {/* Student Mode Waiting Banner */}
+          {!isRevealed && isAnswered && userRole === 'student' && (
+            <div className="p-4 rounded-xl bg-zinc-950 border border-zinc-800 text-xs sm:text-sm text-zinc-400 flex items-center gap-2.5">
+              <span className="text-base">🔒</span>
+              <span>
+                Your answer is marked! The instructor will reveal the correct answer and explanation to the class when everyone is ready.
+              </span>
+            </div>
+          )}
+
+          {/* Teacher Mode Prompt when answer not revealed */}
+          {!isRevealed && userRole === 'teacher' && (
+            <div className="p-4 rounded-xl bg-amber-950/30 border border-amber-600/40 text-xs sm:text-sm text-amber-200 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2">
+                <Shield size={16} className="text-amber-400 shrink-0" />
+                <span>
+                  <strong>Teacher Mode:</strong> Answers are currently hidden from students. Click &quot;Reveal Answer to Class&quot; when ready.
+                </span>
+              </div>
+              <button
+                onClick={() => handleToggleReveal(currentQuestion.id)}
+                className="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-zinc-950 font-bold text-xs shrink-0 transition-colors"
+              >
+                Reveal Answer Now
+              </button>
+            </div>
+          )}
+
+          {/* Answer Explanation Box (Shown when revealed) */}
+          {isRevealed && (
             <div
-              className={`p-5 rounded-xl border text-sm sm:text-base space-y-2 ${
+              className={`p-5 rounded-xl border text-sm sm:text-base space-y-2 animate-in fade-in ${
                 selectedOptionIndex === currentQuestion.correctIndex
                   ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-300'
                   : 'bg-zinc-950 border-amber-500/40 text-zinc-200'
@@ -183,7 +312,8 @@ export function StageQuiz() {
               <div className="font-bold flex items-center gap-2">
                 <CheckCircle size={18} className="text-emerald-400" />
                 <span>
-                  Correct Answer: Option {String.fromCharCode(65 + currentQuestion.correctIndex)}
+                  Correct Answer: Option {String.fromCharCode(65 + currentQuestion.correctIndex)} (
+                  {currentQuestion.options[currentQuestion.correctIndex]})
                 </span>
               </div>
               <p className="text-zinc-300 text-sm leading-relaxed">
@@ -264,4 +394,3 @@ export function StageQuiz() {
     </div>
   );
 }
-

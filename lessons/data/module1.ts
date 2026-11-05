@@ -10,6 +10,7 @@ import {
   ApplicationSector,
   QuizQuestion,
 } from '../types/curriculum';
+import { ModuleNotes, ModuleAssignment } from '../types/platform';
 
 export const module1Info: ModuleData = {
   id: 'module-1',
@@ -708,3 +709,135 @@ export const quizQuestions: QuizQuestion[] = [
   },
 ];
 
+
+
+export const module1Notes: ModuleNotes = {
+  moduleId: 'module-1',
+  moduleTitle: 'Module 1: Introduction to Computers',
+  phaseName: 'Phase 1: Basic (Foundational Literacy)',
+  summary:
+    'Comprehensive study notes designed for student exercise notebooks. Copy these definitions, tables, and rules into your computer notebook for revision and study.',
+  sections: [
+    {
+      id: 'definition-and-characteristics',
+      title: '1. Definition & Core Characteristics of a Computer',
+      summary:
+        'A computer is an electronic device that accepts raw data as input, processes it under the control of stored instructions, produces meaningful information as output, and stores the results for future use.',
+      keyTakeaway:
+        'Data is raw unorganized facts (e.g., numbers, names). Information is processed, organized, meaningful data (e.g., report cards, sales totals).',
+      points: [
+        'Speed: Computers execute billions of instructions per second without delay.',
+        'Accuracy: When supplied with correct data and instructions, computers do not make mathematical errors (GIGO: Garbage In, Garbage Out).',
+        'Storage Capacity: High-density storage devices (Hard Drives, SSDs, Flash drives) hold vast libraries of textbooks, images, and programs.',
+        'Diligence: Unlike humans, computers never experience fatigue, boredom, loss of concentration, or tiredness.',
+        'Versatility: The same computer can write an essay, play music, compute school fees, edit photos, and browse the internet.',
+      ],
+    },
+    {
+      id: 'ipos-cycle',
+      title: '2. The IPOS Cycle (Data Processing Cycle)',
+      summary:
+        'Every computer operation follows the four-stage cycle: Input -> Processing -> Output -> Storage.',
+      keyTakeaway:
+        'Without input, there is nothing to compute. Without processing, raw data cannot become information. Output delivers results to humans, and storage preserves it.',
+      points: [
+        'Input: Entering raw data and commands into the computer using devices like the Keyboard, Mouse, Microphone, or Scanner.',
+        'Processing: Manipulating and calculating the data using the Central Processing Unit (CPU), which is the electronic "brain" of the computer.',
+        'Output: Presenting the processed results to the user using devices like the Monitor (screen), Printer, or Speakers.',
+        'Storage: Preserving information permanently or temporarily using Storage devices like SSDs, Hard Drives, and Flash Drives.',
+      ],
+    },
+    {
+      id: 'computer-vs-human',
+      title: '3. Comparison: Computer vs. Human Being',
+      summary:
+        'Computers and humans work together as partners. Computers excel at repetitive mechanical computations, while humans excel at creative thinking, ethics, and emotional intelligence.',
+      keyTakeaway:
+        'Computers cannot think on their own. They require human software programmers to tell them what to do.',
+      points: [
+        'Speed & Volume: Computers calculate millions of transactions in milliseconds; humans require pen, paper, and time.',
+        'Fatigue & Emotion: Computers work 24/7 without rest or emotional distraction; humans experience fatigue and need rest.',
+        'Independent Judgment: Humans possess intuition, common sense, and creativity; computers only execute programmed rules.',
+        'Physical Vulnerability: Computers require reliable electric power and clean environments; power cuts stop their operation.',
+      ],
+    },
+    {
+      id: 'historical-generations',
+      title: '4. Evolution & Five Generations of Computers',
+      summary:
+        'Computers evolved from ancient counting frames (Abacus) to mechanical calculators (Pascaline, Babbage Analytical Engine) and modern microprocessors.',
+      keyTakeaway:
+        'Charles Babbage is universally honored as the "Father of Computing", and Ada Lovelace is recognized as the first computer programmer.',
+      points: [
+        '1st Generation (1940-1956): Vacuum Tubes. Very large (room-sized), consumed huge electric power, generated intense heat (e.g., ENIAC, UNIVAC).',
+        '2nd Generation (1956-1963): Transistors. Smaller, faster, cheaper, and far more energy-efficient than vacuum tubes.',
+        '3rd Generation (1964-1971): Integrated Circuits (ICs). Multiple microscopic transistors placed on silicon chips; keyboard and monitor interfaces introduced.',
+        '4th Generation (1971-Present): Microprocessors (VLSI / ULSI). Entire CPU placed on a single microchip (Intel 4004 to modern Intel Core/Ryzen/Apple Silicon); made Personal Computers (PCs) and laptops affordable for families and schools.',
+        '5th Generation (Present & Beyond): Artificial Intelligence (AI). Quantum computing, natural language processing, voice recognition, and autonomous systems.',
+      ],
+    },
+    {
+      id: 'classification-of-computers',
+      title: '5. Classification of Computers by Size & Power',
+      summary:
+        'Computers are classified based on physical size, processing power, storage capacity, and intended purpose.',
+      keyTakeaway:
+        'Microcomputers (PCs, laptops, tablets, smartphones) are the most common computers used in classrooms, homes, and offices.',
+      points: [
+        'Supercomputers: The fastest and most expensive computers on Earth. Used for weather forecasting, nuclear research, and aerospace modeling.',
+        'Mainframe Computers: Large, powerful systems supporting thousands of simultaneous users in banks, airlines, and government agencies.',
+        'Minicomputers (Midrange): Multi-user computers used in medium-sized manufacturing plants, universities, and research labs.',
+        'Microcomputers (Personal Computers): Desktop PCs, Laptops, Tablets, and Smartphones equipped with microprocessors for individual use.',
+        'Embedded Computers: Specialized microcontrollers built inside home appliances, cars, microwave ovens, and digital cameras.',
+      ],
+    },
+    {
+      id: 'lab-safety-rules',
+      title: '6. Computer Laboratory Rules & Safe Practices',
+      summary:
+        'To protect both the students and the computer equipment, strict lab etiquette must be observed at all times.',
+      keyTakeaway:
+        'Electricity and computers can be hazardous if handled carelessly. Always follow your teacher’s directions.',
+      points: [
+        'No Food or Liquids: Never bring water, drinks, or snacks near computers; spills cause short circuits and permanent damage.',
+        'Clean & Dry Hands: Wash and dry hands before touching keyboards and mice to keep equipment clean and prevent stickiness.',
+        'Gentle Typing: Press keyboard keys and mouse buttons gently; hammering damage the delicate internal switches.',
+        'Proper Shutdown: Always shut down the computer properly through the operating system menu; never pull the power plug directly.',
+        'Report Problems: If you see sparks, smell burning, or notice loose wires, inform your instructor immediately without touching the cable.',
+      ],
+    },
+  ],
+};
+
+export const module1Assignment: ModuleAssignment = {
+  moduleId: 'module-1',
+  moduleTitle: 'Module 1: Introduction to Computers - Assignment 1',
+  instructions:
+    'Complete the following 4 assignment questions. Ensure you enter your assigned Patron Number (e.g., DZ-2026-001) and your Full Name before submitting. Your answers will be recorded directly for your instructor to review.',
+  questions: [
+    {
+      id: 1,
+      prompt: 'In your own words, define a computer and state the full meaning of the acronym IPOS.',
+      guidance: 'Give a 2-3 sentence definition and explain what each letter (I, P, O, S) stands for.',
+      placeholder: 'A computer is... IPOS stands for: I = ..., P = ..., O = ..., S = ...',
+    },
+    {
+      id: 2,
+      prompt: 'Compare a computer and a human brain in terms of calculation speed, fatigue/tiredness, and independent decision making.',
+      guidance: 'State at least two advantages of computers and one advantage humans have over computers.',
+      placeholder: 'In terms of speed... In terms of tiredness... While humans are able to...',
+    },
+    {
+      id: 3,
+      prompt: 'List the four major electronic technologies used in the 1st, 2nd, 3rd, and 4th generations of computers.',
+      guidance: 'Mention the primary electronic component developed for each generation.',
+      placeholder: '1st Gen: ... | 2nd Gen: ... | 3rd Gen: ... | 4th Gen: ...',
+    },
+    {
+      id: 4,
+      prompt: 'Identify three different types of computers or computing devices you see in everyday life and explain what each one is used for.',
+      guidance: 'Examples: ATM, smartphone, desktop PC, barcode scanner, digital wristwatch, supermarket checkout.',
+      placeholder: '1. Device Name: Use...\n2. Device Name: Use...\n3. Device Name: Use...',
+    },
+  ],
+};

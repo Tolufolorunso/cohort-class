@@ -1,0 +1,13 @@
+{
+  "name": "dzuels-computer-class-curriculum",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Interactive web-based curriculum for Dzuels Foundation Digital Literacy Programme",
+  "scripts": {
+    "dev": "npm --prefix lessons run dev",
+    "build": "npm --prefix lessons run build",
+    "start": "npm --prefix lessons run start",
+    "lint": "npm --prefix lessons run lint"
+  }
+}
+
