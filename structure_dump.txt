@@ -1,0 +1,1506 @@
+[1] [Normal] CURRICULUM HANDBOOK & TEACHING GUIDE
+[2] [Normal] Digital Literacy & Computer Education
+Programme
+[3] [Normal] ____________________________________________________
+[4] [Normal] A Complete Multi-Phase Curriculum for Secondary School Students (Ages 12-18)
+Assuming Absolutely Zero Prior Computer Experience
+[5] [Normal] Developed by
+Dzuels Foundation
+Version 1.0 | Academic Year 2026-2027
+[7] [Heading 1] Table of Contents
+[8] [Normal] 1. Executive Summary & Curriculum Philosophy
+[9] [Normal] 2. Teaching Guide & Classroom Management
+[10] [Normal] 3. Assessment Framework & Evaluation Systems
+[11] [Normal] 4. Phase 1: BASIC (Foundational Literacy)
+[12] [Normal]    - Module 1: Introduction to Computers
+[13] [Normal]    - Module 2: Parts of a Computer
+[14] [Normal]    - Module 3: Computer Usage & Core Terminology
+[15] [Normal]    - Module 4: Operating Systems & Basic Configurations
+[16] [Normal]    - Module 5: File Management & Organization
+[17] [Normal]    - Module 6: Internet Basics & Digital Citizenship
+[18] [Normal]    - Module 7: Microsoft Office Productivity Suite
+[19] [Normal] 5. Phase 2: INTERMEDIATE (Creative Logic & App Development)
+[20] [Normal]    - Module 8: Computational Thinking & Algorithmic Logic
+[21] [Normal]    - Module 9: Scratch Visual Block-based Programming
+[22] [Normal]    - Module 10: Python Scripting Language Basics
+[23] [Normal]    - Module 11: JavaScript Concepts & Web Logic
+[24] [Normal]    - Module 12: Mobile App Development (React Native Concepts)
+[25] [Normal] 6. Phase 3: ADVANCED (Specialized Technologies & Futures)
+[26] [Normal]    - Module 13: HTML & CSS Web Design & Responsive Layouts
+[27] [Normal]    - Module 14: Version Control (Git & GitHub Collaboration)
+[28] [Normal]    - Module 15: Artificial Intelligence & Responsible Prompting
+[29] [Normal]    - Module 16: Robotics & Physical Computing (Arduino Framework)
+[30] [Normal]    - Module 17: Digital Creativity (Graphic Design & Basic Media Editing)
+[31] [Normal]    - Module 18: Cybersecurity & Digital Hygiene Basics
+[32] [Normal]    - Module 19: Career Pathways & Next Steps
+[33] [Normal] 7. Sample Lesson Plans
+[34] [Normal] 8. Recommended Resources & Free Software
+[35] [Normal] 9. Appendices & Classroom Templates
+[36] [Normal]    - Appendix A: Glossary of Core Computer Science Terms
+[37] [Normal]    - Appendix B: Essential Keyboard Shortcuts Cheatsheet
+[38] [Normal]    - Appendix C: Computer Laboratory Rules Poster
+[39] [Normal]    - Appendix D: Internet Safety & Cybersecurity Rules
+[40] [Normal]    - Appendix E: Digital Citizenship Pledge
+[41] [Normal]    - Appendix F: Student Progress Tracking Template
+[42] [Normal]    - Appendix G: Laboratory Attendance Log Template
+[43] [Normal]    - Appendix H: Rubric Grading Template
+[44] [Normal]    - Appendix I: Project Evaluation Template
+[45] [Normal]    - Appendix J: Sample Certificate of Completion Structure
+[46] [Normal]    - Appendix K: Dzuels Foundation Contact Information
+[48] [Heading 1] 1. Executive Summary & Curriculum Philosophy
+[49] [Heading 2] Program Mission & Vision
+[50] [Normal] Vision: To alleviate poverty through quality education.
+
+Mission: To make quality education accessible to every child within reach.
+
+The Dzuels Foundation Digital Literacy & Computer Education Programme is built directly on these founding principles. By providing secondary school students (ages 12–18) in Ekiti State and beyond with a structured, international-standard education in computer science, we aim to bridge the digital divide. Assuming absolutely no prior technology experience, this multi-phase curriculum provides a clear path to technological self-sufficiency, logical problem-solving, and future-ready employment.
+[51] [Heading 2] Core Foundation Values (D-R-N-I-C-E-R)
+[52] [Normal] The curriculum is designed to not only teach technological skills but also to cultivate character and leadership. The program instills the Dzuels Foundation core values of Discipline, Responsibility, No-Excuse, Integrity, Compassion, Excellence, and Respect in every classroom activity, laboratory session, and project delivery.
+[53] [List Bullet] Discipline (D): Dedication to structured study and consistent laboratory practice.
+[54] [List Bullet] Responsibility (R): Taking ownership of one's learning and caring for shared laboratory hardware.
+[55] [List Bullet] No-Excuse (N): Overcoming infrastructure challenges through persistence, problem-solving, and simulation-based tools.
+[56] [List Bullet] Integrity (I): Upholding academic honesty, proper citation of research and AI tools, and collaboration ethics.
+[57] [List Bullet] Compassion (C): Supporting classmates through peer mentoring and cooperative team learning.
+[58] [List Bullet] Excellence (E): Striving for the highest quality in code structures, slide design, and project execution.
+[59] [List Bullet] Respect (R): Demonstrating positive digital citizenship, online safety habits, and respectful communication.
+[61] [Heading 2] Curriculum Philosophy & Pedagogical Framework
+[62] [Normal] Our educational philosophy centers on active, constructive learning. We believe that technology literacy is not acquired by watching, but by doing. Thus, this curriculum is heavily project-based, dedicating more than 60% of lesson time to hands-on keyboard, mouse, or code manipulation.
+
+We balance three primary dimensions of learning:
+1. Conceptual Theory: Building computational thinking, vocabulary, and structural understanding.
+2. Practical Application: Mastering physical coordination (posture, speed) and software tooling.
+3. Creative Synthesis: Encouraging design, logical problem-solving, and original code through individual and group projects.
+
+By grounding students first in absolute basics (Phase 1), moving to programming logic (Phase 2), and finalizing with specialized modern technologies like Web Design, Git, and AI prompting (Phase 3), we ensure a gradual, non-intimidating transition into digital mastery.
+[64] [Heading 1] 2. Teaching Guide & Classroom Management
+[65] [Normal] This teaching guide outlines classroom instructions, laboratory configurations, and pacing adjustments necessary to implement this curriculum effectively across diverse school structures.
+[66] [Heading 2] Teacher Preparation Protocol
+[67] [Normal] Effective computer science education begins before students enter the lab. Teachers must perform the following preparation routines before every lesson:
+1. Hardware Checks: Ensure all computer workstations are powered, mouse devices are connected, and keyboards are clean.
+2. Software Configuration: Confirm that necessary software (Thonny, Scratch, Browsers, Office) is installed and updated on all student computers.
+3. File Distribution: Pre-load any required exercise files or templates on student desktop paths or cloud drives.
+4. Teacher Demonstration setup: Ensure the projector or screen display is functional and readable from the back of the room.
+5. Backup Plans: Have offline worksheets and physical activities ready in case of power outages or internet failures.
+[68] [Heading 2] Classroom and Computer Lab Management
+[69] [Normal] Classroom management in a computer lab requires unique strategies due to the physical distractions of screens:
+1. The 'Screens Down' Rule: Establish a clear signal (e.g. ringing a bell or saying 'Screens Down') where students must close laptop lids or look away from monitors to focus on teacher instructions.
+2. Monitored Workspaces: Walk around the room constantly. Do not remain at the teacher's desk. Position screens so they are visible from a central walking path if possible.
+3. Collaborative Pairing: If computers are limited, pair students as 'Driver' (typing) and 'Navigator' (reviewing logic). Have them swap roles every 15 minutes.
+4. Safe Environment: Post rules clearly regarding food, drinks, and cable handling. Ensure students pack cables neatly after class.
+[70] [Heading 2] Lesson Pacing and Duration
+[71] [Normal] Recommended Lesson Duration:
+- Total Time: 45 Minutes per lesson.
+- Introduction & Concept explanation: 10 Minutes.
+- Teacher Demonstration: 5 Minutes.
+- Student Hands-on Lab Activity: 25 Minutes.
+- Clean-up & Wrap-up: 5 Minutes.
+Double periods (90 Minutes) are recommended for complex coding tasks in Python, JavaScript, and Web Design to allow deeper focus.
+[72] [Heading 2] Differentiated Instruction for Varying Speeds
+[73] [Normal] Computer science classes often have a wide range of learning speeds. Manage this through differentiated instruction:
+1. Extension Tasks: For fast learners, provide 'Stretch Goals' (e.g. add a high score screen in Scratch, add styling rules in CSS, write nested loops in Python).
+2. Peer Mentoring: Assign advanced students who complete tasks early as 'Student Helpers' or peer tutors to support classmates. This solidifies their own understanding.
+3. Simplified Tasks: For struggling learners, focus on core objectives only (e.g. modify existing code variables rather than writing a program from scratch).
+4. Visual & Audio Aids: Provide printed, step-by-step screenshot sheets for students who struggle with verbal instructions.
+[74] [Heading 2] Inclusive & Accessible Teaching Strategies
+[75] [Normal] Ensure the computer lab is inclusive to all backgrounds and learning profiles:
+1. Language Adaptation: Use simple, clear English and write key terminology on the board. Avoid overly technical jargon when starting.
+2. Gender Balance: Actively encourage female students to lead programming and engineering tasks. Set balanced group structures.
+3. Ergonomic Support: Provide mouse devices suitable for left-handed students. Adjust seat heights and monitor brightness to prevent strain.
+4. Neurodiversity: Allow students who get overstimulated by lab noises (keyboard tapping, fans) to wear headphones during silent working blocks.
+[77] [Heading 1] 3. Assessment Framework & Evaluation Systems
+[78] [Normal] To measure skills growth accurately, the program utilizes a continuous, multi-dimensional assessment system. This balances baseline checks, over-the-shoulder feedback, structured tests, and portfolio milestones.
+[79] [Heading 2] Diagnostic Assessment
+[80] [Normal] Diagnostic Assessment (Baseline):
+Conducted before starting a phase or module. This consists of simple surveys, interactive discussions, or high-level questionnaires to check baseline technology exposure. For complete beginners, it checks if they know how to identify a monitor, mouse, or if they have used mobile devices before.
+[81] [Heading 2] Formative Assessment
+[82] [Normal] Formative Assessment (Ongoing feedback):
+Incorporated throughout every lesson. Teachers check progress through:
+- 'Exit Tickets': Short, 2-question slips turned in at the end of class checking core concepts.
+- Over-the-shoulder checks: Reviewing code structures and typing styles during practical exercises.
+- Think-Pair-Share: Asking students to discuss a programming problem with their neighbor and report back.
+[83] [Heading 2] Summative Assessment
+[84] [Normal] Summative Assessment (Final grading):
+Conducted at the end of each module and phase. This includes:
+- Conceptual Written Exams: Checking vocabulary, short answer logic, and syntax analysis.
+- Practical Performance Exams: Timed laboratory tasks where students build files, folders, or scripts under observation.
+[85] [Heading 2] Project-Based Evaluation
+[86] [Normal] Project-Based Assessment:
+Evaluates the synthesis of multiple skills. Individual and Group projects require students to apply their cumulative knowledge to solve real-world problems. Grading is based on a standard rubric assessing functionality, structure, aesthetics, and code logic.
+[87] [Heading 2] Peer & Self Evaluation
+[88] [Normal] Peer & Self Assessment:
+Encourages metacognition and collaboration. Students review each other's code structures during peer-review blocks, checking readability and commenting. They also complete self-evaluation forms to reflect on their learning progress and identify personal gaps.
+[89] [Heading 2] Cumulative Portfolio Assessment
+[90] [Normal] Portfolio Assessment:
+The ultimate evaluation tool. Students assemble all their completed works (Word files, Excel spreadsheets, Scratch links, Python scripts, and responsive website code) into a single folder or a remote Git repository. The portfolio showcases their growth from absolute beginners to functional software developers.
+[92] [Heading 1] 4. Phase 1: BASIC (Foundational Literacy)
+[93] [Heading 2] Introduction & Context
+[94] [Normal] Welcome to Phase 1 (BASIC) of the Digital Literacy & Computer Education Programme. This phase is designed specifically for students aged 12 to 18 who have absolutely no prior experience with technology. The curriculum assumes that students have never touched a computer, seen a desktop interface, or held a mouse. The pedagogical focus of this phase is to demystify the computer, build confidence, develop physical coordination (such as typing posture and mouse grip), and introduce fundamental digital tools that are essential for modern education and future careers.
+
+By the end of this phase, students will transition from absolute beginners to confident users of basic computer systems, operating systems, file management concepts, internet safety, and Microsoft Office tools.
+[95] [Heading 2] Phase Description
+[96] [Normal] Phase 1 serves as the critical foundation of the entire curriculum. It spans 16 weeks, comprising 32 lessons of 45 minutes each. The content begins with conceptual understanding (What is a computer? Where is it used?) and gradually moves to physical interactions (parts of a computer, keyboard layouts, mouse movements). As students gain confidence, they are introduced to software applications, starting with Operating Systems (Windows/Linux/macOS), file organization, safe web browsing, and introductory document creation and data processing using Microsoft Office. Every lesson balances simple explanations with hands-on practical exercises to reinforce learning.
+[97] [Heading 2] Learning Objectives & Core Outcomes
+[98] [Normal] Learning Objectives:
+[99] [List Bullet] Identify and describe the main hardware components of desktop and laptop computers.
+[100] [List Bullet] Perform essential physical operations, including correct typing posture, keyboard typing, and mouse actions (clicking, dragging, scrolling).
+[101] [List Bullet] Navigate operating system environments, locate applications, configure settings, and handle basic system maintenance.
+[102] [List Bullet] Establish effective file management structures, including creating, organizing, copying, moving, and securing files and folders.
+[103] [List Bullet] Understand the basic principles of the internet, perform safe search queries, and practice digital citizenship.
+[104] [List Bullet] Create, edit, format, and save documents in Microsoft Word, spreadsheets in Excel, and presentation slides in PowerPoint.
+[106] [Normal] Expected Learning Outcomes:
+[107] [List Bullet] Students can explain the function of the CPU, RAM, storage devices, and peripherals in simple terms.
+[108] [List Bullet] Students demonstrate smooth physical control over the mouse and keyboard using correct posture.
+[109] [List Bullet] Students can boot, log in, navigate the desktop, launch applications, and shut down a computer safely.
+[110] [List Bullet] Students demonstrate the ability to organize digital folders, manage file hierarchies, and use storage drives.
+[111] [List Bullet] Students identify cybersecurity risks (such as insecure sites) and demonstrate safe online communication habits.
+[112] [List Bullet] Students create an academic report in Word, a basic monthly budget spreadsheet in Excel, and an educational presentation in PowerPoint.
+[114] [Heading 2] Core Skills Students Will Gain
+[115] [List Bullet] Hardware identification and setup
+[116] [List Bullet] Fine motor skills for mouse control
+[117] [List Bullet] Home-row typing and touch-typing basics
+[118] [List Bullet] Operating system navigation and customization
+[119] [List Bullet] Logical file structures and directory management
+[120] [List Bullet] Safe web browsing and digital research methods
+[121] [List Bullet] Document formatting and styling
+[122] [List Bullet] Basic arithmetic formulas and chart generation
+[123] [List Bullet] Effective visual slide design and delivery
+[125] [Heading 2] Weekly Schedule
+[127] [Heading 2] Recommended Teaching Methods & Classroom Activities
+[128] [Normal] Teaching Methods:
+[129] [List Bullet] Direct Instruction with Physical Demonstration: Teachers show physical hardware before students interact.
+[130] [List Bullet] Guided Practice: Teachers walk students through computer operations step-by-step using a projector.
+[131] [List Bullet] Kinesthetic Learning: Direct hands-on laboratory work where students touch, type, and click.
+[132] [List Bullet] Peer-Assisted Learning: Pairing students of differing progression speeds to support collaboration.
+[133] [List Bullet] Gamified Learning: Using interactive typing games (e.g., Tux Typing) to make practice engaging.
+[135] [Normal] Classroom Activities:
+[136] [List Bullet] Hardware Scavenger Hunt: Students find and label physical computer components in the lab.
+[137] [List Bullet] Typing Posture Audits: Students work in pairs to check and correct each other's typing posture.
+[138] [List Bullet] Desktop Customization: Personalizing wallpaper, window colors, and organizing desktop icons.
+[139] [List Bullet] File Sorting Race: Organizing a disorganized folder of mixed files into designated, structured sub-folders.
+[140] [List Bullet] Safe Browsing Mock Scenarios: Interactive discussions identifying phishing emails or safe vs. unsafe websites.
+[142] [Heading 2] Hands-on Practical Activities
+[143] [List Bullet] System Boot & Shutdown Sequence: Booting, logging in, navigating the desktop, and performing a safe shutdown.
+[144] [List Bullet] Text Document Creation: Writing a 1-page biography using proper margins, fonts, and headers in Word.
+[145] [List Bullet] Personal Expense Log: Designing a personal budget table with automatic SUM and AVERAGE formulas in Excel.
+[146] [List Bullet] My Hobby Presentation: Developing a 5-slide presentation with transitions and images in PowerPoint.
+[148] [Heading 2] Projects Framework
+[149] [Normal] Individual Project:
+My Digital Profile: Students create a personal folder on the computer. Inside this folder, they write a Word document describing their background, insert an Excel spreadsheet representing their weekly school schedule, and save a PowerPoint presentation introducing their family. The entire folder is then copied to a USB drive or uploaded to Google Drive to demonstrate complete digital storage mastery.
+[150] [Normal] Group Project:
+The Computer Lab Guide: Working in groups of three, students design a physical poster or a digital guide detailing rules for the computer lab, safe internet usage guidelines, and keyboard shortcuts. They write the text together, format it using Word or PowerPoint, print it out, and present it to the class.
+[151] [Heading 2] Teacher Guidance & Lab Notes
+[153] [Heading 2] Required Physical & Digital Resources
+[154] [List Bullet] Computers (Desktop or Laptop) with operating systems installed
+[155] [List Bullet] Projector or Large screen for classroom demonstrations
+[156] [List Bullet] Physical disassembled computer parts (old motherboard, RAM sticks, hard drives) for physical inspection
+[157] [List Bullet] Tux Typing or Mavis Beacon typing software (free/open-source)
+[158] [List Bullet] USB Flash drives for file transfer exercises
+[159] [List Bullet] Internet connection (optional but recommended for Modules 6 and 7)
+[161] [Heading 2] Assessment Methods & Framework
+[162] [List Bullet] Practical Laboratory Checkpoints: Direct observation of student capabilities (e.g., opening applications, copying files).
+[163] [List Bullet] Short Weekly Quizzes: Conceptual checks on vocabulary (e.g., What is hardware vs. software?).
+[164] [List Bullet] Project Rubrics: Detailed scoring for individual and group projects.
+[165] [List Bullet] End-of-Phase Written & Practical Exam: 50% theoretical multiple choice, 50% hands-on tasks in the lab.
+[167] [Heading 2] Grading Rubrics
+[169] [Heading 2] End-of-Phase Examination Framework
+[170] [Normal] Phase 1 Final Examination Structure:
+Part A: Theory (30 Marks)
+- 20 Multiple Choice Questions (definitions, hardware parts, operating systems, internet safety)
+- 5 Matching Questions (keyboard shortcuts to actions)
+- 5 Short Answer Questions (e.g., Explain the difference between copying and moving a file)
+
+Part B: Practical (70 Marks)
+- Task 1: Boot computer, create a folder named '[Student Name]_Final', and create two subfolders: 'Text' and 'Data'. (15 Marks)
+- Task 2: Open Word, type a paragraph of 5 sentences about internet safety, bold the title, format font to Calibri 12pt, insert a 2x3 table listing 3 safety rules, and save as 'rules.docx' in the 'Text' subfolder. (25 Marks)
+- Task 3: Open Excel, create a table with columns: 'Item Name', 'Quantity', 'Unit Price', 'Total Price'. Enter 3 items, calculate Total Price using formulas, calculate Grand Total using SUM, and save as 'expenses.xlsx' in the 'Data' subfolder. (20 Marks)
+- Task 4: Safely copy the entire parent folder to a USB drive or upload to a Google Drive path. Close all windows, log out, and safely shut down the computer. (10 Marks)
+[171] [Heading 2] Certification Requirements
+[172] [Normal] Certification of Basic Digital Literacy:
+To be awarded the Certificate of Basic Digital Literacy, a student must meet the following criteria:
+1. Minimum attendance of 85% in all Phase 1 classroom and laboratory sessions.
+2. Submission of the Individual Project ('My Digital Profile') and the Group Project ('Computer Lab Guide') with a passing grade (50% or above on the rubric).
+3. Achieve a minimum score of 50% on the End-of-Phase Examination (Written and Practical combined).
+[174] [Heading 2] Module 1: Introduction to Computers
+[175] [Heading 3] Module Overview
+[176] [Normal] This module sets the stage for the entire curriculum by introducing students to the computer. Students will learn what a computer is, trace its history in simple terms, discover the different types of computers around them, and explore how computers impact modern society. The primary goal is to remove any fear of computers and build interest.
+[177] [Heading 3] Estimated Duration
+[178] [Normal] 2 Weeks (4 Lessons)
+[179] [Heading 3] Lesson Objectives & Learning Outcomes
+[180] [Normal] Objectives:
+[181] [List Bullet] Define the term 'computer' in simple, understandable terms.
+[182] [List Bullet] Outline a brief history of computers (from abacus to mechanical calculators to microcomputers).
+[183] [List Bullet] Identify the different types of computers (desktops, laptops, tablets, smartphones).
+[184] [List Bullet] State the benefits of computer literacy in daily life and careers.
+[186] [Normal] Expected Learning Outcomes:
+[187] [List Bullet] Students can explain that a computer is a machine that processes input to produce output.
+[188] [List Bullet] Students can name at least three historical counting devices.
+[189] [List Bullet] Students can point out different types of computers in their environment.
+[190] [List Bullet] Students state why computer skills are essential for their future.
+[192] [Heading 3] Topics Covered
+[193] [List Bullet] What is a computer? Input, Processing, Output, Storage (IPOS cycle).
+[194] [List Bullet] A short history: Early counting (abacus, Napier's bones, Pascaline, Analytical Engine) to modern microchips.
+[195] [List Bullet] Types of computers: Personal Computers (Desktops & Laptops), Mobile Devices (Smartphones, Tablets), Supercomputers.
+[196] [List Bullet] Where computers are used: Schools, hospitals, banks, supermarkets, homes.
+[197] [List Bullet] Importance of computer literacy: Communication, career advancement, research, problem solving.
+[199] [Heading 3] Classroom & Hands-on Activities
+[200] [Normal] Practical Hands-on Activities:
+[201] [List Bullet] Interactive demonstration: Teacher turns on a computer, inputs numbers via keyboard, showing how the computer calculates and displays them.
+[202] [List Bullet] Computer Classification: Students look at pictures of devices and classify them (Desktop, Laptop, Smartphone, Tablet).
+[203] [List Bullet] Field trip/walk: A walk around the school or local offices to observe where computers are placed and how they are used.
+[205] [Normal] Student Activities:
+[206] [List Bullet] Drawing a diagram of the IPOS (Input-Processing-Output-Storage) cycle using paper and crayons.
+[207] [List Bullet] Brainstorming in pairs: Write down 5 activities that would be impossible without computers.
+[209] [Heading 3] Teacher Guide & Notes
+[210] [Normal] Start by showing a physical calculator and a computer. Compare how they process inputs. Use analog stories (like baking a cake: ingredients = input, baking = processing, cake = output) to explain the Input-Processing-Output cycle. Keep historical details high-level: avoid dates, focus on evolution.
+[211] [Heading 3] Exercises & Review Questions
+[212] [Normal] Exercises:
+[213] [List Bullet] Fill in the blanks matching 'Input', 'Processing', 'Output' with real-world scenarios.
+[214] [List Bullet] Identify whether a given device (e.g. tablet, banking machine) is a computer.
+[216] [Normal] Review Questions:
+[217] [List Bullet] What are the four main steps of the computer data cycle?
+[218] [List Bullet] List three types of computers people use every day.
+[219] [List Bullet] Why is a smartphone considered a computer?
+[221] [Heading 3] Projects & Assessments
+[222] [Normal] Mini Project:
+Draw Your Dream Computer: Students design and draw their own futuristic computer, labeling where input is entered and where output is shown.
+[223] [Normal] Assessment Method:
+10-question multiple-choice quiz covering computer definitions, types, and areas of application.
+[224] [Normal] Home Assignment:
+Ask parents or guardians what type of computers they use at work or home, and write a 3-sentence summary of their responses.
+[225] [Heading 3] Required Materials
+[226] [Normal] Board, markers, printed pictures of historic and modern computers, real smartphone, tablet, and desktop.
+[228] [Heading 2] Module 2: Parts of a Computer
+[229] [Heading 3] Module Overview
+[230] [Normal] In this module, students learn to identify and describe the physical parts of a computer system. They will learn to distinguish between input devices (keyboard, mouse, scanner, webcam), output devices (monitor, printer, speakers), processing units (CPU), storage devices, and understand how they work together.
+[231] [Heading 3] Estimated Duration
+[232] [Normal] 2 Weeks (4 Lessons)
+[233] [Heading 3] Lesson Objectives & Learning Outcomes
+[234] [Normal] Objectives:
+[235] [List Bullet] Identify the main physical parts of a computer system.
+[236] [List Bullet] Distinguish between input and output devices.
+[237] [List Bullet] Explain the role of the CPU (Central Processing Unit) in simple terms.
+[238] [List Bullet] Identify standard storage media (hard drives, solid-state drives, USBs).
+[240] [Normal] Expected Learning Outcomes:
+[241] [List Bullet] Students physically point out the monitor, mouse, keyboard, CPU box, printer, speakers, and webcam.
+[242] [List Bullet] Students categorize list of devices into input, output, or storage.
+[243] [List Bullet] Students describe the CPU as the 'brain' of the computer.
+[244] [List Bullet] Students explain what a USB flash drive is used for.
+[246] [Heading 3] Topics Covered
+[247] [List Bullet] Basic components of a desktop system: Monitor, Keyboard, Mouse, System Unit (CPU).
+[248] [List Bullet] Input peripherals: Keyboard, Mouse, Scanner, Webcam, Microphone.
+[249] [List Bullet] Output peripherals: Monitor (Screen), Printer, Speakers, Headphones.
+[250] [List Bullet] The System Unit: Motherboard, CPU, RAM (Memory), Storage (HDD/SSD).
+[251] [List Bullet] Storage media: Internal hard drives, External hard drives, USB Flash Drives, Memory Cards.
+[253] [Heading 3] Classroom & Hands-on Activities
+[254] [Normal] Practical Hands-on Activities:
+[255] [List Bullet] Labeling Lab: Students go around the computer lab placing sticky notes with correct names on hardware components.
+[256] [List Bullet] Hardware Inspection: Handling a disassembled motherboard, RAM stick, and old hard drive (safely, disconnected from power) to see internal components.
+[258] [Normal] Student Activities:
+[259] [List Bullet] Completing a worksheet where they draw lines connecting the name of a hardware component to its picture.
+[260] [List Bullet] Sorting activity: Placing physical cards representing devices (e.g. Printer, Mouse) into 'Input' and 'Output' baskets.
+[262] [Heading 3] Teacher Guide & Notes
+[263] [Normal] Ensure safety first. Emphasize that internal parts should only be handled when powered down. Use the analogy of the human body: CPU is the brain, monitor is the face/expressions, keyboard/mouse are hands/senses. Teach students to treat hardware gently: no slamming keys or pulling cables.
+[264] [Heading 3] Exercises & Review Questions
+[265] [Normal] Exercises:
+[266] [List Bullet] Multiple choice: Which of these is an input device? (a) Monitor (b) Keyboard (c) Speaker
+[267] [List Bullet] True or False: The CPU stores all our files permanently.
+[269] [Normal] Review Questions:
+[270] [List Bullet] What is the full name of the CPU, and why is it important?
+[271] [List Bullet] What is the difference between an input device and an output device?
+[272] [List Bullet] Name two devices used for storing digital files.
+[274] [Heading 3] Projects & Assessments
+[275] [Normal] Mini Project:
+Hardware Scrapbook: Cut out pictures of computer components from old magazines or newspapers, paste them in a notebook, and write a brief description of what each part does.
+[276] [Normal] Assessment Method:
+Practical test where the teacher points to a hardware component and the student must state its name and function.
+[277] [Normal] Home Assignment:
+Draw a sketch of a complete computer system setup on a piece of paper, including a keyboard, mouse, monitor, CPU, and speakers.
+[278] [Heading 3] Required Materials
+[279] [Normal] Decommissioned computer system units, old RAM and hard drive parts, sticky notes, markers, worksheets.
+[281] [Heading 2] Module 3: Computer Usage
+[282] [Heading 3] Module Overview
+[283] [Normal] This module moves students from passive observation to active computer interaction. It teaches proper typing posture, mouse grips, double-clicking, drag-and-drop, desktop layouts, and the correct processes for powering a computer on, logging in, logging out, and shutting down.
+[284] [Heading 3] Estimated Duration
+[285] [Normal] 2 Weeks (4 Lessons)
+[286] [Heading 3] Lesson Objectives & Learning Outcomes
+[287] [Normal] Objectives:
+[288] [List Bullet] Operate a mouse using correct finger placements for left-click, right-click, double-click, and scrolling.
+[289] [List Bullet] Perform basic navigation using a laptop touchpad.
+[290] [List Bullet] Demonstrate proper keyboard posture and finger placement (home row).
+[291] [List Bullet] Complete a safe boot up, login, logout, and shutdown sequence.
+[293] [Normal] Expected Learning Outcomes:
+[294] [List Bullet] Students navigate the cursor smoothly and execute clicks accurately.
+[295] [List Bullet] Students maintain an upright typing posture with elbows at 90 degrees.
+[296] [List Bullet] Students log in and turn off computers using proper software shutdown, not the physical power button.
+[297] [List Bullet] Students define basic terminology: Desktop, Folder, Icon, Taskbar, Pointer, Booting.
+[299] [Heading 3] Topics Covered
+[300] [List Bullet] Holding the mouse: Ergonomics, pointer/middle finger placement.
+[301] [List Bullet] Mouse actions: Single click (selection), right-click (context menu), double-click (opening), drag-and-drop, scrolling.
+[302] [List Bullet] Touchpad usage: Gestures, left/right clicks on laptops.
+[303] [List Bullet] Keyboard layout: Alphanumeric keys, Spacebar, Enter, Backspace, Delete, Shift, Caps Lock, Arrow keys.
+[304] [List Bullet] Typing posture: Spine alignment, home row concept, hand relaxation.
+[305] [List Bullet] Power procedures: Booting process, logging in, user sessions, logging out, shutting down.
+[307] [Heading 3] Classroom & Hands-on Activities
+[308] [Normal] Practical Hands-on Activities:
+[309] [List Bullet] Mouse Practice games: Playing bubble-popping or simple block puzzle games that require clicking and dragging.
+[310] [List Bullet] Typing drills: Practicing home row keys (ASDF JKL;) on software like Tux Typing.
+[311] [List Bullet] Boot & Shut down cycles: Performing the complete power-on, login, logout, and software shutdown cycle under teacher guidance.
+[313] [Normal] Student Activities:
+[314] [List Bullet] Partner drills: One student types a short sentence while the other observes and reports posture alignment.
+[315] [List Bullet] Desktop exploration: Finding icons on the desktop, moving them around, and organizing them in straight columns.
+[317] [Heading 3] Teacher Guide & Notes
+[318] [Normal] Watch students carefully during early keyboard and mouse practice. Intervene immediately when you see students slouching, using only one hand for the keyboard, or holding the mouse like a claw. Explicitly demonstrate why pressing the physical power button to turn off a running computer can corrupt files.
+[319] [Heading 3] Exercises & Review Questions
+[320] [Normal] Exercises:
+[321] [List Bullet] Identify the key: Which key moves the cursor to the next line?
+[322] [List Bullet] Fill in: The process of starting a computer is called _______.
+[324] [Normal] Review Questions:
+[325] [List Bullet] Describe the correct way to hold a computer mouse.
+[326] [List Bullet] What is the difference between backspace and delete keys?
+[327] [List Bullet] What are the steps to safely turn off a computer?
+[329] [Heading 3] Projects & Assessments
+[330] [Normal] Mini Project:
+The Typing Challenge: Complete a 3-minute typing test aiming for at least 15 Words Per Minute (WPM) with 90% accuracy using home row finger placements.
+[331] [Normal] Assessment Method:
+Observational assessment: Individual grading of a student performing desktop actions (drag-drop, double-click) and shutting down correctly.
+[332] [Normal] Home Assignment:
+Write a checklist of the rules for correct typing posture in your notebook.
+[333] [Heading 3] Required Materials
+[334] [Normal] Typing software, mouse pads, computers, posture wall posters.
+[336] [Heading 2] Module 4: Operating Systems
+[337] [Heading 3] Module Overview
+[338] [Normal] This module introduces students to software, specifically the Operating System (OS). It compares Windows, macOS, and Linux. Students will learn how to navigate desktop interfaces, search for files, change system settings, manage user accounts, install/uninstall basic programs, and execute simple troubleshooting steps.
+[339] [Heading 3] Estimated Duration
+[340] [Normal] 2 Weeks (4 Lessons)
+[341] [Heading 3] Lesson Objectives & Learning Outcomes
+[342] [Normal] Objectives:
+[343] [List Bullet] Explain the purpose of an Operating System.
+[344] [List Bullet] Recognize the visual layouts of Windows, macOS, and Linux OS.
+[345] [List Bullet] Navigate the Start Menu, Taskbar, Settings, and Notifications panel.
+[346] [List Bullet] Install and uninstall basic applications safely.
+[348] [Normal] Expected Learning Outcomes:
+[349] [List Bullet] Students explain that the OS manages hardware and software.
+[350] [List Bullet] Students search for and open applications (e.g. calculator, paint).
+[351] [List Bullet] Students locate system updates, adjust screen brightness, and volume.
+[352] [List Bullet] Students execute basic troubleshooting (rebooting, checking power connections).
+[354] [Heading 3] Topics Covered
+[355] [List Bullet] What is an Operating System? The middleman between user and computer.
+[356] [List Bullet] Major Operating Systems: Microsoft Windows, Apple macOS, Linux.
+[357] [List Bullet] The Desktop environment: Start Menu/Dock, Taskbar, system tray, notifications.
+[358] [List Bullet] System Settings: Display settings, volume, Wi-Fi, time/date, background wallpaper.
+[359] [List Bullet] Application management: Searching, launching, installing, and uninstalling software.
+[360] [List Bullet] System updates: Why they are important and how to run them.
+[361] [List Bullet] User accounts: Administrator vs. standard user accounts, basic password setups.
+[362] [List Bullet] Basic troubleshooting: What to do when a program freezes (Force Quit, Task Manager, Restart).
+[364] [Heading 3] Classroom & Hands-on Activities
+[365] [Normal] Practical Hands-on Activities:
+[366] [List Bullet] Settings exploration: Changing desktop wallpaper, setting local time, and adjusting system volume.
+[367] [List Bullet] Software installation simulation: Installing a free app (e.g., VLC Media Player) and then safely uninstalling it.
+[368] [List Bullet] Task Manager demo: Intentionally freezing a program and using Task Manager (Ctrl+Shift+Esc) to force close it.
+[370] [Normal] Student Activities:
+[371] [List Bullet] Navigating through 'Settings' to find the system specifications (CPU type, RAM size, OS version) and writing them down.
+[372] [List Bullet] Creating a second user account named 'Guest' and setting a custom profile picture.
+[374] [Heading 3] Teacher Guide & Notes
+[375] [Normal] Focus primarily on Windows since it is the most common OS in administrative settings, but show screenshots or a live demo of Linux and macOS. Introduce Task Manager early so students know they can resolve freezes without pulling the power cord.
+[376] [Heading 3] Exercises & Review Questions
+[377] [Normal] Exercises:
+[378] [List Bullet] Match OS logos to their correct names.
+[379] [List Bullet] Identify the tool: Which tool is used to force-close frozen programs?
+[381] [Normal] Review Questions:
+[382] [List Bullet] What does an Operating System do?
+[383] [List Bullet] How do you check if your computer is connected to the internet in the Windows OS?
+[384] [List Bullet] What is the difference between an Administrator account and a Standard user account?
+[386] [Heading 3] Projects & Assessments
+[387] [Normal] Mini Project:
+Custom OS Profile: Create a personalized desktop workspace. Set a neutral background wallpaper, pin three favorite applications to the taskbar, and organize desktop shortcuts.
+[388] [Normal] Assessment Method:
+Practical exam: Students are given 5 minutes to change screen resolution, create a guest account, pin an app, and open the system settings.
+[389] [Normal] Home Assignment:
+Write a 5-step guide in your notebook on how to install and safely uninstall a computer application.
+[390] [Heading 3] Required Materials
+[391] [Normal] Computers running Windows, projectors, printed sheets showing different OS interfaces.
+[393] [Heading 2] Module 5: File Management
+[394] [Heading 3] Module Overview
+[395] [Normal] This module teaches the vital skill of file organization. Students learn file structures, creating folders, naming conventions, moving files, using trash/recycle bin, identifying common file extensions, and using portable USB flash drives and cloud storage systems.
+[396] [Heading 3] Estimated Duration
+[397] [Normal] 2 Weeks (4 Lessons)
+[398] [Heading 3] Lesson Objectives & Learning Outcomes
+[399] [Normal] Objectives:
+[400] [List Bullet] Understand file system hierarchy (drives, folders, subfolders, files).
+[401] [List Bullet] Perform core file operations: Create, Rename, Copy, Move, and Delete.
+[402] [List Bullet] Identify common file extensions (.txt, .docx, .xlsx, .pdf, .jpg).
+[403] [List Bullet] Transfer files using USB drives and understand cloud storage concepts.
+[405] [Normal] Expected Learning Outcomes:
+[406] [List Bullet] Students build organized, structured directories.
+[407] [List Bullet] Students use keyboard shortcuts (Ctrl+C, Ctrl+V, Ctrl+X, Ctrl+Z) for file management.
+[408] [List Bullet] Students recover mistakenly deleted files from the Recycle Bin.
+[409] [List Bullet] Students safely insert, transfer files to, and eject USB drives.
+[411] [Heading 3] Topics Covered
+[412] [List Bullet] File storage concepts: The digital filing cabinet (Files vs. Folders).
+[413] [List Bullet] Directory structures: Main folders, subfolders, file paths.
+[414] [List Bullet] File Explorer / Finder navigation.
+[415] [List Bullet] Basic actions: Create, Rename, Delete, Restore from Recycle Bin.
+[416] [List Bullet] Advanced actions: Copy vs. Move (Cut), Paste, Drag-and-drop between directories.
+[417] [List Bullet] File Extensions: Text (.txt), Word (.docx), Excel (.xlsx), Images (.jpg, .png), Audio (.mp3), PDF (.pdf).
+[418] [List Bullet] Removable media: USB drives, SD cards, external hard disks, safe ejection.
+[419] [List Bullet] Cloud Storage: Google Drive, OneDrive, Dropbox overview.
+[421] [Heading 3] Classroom & Hands-on Activities
+[422] [Normal] Practical Hands-on Activities:
+[423] [List Bullet] Directory Creation challenge: Build a folder structure for school subjects: 'SchoolWork' > 'Math', 'Science', 'English' > 'Notes', 'Assignments'.
+[424] [List Bullet] Shortcuts Speedrun: Using only the keyboard (Ctrl+C, Ctrl+V, Ctrl+X) to move a file from one folder to another.
+[425] [List Bullet] USB Transfer: Saving a document to a local folder, copying it to a USB drive, ejecting the USB, inserting it into another computer, and reading the file.
+[427] [Normal] Student Activities:
+[428] [List Bullet] Creating files, saving them with appropriate extensions, and categorizing them into folders.
+[429] [List Bullet] Restoring 3 files from the Recycle Bin and placing them back in their correct locations.
+[431] [Heading 3] Teacher Guide & Notes
+[432] [Normal] Emphasize the difference between copying (duplicating) and moving/cutting (shifting location). Demonstrate the Recycle Bin as a safety net, but explain that USB files are deleted permanently. Show how to safely eject drives to prevent data corruption.
+[433] [Heading 3] Exercises & Review Questions
+[434] [Normal] Exercises:
+[435] [List Bullet] Match extensions to file types (e.g. .jpg -> Photo).
+[436] [List Bullet] What shortcut is used to 'Undo' a file movement?
+[438] [Normal] Review Questions:
+[439] [List Bullet] Why is organizing files in folders useful?
+[440] [List Bullet] What is the difference between copy-paste and cut-paste?
+[441] [List Bullet] Why should you 'safely eject' a USB drive before unplugging it?
+[443] [Heading 3] Projects & Assessments
+[444] [Normal] Mini Project:
+The File Clean-Up: Given a folder containing 20 miscellaneous files (photos, documents, sheets), sort them into organized folders within 3 minutes.
+[445] [Normal] Assessment Method:
+Practical test where the teacher checks if the student can build a nested folder structure and transfer a file to a USB drive.
+[446] [Normal] Home Assignment:
+Write down the keyboard shortcuts for Copy, Paste, Cut, Undo, and Select All in your notebook.
+[447] [Heading 3] Required Materials
+[448] [Normal] Computers, USB flash drives, mock disorganized directories preloaded on student computers.
+[450] [Heading 2] Module 6: Internet Basics
+[451] [Heading 3] Module Overview
+[452] [Normal] This module introduces students to the World Wide Web. It covers web browsers, search engines (specifically Google), safe search queries, cyber hygiene, online etiquette, email setup, and digital citizenship.
+[453] [Heading 3] Estimated Duration
+[454] [Normal] 2 Weeks (4 Lessons)
+[455] [Heading 3] Lesson Objectives & Learning Outcomes
+[456] [Normal] Objectives:
+[457] [List Bullet] Explain the difference between the Internet and the World Wide Web.
+[458] [List Bullet] Navigate a browser, use tabs, bookmarks, and search bars.
+[459] [List Bullet] Construct effective search engine queries using keywords.
+[460] [List Bullet] Identify phishing signs, unsafe websites, and practice safe password hygiene.
+[461] [List Bullet] Compose and send formal and informal emails.
+[463] [Normal] Expected Learning Outcomes:
+[464] [List Bullet] Students launch Google Chrome or Mozilla Firefox and type URLs directly.
+[465] [List Bullet] Students search for educational resources using specific search phrases.
+[466] [List Bullet] Students design strong passwords incorporating letters, numbers, and symbols.
+[467] [List Bullet] Students send an email with an attachment to the teacher.
+[469] [Heading 3] Topics Covered
+[470] [List Bullet] What is the Internet? What is a Web Browser? (Chrome, Firefox, Edge, Safari).
+[471] [List Bullet] Search engines: Google, Bing, Yahoo. Keyword-based searching.
+[472] [List Bullet] URL structure: HTTP vs. HTTPS, domain names (.com, .org, .edu, .gov).
+[473] [List Bullet] Web safety: Safe browsing, avoiding pop-ups, checking for lock icons (HTTPS).
+[474] [List Bullet] Cybersecurity basics: Phishing emails, malware warnings, strong password design.
+[475] [List Bullet] Email: Setting up accounts, composing, subject lines, CC, BCC, attachments, spam folder.
+[476] [List Bullet] Digital Citizenship: Online etiquette, cyberbullying awareness, protecting personal information.
+[478] [Heading 3] Classroom & Hands-on Activities
+[479] [Normal] Practical Hands-on Activities:
+[480] [List Bullet] Information Hunt: Students search Google for answers to educational trivia questions (e.g., 'What is the height of Mt. Everest?') and copy the source link.
+[481] [List Bullet] Password Creator: Drafting a strong password, testing its strength on safe password checkers, and writing down storage tips.
+[482] [List Bullet] Email Drafts: Setting up a student email account, composing an introductory message, attaching an image, and sending it to the teacher.
+[484] [Normal] Student Activities:
+[485] [List Bullet] Creating bookmarks of 3 useful educational websites (e.g., Wikipedia, Khan Academy).
+[486] [List Bullet] Roleplaying scenarios: Reviewing printed printouts of emails to decide if they are 'Spam/Phishing' or 'Real'.
+[488] [Heading 3] Teacher Guide & Notes
+[489] [Normal] Emphasize cyber safety heavily. Students aged 12-18 are vulnerable online. Teach them never to share personal details (address, phone number, school) online. Review email etiquette, explaining that formal communication rules apply to emails sent to teachers/employers.
+[490] [Heading 3] Exercises & Review Questions
+[491] [Normal] Exercises:
+[492] [List Bullet] Identify secure URLs: Which URL is secure: http://example.com or https://example.com?
+[493] [List Bullet] What is the purpose of the 'BCC' field in an email?
+[495] [Normal] Review Questions:
+[496] [List Bullet] What is the difference between a web browser and a search engine?
+[497] [List Bullet] Name three rules for creating a strong, secure password.
+[498] [List Bullet] What is digital citizenship?
+[500] [Heading 3] Projects & Assessments
+[501] [Normal] Mini Project:
+The Cyber Safety Pledge: Students create a personalized Digital Citizenship Pledge detailing how they will stay safe, protect their privacy, and treat others kindly online.
+[502] [Normal] Assessment Method:
+Evaluation of email project: Students must send an email with the correct subject line, structured greetings, and a text file attachment.
+[503] [Normal] Home Assignment:
+Write down a list of 5 internet safety rules that should be posted in every school computer lab.
+[504] [Heading 3] Required Materials
+[505] [Normal] Internet access, web browsers, email template sheets, safe password templates.
+[507] [Heading 2] Module 7: Microsoft Office Suite
+[508] [Heading 3] Module Overview
+[509] [Normal] This module provides a comprehensive introduction to the three primary productivity applications in Microsoft Office: Word (word processing), Excel (spreadsheets), and PowerPoint (presentations). It also covers OneDrive/Google Drive and handling PDF documents.
+[510] [Heading 3] Estimated Duration
+[511] [Normal] 4 Weeks (8 Lessons)
+[512] [Heading 3] Lesson Objectives & Learning Outcomes
+[513] [Normal] Objectives:
+[514] [List Bullet] Create, edit, format, and save documents in Microsoft Word.
+[515] [List Bullet] Use tables, bullet lists, page numbers, and images in Word documents.
+[516] [List Bullet] Identify cells, rows, columns, and enter data in Microsoft Excel.
+[517] [List Bullet] Apply basic formulas (SUM, AVERAGE, multiplication) and create charts in Excel.
+[518] [List Bullet] Build multi-slide presentations with animations and graphics in PowerPoint.
+[519] [List Bullet] Convert files to PDF and upload them to cloud drives.
+[521] [Normal] Expected Learning Outcomes:
+[522] [List Bullet] Students write and format formal letters and reports in Word.
+[523] [List Bullet] Students calculate school grade averages and household budgets using formulas in Excel.
+[524] [List Bullet] Students design and present slide shows on school topics in PowerPoint.
+[525] [List Bullet] Students save Office documents as PDFs and upload them to Google Drive/OneDrive.
+[527] [Heading 3] Topics Covered
+[528] [List Bullet] Microsoft Word: Interface (Ribbon), font styling, alignment, headers/footers, margins, tables, page layouts, inserting images, printing.
+[529] [List Bullet] Microsoft Excel: Columns, Rows, Cells, Cell ranges, entering text/numbers, cell formatting, basic formulas (addition, subtraction, multiplication, division, SUM, AVERAGE), basic bar/pie charts.
+[530] [List Bullet] Microsoft PowerPoint: Theme selection, slide layouts, adding text/images, slide transitions, basic object animations, presenter view.
+[531] [List Bullet] Cloud Sync: Saving to OneDrive or Google Drive, sharing links, PDF conversions.
+[533] [Heading 3] Classroom & Hands-on Activities
+[534] [Normal] Practical Hands-on Activities:
+[535] [List Bullet] Word Report: Typing a 1-page report on 'My Favorite Historical Figure', inserting their photo, styling headings, and formatting body text.
+[536] [List Bullet] Excel Budget: Creating a table showing 5 monthly expenses, listing values, calculating the sum, and displaying the expenses as a pie chart.
+[537] [List Bullet] PowerPoint Slide Deck: Designing a 5-slide presentation on a topic of interest, applying a slide transition, and delivering it to a peer.
+[539] [Normal] Student Activities:
+[540] [List Bullet] Creating a table of contents in a Word document.
+[541] [List Bullet] Entering class test marks into an Excel sheet, sorting them, and using =AVERAGE to find the mean score.
+[542] [List Bullet] Designing a PowerPoint presentation on 'Computer Hardware' to show to the class.
+[544] [Heading 3] Teacher Guide & Notes
+[545] [Normal] Dedicate 1.5 weeks to Word, 1.5 weeks to Excel, and 1 week to PowerPoint. In Excel, make sure students write actual formulas (e.g., =A1+B1) rather than calculating values manually and typing the result. Emphasize clean, readable slides over cluttered, high-animation decks.
+[546] [Heading 3] Exercises & Review Questions
+[547] [Normal] Exercises:
+[548] [List Bullet] In Excel, what symbol must every formula start with?
+[549] [List Bullet] What menu option in Word is used to insert a picture?
+[551] [Normal] Review Questions:
+[552] [List Bullet] What is the difference between Microsoft Word and Microsoft Excel?
+[553] [List Bullet] How do you save a Word document as a PDF?
+[554] [List Bullet] Why are slide transitions used in PowerPoint presentations?
+[556] [Heading 3] Projects & Assessments
+[557] [Normal] Mini Project:
+The Small Business Tracker: Create a Word invoice, an Excel inventory list with formulas, and a PowerPoint sales pitch deck for a fictional lemonade stand business.
+[558] [Normal] Assessment Method:
+A timed, multi-part practical assessment requiring students to create a formatted document, a spreadsheet with formulas, and a presentation.
+[559] [Normal] Home Assignment:
+Create a list of 5 situations where Excel is better than Word, and 5 situations where Word is better than Excel.
+[560] [Heading 3] Required Materials
+[561] [Normal] Computers with Microsoft Office (Word, Excel, PowerPoint) installed, templates for invoices and budgets.
+[563] [Heading 1] 5. Phase 2: INTERMEDIATE (Creative Logic & App Development)
+[564] [Heading 2] Introduction & Context
+[565] [Normal] Welcome to Phase 2 (INTERMEDIATE) of the Digital Literacy & Computer Education Programme. Having established fundamental hardware and operating system literacy in Phase 1, students are now introduced to the creative and analytical world of software development. This phase moves students from passive consumers of applications to creators of technology. They will learn computational thinking, algorithmic logic, visual block programming in Scratch, text-based programming in Python, foundational web programming with JavaScript, and get introduced to mobile application development with React Native. The core pedagogy focuses on logical problem solving, decomposition of complex tasks, debugging, and interactive creations.
+[566] [Heading 2] Phase Description
+[567] [Normal] Phase 2 spans 16 weeks, representing 32 lessons of 45 minutes each. It bridges the gap between basic literacy and advanced technology. The curriculum starts with language-independent logic (Algorithms & Flowcharts), then visualizes these concepts using Scratch, followed by the text-based syntax of Python. Students then learn client-side scripting logic using JavaScript before finalizing with a conceptual and hands-on introduction to building mobile apps. Projects are central to this phase: students build games, math engines, and mobile screens to develop practical development experience.
+[568] [Heading 2] Learning Objectives & Core Outcomes
+[569] [Normal] Learning Objectives:
+[570] [List Bullet] Develop logical thinking, problem-solving, and algorithmic skills using flowcharts and pseudocode.
+[571] [List Bullet] Design and build interactive animations, games, and stories in Scratch using loops, events, and variables.
+[572] [List Bullet] Write, test, and debug clean, readable Python code utilizing inputs, operators, loops, and data structures.
+[573] [List Bullet] Explain the role of JavaScript in web browsers and manipulate basic web elements (DOM basics).
+[574] [List Bullet] Understand the framework architecture of React Native and design simple UI components for mobile screens.
+[576] [Normal] Expected Learning Outcomes:
+[577] [List Bullet] Students can break down a complex daily task into a step-by-step flowchart algorithm.
+[578] [List Bullet] Students create multi-sprite interactive games in Scratch with automated scoring systems.
+[579] [List Bullet] Students write console scripts in Python to perform mathematical calculations, sort data, or execute text games.
+[580] [List Bullet] Students write simple JavaScript functions that change text or colors on click in web simulations.
+[581] [List Bullet] Students build mock layouts for a Calculator, Notes app, and Quiz app in React Native.
+[583] [Heading 2] Core Skills Students Will Gain
+[584] [List Bullet] Algorithmic formulation and logical parsing
+[585] [List Bullet] Flowchart mapping and pseudocode writing
+[586] [List Bullet] Visual program execution and message broadcasting
+[587] [List Bullet] Python syntax debugging and syntax analysis
+[588] [List Bullet] Control flow manipulation (loops, branch logic)
+[589] [List Bullet] Data structure usage (variables, lists, dicts)
+[590] [List Bullet] Event-driven web scripting
+[591] [List Bullet] Cross-platform mobile UI design concepts
+[593] [Heading 2] Weekly Schedule
+[595] [Heading 2] Recommended Teaching Methods & Classroom Activities
+[596] [Normal] Teaching Methods:
+[597] [List Bullet] Live Code-Alongs: Teachers write code on a projector, explaining their logic while students type along.
+[598] [List Bullet] Predictive Exercises: Showing students a piece of code and asking them to predict the output before running it.
+[599] [List Bullet] Debug-A-Thons: Intentionally inserting errors into files and letting students compete to find and fix them.
+[600] [List Bullet] Unplugged Activities: Using physical cards, grid maps, and human-instructions to explain loops and conditionals.
+[601] [List Bullet] Project-Based Learning: Building incremental components of a game or utility across multiple classes.
+[603] [Normal] Classroom Activities:
+[604] [List Bullet] Human Robot Walk: One student acts as a 'robot' and must navigate a maze using only precise commands from a partner.
+[605] [List Bullet] Scratch Animation Showdown: Designing custom animations with custom sprites and sound files.
+[606] [List Bullet] Python Math Wizard: Writing a console script that takes user age and calculates their age in dog-years or seconds.
+[607] [List Bullet] Interactive Web Buttons: Coding simple JavaScript functions that change page background colors on click.
+[609] [Heading 2] Hands-on Practical Activities
+[610] [List Bullet] Flowcharting Daily Tasks: Creating a step-by-step flowchart detailing the process of crossing a busy street.
+[611] [List Bullet] Scratch Catching Game: Building a game where a player catches falling objects to score points before a timer runs out.
+[612] [List Bullet] Python Calculator Console: Coding a Python terminal application that adds, subtracts, multiplies, or divides two numbers.
+[613] [List Bullet] React Native Notes Screen: Coding a styled React Native layout that displays a list of draft notes with icons.
+[615] [Heading 2] Projects Framework
+[616] [Normal] Individual Project:
+The Python Math & Text Game Engine: Students design and code a Python console application from scratch. The application must offer a menu to the user: 1. Play a Number Guessing Game (using random number generators and conditionals), 2. Run a Simple Calculator, or 3. Run a Text-Based Adventure Story. The project requires the student to use variables, loops, functions, and standard input/output models.
+[617] [Normal] Group Project:
+Interactive Educational Game: Working in pairs, students design and build an educational game in Scratch (e.g. a math quiz game or a geography sorting puzzle). One student designs the visual layout, custom sprites, and menus, while the other implements the scoring loops, variable logic, and state changes. They present their completed game to the class.
+[618] [Heading 2] Teacher Guidance & Lab Notes
+[620] [Heading 2] Required Physical & Digital Resources
+[621] [List Bullet] Computers (minimum 2GB RAM) with Python 3 and Node.js installed
+[622] [List Bullet] Offline Scratch Desktop editor or internet access to Scratch online
+[623] [List Bullet] Text Editors: Visual Studio Code, Thonny (highly recommended for Python beginners), or IDLE
+[624] [List Bullet] Expo Go app installed on student/school smartphones (for React Native previews)
+[625] [List Bullet] Flowcharting tools (Draw.io, whiteboard, or grid paper)
+[627] [Heading 2] Assessment Methods & Framework
+[628] [List Bullet] Weekly Code Challenges: Small programming tasks to evaluate comprehension of loops or functions.
+[629] [List Bullet] Code Reviews: Students explain their logic line-by-line to the teacher or peers.
+[630] [List Bullet] Project Evaluation Rubric: Measuring code organization, logic completeness, and functionality.
+[631] [List Bullet] End-of-Phase Practical Exam: Developing a working script under timed classroom settings.
+[633] [Heading 2] Grading Rubrics
+[635] [Heading 2] End-of-Phase Examination Framework
+[636] [Normal] Phase 2 Final Examination Structure:
+Part A: Concept Check (20 Marks)
+- 10 Multiple Choice Questions (algorithms, variable types, loops, events)
+- 5 Code Output Prediction Questions (Students read code snippet and write output)
+- 5 Debugging Questions (Find syntax/logical errors in written snippets)
+
+Part B: Practical (80 Marks)
+- Task 1: Computational Logic (15 Marks): Create a detailed flowchart for a login screen validation algorithm.
+- Task 2: Python Scripting (35 Marks): Code a console program that requests a list of student names, stores them, asks the user to search for a name, and outputs whether the student is present or absent.
+- Task 3: JavaScript DOM Event (15 Marks): Write HTML and JavaScript code where clicking a button labeled 'Dark Mode' toggles the page background color between white and gray.
+- Task 4: React Native Layout (15 Marks): Write code structure for a React Native Screen containing a Header, an Input text box, and a Button styled using stylesheet properties.
+[637] [Heading 2] Certification Requirements
+[638] [Normal] Certification of Basic Programming Competency:
+To be awarded the Certificate of Basic Programming Competency, a student must meet the following criteria:
+1. Minimum attendance of 85% in all Phase 2 programming labs.
+2. Successful delivery of the Individual Game Engine and Group Educational Game with functional code and documentation.
+3. Achieve a minimum score of 55% on the End-of-Phase Programming Examination.
+[640] [Heading 2] Module 8: Computational Thinking & Algorithmic Logic
+[641] [Heading 3] Module Overview
+[642] [Normal] This module introduces students to the foundational logic of computer science before writing code. Students learn the four pillars of computational thinking: Decomposition, Pattern Recognition, Abstraction, and Algorithmic Design. They will design flowcharts and pseudocode to solve everyday problems and learn basic debugging techniques.
+[643] [Heading 3] Estimated Duration
+[644] [Normal] 2 Weeks (4 Lessons)
+[645] [Heading 3] Lesson Objectives & Learning Outcomes
+[646] [Normal] Objectives:
+[647] [List Bullet] Break down a complex problem into smaller, manageable parts (Decomposition).
+[648] [List Bullet] Identify patterns and rules in problems to create templates (Pattern Recognition).
+[649] [List Bullet] Design step-by-step algorithms to solve mathematical and logical problems.
+[650] [List Bullet] Draw flowcharts using correct standard shapes and symbols.
+[652] [Normal] Expected Learning Outcomes:
+[653] [List Bullet] Students decompose everyday processes (e.g. buying lunch, cleaning a room).
+[654] [List Bullet] Students define flowchart symbols (Terminator, Process, Decision, Input/Output).
+[655] [List Bullet] Students write step-by-step instructions (pseudocode) for sorting objects.
+[656] [List Bullet] Students find logical errors in a faulty set of instructions.
+[658] [Heading 3] Topics Covered
+[659] [List Bullet] The Four Pillars of Computational Thinking: Decomposition, Pattern Recognition, Abstraction, Algorithmic Design.
+[660] [List Bullet] What is an Algorithm? Step-by-step logic.
+[661] [List Bullet] Flowchart symbols and standards: Oval (Start/End), Rectangle (Process), Diamond (Decision), Parallelogram (Input/Output), Arrows.
+[662] [List Bullet] Writing Pseudocode: English-like programming logic.
+[663] [List Bullet] Logic branches (Yes/No decisions) and loops (repeating actions until a condition changes) in algorithms.
+[664] [List Bullet] Introduction to debugging: Syntax errors vs. logical errors.
+[666] [Heading 3] Classroom & Hands-on Activities
+[667] [Normal] Practical Hands-on Activities:
+[668] [List Bullet] Human Maze: Students draw grid flowcharts on paper and direct classmates through physical mazes using only those commands.
+[669] [List Bullet] Flowchart Drawing: Drawing algorithms for a calculator program or password system on whiteboards or paper.
+[671] [Normal] Student Activities:
+[672] [List Bullet] Decomposing the recipe of their favorite meal into a precise step-by-step algorithm.
+[673] [List Bullet] Drawing a flowchart representing the logic: 'If it is raining, take an umbrella. Else, wear sunglasses. Walk to school.'
+[675] [Heading 3] Teacher Guide & Notes
+[676] [Normal] Do not touch computers in the first week. Use 'unplugged' activities. Help students see that coding is just expressing algorithms in programming syntax. Emphasize logical rigor: computers only do exactly what they are told, nothing more.
+[677] [Heading 3] Exercises & Review Questions
+[678] [Normal] Exercises:
+[679] [List Bullet] Identify what each flowchart shape represents.
+[680] [List Bullet] Given a simple pseudocode, walk through its execution step-by-step on paper.
+[682] [Normal] Review Questions:
+[683] [List Bullet] What is abstraction in computational thinking?
+[684] [List Bullet] Draw and name the four core flowchart shapes.
+[685] [List Bullet] What is the difference between a syntax error and a logical error?
+[687] [Heading 3] Projects & Assessments
+[688] [Normal] Mini Project:
+The Sorting Algorithm: Design a flowchart and pseudocode representing how a robot would sort 5 numbers from smallest to largest.
+[689] [Normal] Assessment Method:
+Written quiz testing computational thinking vocabulary and a drawing test requiring students to flowchart a login validation system.
+[690] [Normal] Home Assignment:
+Write a 10-step algorithm for brushing teeth. Ensure you handle decisions, such as 'Is toothpaste tube empty?'
+[691] [Heading 3] Required Materials
+[692] [Normal] Whiteboards, markers, flowchart templates, grid paper.
+[694] [Heading 2] Module 9: Scratch Visual Programming
+[695] [Heading 3] Module Overview
+[696] [Normal] Scratch is a visual, block-based programming language developed by MIT that teaches coding logic without syntax errors. Students learn sprite creation, blocks, motions, loops, conditions, variables, and events. They will build simple interactive stories, animations, and arcade games.
+[697] [Heading 3] Estimated Duration
+[698] [Normal] 4 Weeks (8 Lessons)
+[699] [Heading 3] Lesson Objectives & Learning Outcomes
+[700] [Normal] Objectives:
+[701] [List Bullet] Navigate the Scratch interface (Stage, Sprites, Block Palette, Scripts Area).
+[702] [List Bullet] Use motion, look, sound, and pen blocks to manipulate sprites.
+[703] [List Bullet] Implement control logic using repeat loops, infinite loops, and conditional blocks (If-Then).
+[704] [List Bullet] Create and manipulate variables to track scores, health, and timers.
+[706] [Normal] Expected Learning Outcomes:
+[707] [List Bullet] Students build programs by dragging and snapping logical blocks.
+[708] [List Bullet] Students create games with custom character assets.
+[709] [List Bullet] Students program interactive events, such as keypress triggers or mouse clicks.
+[710] [List Bullet] Students use broadcast messages to coordinate action between multiple sprites.
+[712] [Heading 3] Topics Covered
+[713] [List Bullet] Scratch Interface: Sprite manager, Stage, Backdrop library, Costumes.
+[714] [List Bullet] Events: 'When green flag clicked', 'When key pressed', Sprite clicks.
+[715] [List Bullet] Motions: Steps, coordinate plane (X, Y), gliding, rotation, bouncing off walls.
+[716] [List Bullet] Looks & Sounds: Changing costumes, speech bubbles, sound effects.
+[717] [List Bullet] Control Logic: Repeat blocks, 'Forever' loops, 'If-Then-Else' conditionals.
+[718] [List Bullet] Sensing: Key input, sprite touching, edge detection.
+[719] [List Bullet] Data & Variables: Creating score counters, modifying variables.
+[720] [List Bullet] Messaging: Broadcaster and receiver blocks.
+[722] [Heading 3] Classroom & Hands-on Activities
+[723] [Normal] Practical Hands-on Activities:
+[724] [List Bullet] Animate a Name: Students select letters of their names as sprites and program them to spin, change color, and play sounds on click.
+[725] [List Bullet] Chase Game: Programming a cat sprite to follow the mouse pointer while a mouse sprite runs away, scoring points when caught.
+[727] [Normal] Student Activities:
+[728] [List Bullet] Building a conversation between two sprites using broadcast and delay blocks.
+[729] [List Bullet] Adding a high score counter and a countdown timer to a Chase Game.
+[731] [Heading 3] Teacher Guide & Notes
+[732] [Normal] Scratch is highly engaging. Ensure students don't spend all their time drawing costumes; they must write logic blocks. Show them how Scratch block logic coordinates directly with the algorithms and flowcharts they drew in Module 8.
+[733] [Heading 3] Exercises & Review Questions
+[734] [Normal] Exercises:
+[735] [List Bullet] Explain what a 'forever' block does.
+[736] [List Bullet] Identify the category (Motion, Look, Control, Sensing) of various blocks.
+[738] [Normal] Review Questions:
+[739] [List Bullet] What is a sprite in Scratch?
+[740] [List Bullet] How do loops help prevent duplicate code in Scratch?
+[741] [List Bullet] What block is used to change a character's appearance?
+[743] [Heading 3] Projects & Assessments
+[744] [Normal] Mini Project:
+The Maze Solver Game: Build a game where a player navigates a maze using the arrow keys, restarting if they touch the black walls, and winning if they reach the treasure chest.
+[745] [Normal] Assessment Method:
+Rubric grading of the student's Scratch maze game, analyzing their code structure and logic completeness.
+[746] [Normal] Home Assignment:
+Write a 5-step description of how your game logic handles the event when a sprite touches a specific obstacle.
+[747] [Heading 3] Required Materials
+[748] [Normal] Scratch Desktop installed or web access, mouse devices.
+[750] [Heading 2] Module 10: Python Programming Basics
+[751] [Heading 3] Module Overview
+[752] [Normal] Python is a popular, clean, text-based programming language. This module introduces programming syntax, variables, data types, console input/output, operators, conditions, loops, functions, lists, and dictionaries. Students write simple console-based projects to solve problems.
+[753] [Heading 3] Estimated Duration
+[754] [Normal] 5 Weeks (10 Lessons)
+[755] [Heading 3] Lesson Objectives & Learning Outcomes
+[756] [Normal] Objectives:
+[757] [List Bullet] Explain the difference between compiler/interpreter, and execute Python code in Thonny.
+[758] [List Bullet] Declare and use variables of different types (Integers, Floats, Strings, Booleans).
+[759] [List Bullet] Write conditional statements using if, elif, and else.
+[760] [List Bullet] Control loops using for and while structures.
+[761] [List Bullet] Write reusable blocks of code using functions and list/dictionary data structures.
+[763] [Normal] Expected Learning Outcomes:
+[764] [List Bullet] Students write scripts that take user input and display formatted text output.
+[765] [List Bullet] Students solve mathematical equations using standard operators in Python.
+[766] [List Bullet] Students write loops to print sequences or traverse structures.
+[767] [List Bullet] Students construct simple applications (e.g. password checkers, quiz consoles).
+[769] [Heading 3] Topics Covered
+[770] [List Bullet] Introduction to Python: Syntax, Thonny IDE, print() function, comments.
+[771] [List Bullet] Variables and Data Types: integer (int), decimal (float), text (str), boolean (bool).
+[772] [List Bullet] User Input: input() function, type casting (int(), float(), str()).
+[773] [List Bullet] Arithmetic and Comparison Operators: +, -, *, /, %, >, <, ==, !=.
+[774] [List Bullet] Conditional Logic: if, elif, else statements.
+[775] [List Bullet] Loops: while loops (for conditions) and for loops (iterating over ranges).
+[776] [List Bullet] Functions: def keyword, parameters, return values.
+[777] [List Bullet] Data Structures: Lists (creating, accessing indexes, appending) and Dictionaries (key-value basics).
+[779] [Heading 3] Classroom & Hands-on Activities
+[780] [Normal] Practical Hands-on Activities:
+[781] [List Bullet] Interactive Shell practice: Executing simple math and string actions in Python REPL.
+[782] [List Bullet] Console calculator: Coding a program that asks for two numbers and a math operator, and outputs the result.
+[783] [List Bullet] Number Guessing Game: Building a game where Python picks a random number and the user guesses, getting hints ('Too high', 'Too low') until correct.
+[785] [Normal] Student Activities:
+[786] [List Bullet] Debugging a list of intentionally broken python scripts provided by the teacher.
+[787] [List Bullet] Writing a function that takes a name and returns a customized welcome string.
+[789] [Heading 3] Teacher Guide & Notes
+[790] [Normal] Indentation is the most common error source in Python. Emphasize using tabs/spaces consistently. Use visual traces: write code on the board and show how variables change state step-by-step. Introduce type conversion (casting input to integer) early to avoid runtime math errors.
+[791] [Heading 3] Exercises & Review Questions
+[792] [Normal] Exercises:
+[793] [List Bullet] Identify syntax errors in a given code snippet.
+[794] [List Bullet] State the final value of variable X after a given loop runs.
+[796] [Normal] Review Questions:
+[797] [List Bullet] Why do we need to cast variables (e.g. int(input()))?
+[798] [List Bullet] What is the difference between a list and a dictionary?
+[799] [List Bullet] How do parameters work in Python functions?
+[801] [Heading 3] Projects & Assessments
+[802] [Normal] Mini Project:
+The Gradebook Analyzer: Write a program that asks the teacher to input 5 grades, saves them in a list, calculates the average grade, and outputs the highest and lowest scores.
+[803] [Normal] Assessment Method:
+Code submission and walkthrough: Students submit a script for grading and explain their function structures to the teacher.
+[804] [Normal] Home Assignment:
+Write a Python script on paper that prints the numbers 1 to 20, but for multiples of 3, print 'Fizz' instead.
+[805] [Heading 3] Required Materials
+[806] [Normal] Thonny IDE installed, python syntax sheets, sample project templates.
+[808] [Heading 2] Module 11: JavaScript Concepts & Web Logic
+[809] [Heading 3] Module Overview
+[810] [Normal] JavaScript is the programming language of the web. In this module, students learn basics of JavaScript syntax (variables, functions, loops, conditions) and explore how JavaScript interacts with HTML to create dynamic, interactive webpages.
+[811] [Heading 3] Estimated Duration
+[812] [Normal] 3 Weeks (6 Lessons)
+[813] [Heading 3] Lesson Objectives & Learning Outcomes
+[814] [Normal] Objectives:
+[815] [List Bullet] Understand the role of JavaScript in web development (compared to HTML/CSS).
+[816] [List Bullet] Write basic JavaScript syntax, declare variables, and write functions.
+[817] [List Bullet] Connect a JavaScript script to an HTML document using script tags.
+[818] [List Bullet] Understand DOM (Document Object Model) selection and manipulate element properties.
+[820] [Normal] Expected Learning Outcomes:
+[821] [List Bullet] Students write JavaScript console logs and alerts.
+[822] [List Bullet] Students code functions triggered by HTML button clicks.
+[823] [List Bullet] Students modify text content on a web simulator using JavaScript.
+[824] [List Bullet] Students write simple verification rules for form inputs.
+[826] [Heading 3] Topics Covered
+[827] [List Bullet] Introduction to JavaScript: Browsers, script tags, console.log(), alert().
+[828] [List Bullet] Syntax basics: let, const, variables, basic arithmetic.
+[829] [List Bullet] Functions: declaring functions, arguments, handling events.
+[830] [List Bullet] Events: onclick, onchange, mouseover, page load events.
+[831] [List Bullet] DOM Basics: document.getElementById(), document.querySelector().
+[832] [List Bullet] Manipulating DOM: changing innerHTML, altering style properties (colors, display properties).
+[834] [Heading 3] Classroom & Hands-on Activities
+[835] [Normal] Practical Hands-on Activities:
+[836] [List Bullet] Greeting Builder: HTML page containing an input field for a student name and a button. Clicking the button updates the page text to 'Hello, [name]!' using JavaScript.
+[837] [List Bullet] Color Changer: JavaScript function that alters document.body.style.backgroundColor based on button clicks.
+[839] [Normal] Student Activities:
+[840] [List Bullet] Adding double-click events to image elements to toggle visibility.
+[841] [List Bullet] Writing a simple validation script that checks if a text input field is empty before showing an alert.
+[843] [Heading 3] Teacher Guide & Notes
+[844] [Normal] Keep JavaScript simple. Do not dive into complex objects, asynchronous functions, or APIs. Focus on the interactive feedback loop: user does something -> event triggers -> JavaScript executes -> DOM updates.
+[845] [Heading 3] Exercises & Review Questions
+[846] [Normal] Exercises:
+[847] [List Bullet] What command is used to select an HTML element with ID 'header' in JavaScript?
+[848] [List Bullet] True or False: JavaScript is only used to style text fonts.
+[850] [Normal] Review Questions:
+[851] [List Bullet] How does JavaScript differ from HTML?
+[852] [List Bullet] What is an event-listener?
+[853] [List Bullet] What is the DOM in web browser terms?
+[855] [Heading 3] Projects & Assessments
+[856] [Normal] Mini Project:
+The Web Counter: Build a webpage with a header showing number '0' and two buttons: '+' and '-'. Use JavaScript to increment or decrement the count value displayed.
+[857] [Normal] Assessment Method:
+Practical checklist: Students create a button that updates page content and styling dynamically on screen.
+[858] [Normal] Home Assignment:
+Write down 3 examples of websites you use that utilize JavaScript to update information without reloading the page.
+[859] [Heading 3] Required Materials
+[860] [Normal] Web browsers, text editors, basic HTML file templates.
+[862] [Heading 2] Module 12: Mobile App Development (React Native Intro)
+[863] [Heading 3] Module Overview
+[864] [Normal] This module introduces students to the architecture of mobile application development. Using React Native, they will explore how code runs on smartphones. They will design basic user interfaces, build layouts for common utilities (Calculator, Notes, Quiz), and gain a brief awareness of native iOS Swift coding.
+[865] [Heading 3] Estimated Duration
+[866] [Normal] 2 Weeks (4 Lessons)
+[867] [Heading 3] Lesson Objectives & Learning Outcomes
+[868] [Normal] Objectives:
+[869] [List Bullet] Explain the difference between mobile web apps, cross-platform apps, and native apps.
+[870] [List Bullet] Understand the role of React Native in compiling JavaScript into native mobile structures.
+[871] [List Bullet] Identify core React Native components (View, Text, Image, ScrollView, TextInput, TouchableOpacity).
+[872] [List Bullet] Create layouts using CSS Flexbox configurations in mobile layouts.
+[874] [Normal] Expected Learning Outcomes:
+[875] [List Bullet] Students describe the difference between React Native (cross-platform) and Swift/Kotlin (native).
+[876] [List Bullet] Students construct UI layouts for a mobile screen using View and Text components.
+[877] [List Bullet] Students style layouts with custom padding, background colors, and centering properties.
+[878] [List Bullet] Students preview interactive mock UI designs on a mobile device using Expo Go.
+[880] [Heading 3] Topics Covered
+[881] [List Bullet] Mobile development landscape: Native iOS (Swift), Native Android (Kotlin), Cross-Platform (React Native, Flutter).
+[882] [List Bullet] What is React Native? JavaScript code running native interface components.
+[883] [List Bullet] Core components: View (like div), Text (like p), Image, TextInput, ScrollView.
+[884] [List Bullet] Styling in React Native: Style objects, Flexbox layouts, margins, alignments.
+[885] [List Bullet] Interactive buttons: TouchableOpacity, onPress events.
+[886] [List Bullet] Preview tools: Expo framework, scanning QR codes to run apps on devices via Expo Go.
+[888] [Heading 3] Classroom & Hands-on Activities
+[889] [Normal] Practical Hands-on Activities:
+[890] [List Bullet] Expo Setup & Hello World: Initializing a basic React Native template, launching it, and viewing 'Hello World' on a mobile screen via Expo Go.
+[891] [List Bullet] Calculator Layout: Creating a grid layout of button components matching a pocket calculator.
+[892] [List Bullet] Quiz UI: Building a mobile question screen containing a progress bar, image area, and multiple choice options.
+[894] [Normal] Student Activities:
+[895] [List Bullet] Designing a paper layout (wireframe) of a personal profile mobile app before coding its structure.
+[896] [List Bullet] Styling a login screen layout containing input fields, logo placeholders, and a primary button.
+[898] [Heading 3] Teacher Guide & Notes
+[899] [Normal] This module is conceptual and layout-focused. Don't worry about complex state management. Focus on getting UI elements visible on mobile screens. If computers or smartphones are limited, use web-based simulators like Snack (snack.expo.dev) which run React Native layouts entirely in the browser.
+[900] [Heading 3] Exercises & Review Questions
+[901] [Normal] Exercises:
+[902] [List Bullet] What React Native component is used to group other elements together?
+[903] [List Bullet] State which language is used to build native iOS applications exclusively.
+[905] [Normal] Review Questions:
+[906] [List Bullet] What is React Native, and why is it useful for developers?
+[907] [List Bullet] What component is used to capture typed input from a user in React Native?
+[908] [List Bullet] Why is Flexbox important for mobile app styling?
+[910] [Heading 3] Projects & Assessments
+[911] [Normal] Mini Project:
+The Quick Notes UI: Design a 1-page mobile notes layout. The screen must feature a header, a scrollable list showing 3 note entries with titles, summaries, and dates, and a floating '+' button at the bottom.
+[912] [Normal] Assessment Method:
+Evaluation of UI designs in snack.expo.dev: Grading visual layout consistency, alignment, component choices, and styling.
+[913] [Normal] Home Assignment:
+Write a 3-paragraph research report comparing React Native to native Swift in terms of deployment ease, learning speed, and device performance.
+[914] [Heading 3] Required Materials
+[915] [Normal] Computers with Thonny/VS Code, Expo account, smartphones with Expo Go, paper worksheets for UI sketches.
+[917] [Heading 1] 6. Phase 3: ADVANCED (Specialized Technologies & Futures)
+[918] [Heading 2] Introduction & Context
+[919] [Normal] Welcome to Phase 3 (ADVANCED) of the Digital Literacy & Computer Education Programme. This final phase transitions students into specialized, modern technological domains. Students will learn professional front-end web design with responsive HTML and CSS, version control and collaborative engineering using Git and GitHub, and explore the principles of Artificial Intelligence and responsible prompt engineering. They will also delve into Robotics and physical computing (using Arduino microcontrollers), media creation tools (Canva, video, audio), cybersecurity hygiene, and career mapping in tech. The objective of this phase is to make students creatively independent, secure, and ready for further academic studies or professional opportunities.
+[920] [Heading 2] Phase Description
+[921] [Normal] Phase 3 spans 22 weeks, representing 44 lessons of 45 minutes each. It covers advanced, real-world topics. The curriculum provides hands-on practice: students build portfolio sites, collaborate on code repositories on GitHub, construct physical electronic projects, edit media assets, and practice cybersecurity defenses. Given the technical nature of physical computing, specific warnings regarding funding and low-cost alternatives are integrated. Career awareness modules outline educational pathways and skills for 12 core computer science professions.
+[922] [Heading 2] Learning Objectives & Core Outcomes
+[923] [Normal] Learning Objectives:
+[924] [List Bullet] Build fully functional, semantic HTML/CSS portfolios that adjust to mobile, tablet, and desktop screens.
+[925] [List Bullet] Utilize Git and GitHub command lines or desktop apps to commit, branch, clone, push, and collaborate on code.
+[926] [List Bullet] Formulate structured prompts using advanced techniques, verify AI statements, and understand AI ethics.
+[927] [List Bullet] Assemble and program basic physical computing circuits using Arduino, LEDs, sensors, and resistors.
+[928] [List Bullet] Develop basic digital marketing assets using Canva, edit audio files, and perform basic video editing cuts.
+[929] [List Bullet] Identify security risks (phishing, social engineering, malware) and implement protective hygiene.
+[930] [List Bullet] Create detailed educational and skills roadmaps for core careers in technology.
+[932] [Normal] Expected Learning Outcomes:
+[933] [List Bullet] Students publish a personal responsive portfolio website online using GitHub Pages.
+[934] [List Bullet] Students collaborate on a group web design project, resolving branch conflicts in Git.
+[935] [List Bullet] Students use AI tools (ChatGPT/Gemini) productively as research assistants while verifying citations.
+[936] [List Bullet] Students program an Arduino circuit that flashes an LED when light levels drop below a sensor threshold.
+[937] [List Bullet] Students design a brand kit in Canva and edit a 1-minute video explaining a technological concept.
+[938] [List Bullet] Students practice secure data backup rules and create simulated threat-modeling diagrams.
+[939] [List Bullet] Students present a complete path-to-employment roadmap for their chosen technology career.
+[941] [Heading 2] Core Skills Students Will Gain
+[942] [List Bullet] Semantic web development and responsive layout structures
+[943] [List Bullet] Branching, committing, and conflict resolution in Git
+[944] [List Bullet] Effective AI prompting and secondary source verification
+[945] [List Bullet] Basic electrical circuit design and embedded C programming
+[946] [List Bullet] Graphic design aesthetics and raster/vector layout creation
+[947] [List Bullet] Audio-video media compiling and editing techniques
+[948] [List Bullet] Threat identification and mitigation strategies in cybersecurity
+[949] [List Bullet] Professional presentation and career pathway planning
+[951] [Heading 2] Weekly Schedule
+[953] [Heading 2] Recommended Teaching Methods & Classroom Activities
+[954] [Normal] Teaching Methods:
+[955] [List Bullet] Project-Based Portfolio Construction: Guide students to build a single site that grows with each lesson.
+[956] [List Bullet] Collaborative Coding Simulations: Split classes into software groups that push to the same GitHub repository.
+[957] [List Bullet] Interactive AI Labs: Presenting prompts, analyzing AI hallucinations, and cross-referencing statements online.
+[958] [List Bullet] Physical Lab Assemblies: Working in small teams with hardware boards, matching breadboard diagrams.
+[959] [List Bullet] Guest Panels and Roleplaying: Simulating technical job interviews or security breach drills.
+[961] [Normal] Classroom Activities:
+[962] [List Bullet] The Git Conflict Hack: Students pair up, modify the same file line, commit, and walk through resolving the merge conflict.
+[963] [List Bullet] AI Fact-Checking Race: Teacher inputs a fabricated question into an AI, and students compete to find the accurate sources.
+[964] [List Bullet] Robotic Light Controller: Assembling an Arduino board with a light-dependent resistor that sounds a buzzer when it gets dark.
+[965] [List Bullet] Security Threat Analysis: Reviewing case studies of famous digital hacks to identify the point of entry and suggest fixes.
+[967] [Heading 2] Hands-on Practical Activities
+[968] [List Bullet] School Website Layout: Designing a responsive layout structure for a modern school homepage.
+[969] [List Bullet] GitHub Project Publication: Committing a web design project locally, pushing to GitHub, and enabling GitHub Pages.
+[970] [List Bullet] Canva Brand Campaign: Creating a set of 3 styled social media cards promoting a local non-profit company.
+[971] [List Bullet] Career Pathway Presentation: Creating a slide deck showing the qualifications, skills, and timelines to become an AI Engineer.
+[973] [Heading 2] Projects Framework
+[974] [Normal] Individual Project:
+Personal Portfolio Website & Repository: Students design and code a responsive personal portfolio webpage using semantic HTML5 and CSS. The site must contain an 'About Me' section, a list of completed projects with links, and a contact form. They must track this project using Git, commit changes regularly, push it to a remote GitHub repository, and publish the site live using GitHub Pages.
+[975] [Normal] Group Project:
+The Robotics Lab Showcase (or Virtual Simulation): Working in groups of three, students construct a physical project using Arduino (such as an automatic plant watering indicator or a traffic light simulator). If physical hardware is unavailable, they build the project virtually using TinkerCAD Circuits. They document their circuit diagram, write the control code, upload it to GitHub, and demonstrate the working model.
+[976] [Heading 2] Teacher Guidance & Lab Notes
+[978] [Heading 2] Required Physical & Digital Resources
+[979] [List Bullet] Text Editors: Visual Studio Code or Sublime Text
+[980] [List Bullet] Git CLI and GitHub Desktop installed, student GitHub accounts
+[981] [List Bullet] Internet browsers with web tools (Inspect Element)
+[982] [List Bullet] Arduino Starter Kits: Arduino Uno board, breadboard, LEDs, resistors (220 ohm, 10k ohm), LDR, jumper wires, servo motor
+[983] [List Bullet] Alternative: Web browsers with TinkerCAD accounts
+[984] [List Bullet] Digital Creativity software: Canva (free educational plan), Audacity (audio), Shotcut/CapCut (video)
+[986] [Heading 2] Assessment Methods & Framework
+[987] [List Bullet] GitHub Repo Inspection: Evaluation of student commit logs to check regularity and clarity of descriptions.
+[988] [List Bullet] Interactive Project Walkthroughs: Direct student presentations of web layouts and physical circuits.
+[989] [List Bullet] Conceptual Written Exam: Core concepts of cybersecurity, git actions, AI, and career pathways.
+[990] [List Bullet] Portfolio Web Review: Inspection of CSS styling, media queries, and code organization.
+[992] [Heading 2] Grading Rubrics
+[994] [Heading 2] End-of-Phase Examination Framework
+[995] [Normal] Phase 3 Final Examination Structure:
+Part A: Theory (30 Marks)
+- 10 Multiple Choice Questions (git actions, responsive design, AI terminology, basic circuitry)
+- 10 Fill in the blanks (cybersecurity vectors, career skill definitions)
+- 10 Short Answer Questions (e.g., Explain the role of a media query in responsive CSS design)
+
+Part B: Practical (70 Marks)
+- Task 1: Web Design (25 Marks): Design a responsive contact section with a header, name/email input form, and button, styled using a CSS layout media query that wraps elements vertically on screens under 600px.
+- Task 2: Git Control (15 Marks): Initialize a local folder, commit the HTML file, create a branch named 'dev', modify code, commit on 'dev', merge back to 'main', and write out commands used.
+- Task 3: Arduino Simulation (15 Marks): Draw the schematic or write the code block for a circuit that turns on an LED (pin 13) only when a light sensor (analog pin A0) reads a value below 300.
+- Task 4: Career Mapping & Review (15 Marks): Draft a cover letter for IT Support Specialist detailing required skills.
+[996] [Heading 2] Certification Requirements
+[997] [Normal] Certification of Advanced Digital Literacy & Technology Concepts:
+To be awarded the Certificate of Advanced Digital Literacy, a student must meet the following criteria:
+1. Minimum attendance of 85% in all Phase 3 classes and labs.
+2. Successful completion and publication of the Personal Portfolio Website on GitHub Pages.
+3. Submission of the Robotics project/simulation and Career Presentation with passing grades.
+4. Achieve a minimum score of 60% on the End-of-Phase Advanced Examination.
+[999] [Heading 2] Module 13: Web Design (HTML & CSS)
+[1000] [Heading 3] Module Overview
+[1001] [Normal] This module teaches professional front-end web design. Students will write semantic HTML5 structures and apply visual layout styles using CSS. They will learn layout models (Flexbox, Grid) and construct responsive designs that scale to mobile and desktop viewports using CSS media queries.
+[1002] [Heading 3] Estimated Duration
+[1003] [Normal] 4 Weeks (8 Lessons)
+[1004] [Heading 3] Lesson Objectives & Learning Outcomes
+[1005] [Normal] Objectives:
+[1006] [List Bullet] Write valid, semantic HTML5 tags (header, nav, main, section, footer, article).
+[1007] [List Bullet] Apply CSS rules, selectors, colors, margins, padding, and text styling.
+[1008] [List Bullet] Understand layout models: Block, Inline, Flexbox, and CSS Grid.
+[1009] [List Bullet] Use CSS media queries to design responsive layouts that scale to small screens.
+[1011] [Normal] Expected Learning Outcomes:
+[1012] [List Bullet] Students write code structures that pass browser layout tests.
+[1013] [List Bullet] Students separate content (HTML) from presentation (CSS) in separate files.
+[1014] [List Bullet] Students style layouts with custom color palettes and grid columns.
+[1015] [List Bullet] Students design multi-page web layouts that are readable on mobile phones.
+[1017] [Heading 3] Topics Covered
+[1018] [List Bullet] Web architecture: How browsers render HTML. Semantic tags.
+[1019] [List Bullet] CSS basics: Selectors (tag, class, ID), properties, the Box Model (Margin, Border, Padding, Content).
+[1020] [List Bullet] CSS Colors: HEX, RGB, HSL. Font styling and Google Fonts integration.
+[1021] [List Bullet] CSS Layouts: Display properties, Float vs Flexbox, Grid configurations.
+[1022] [List Bullet] Responsive Web Design: Viewport meta tags, percentage widths, media queries.
+[1023] [List Bullet] Structuring projects: Asset folders, relative image/link paths.
+[1025] [Heading 3] Classroom & Hands-on Activities
+[1026] [Normal] Practical Hands-on Activities:
+[1027] [List Bullet] Bio Page Styling: Creating a personal biography webpage, adding style classes for headings, borders, and margins.
+[1028] [List Bullet] Flexible Photo Gallery: Building a card layout of photos that displays as 4 columns on PC, 2 columns on tablet, and 1 column on mobile screens using Flexbox.
+[1030] [Normal] Student Activities:
+[1031] [List Bullet] Creating navigation bars that collapse or adjust orientation depending on screen width.
+[1032] [List Bullet] Applying consistent styling tokens (variables or style rules) for buttons and headings.
+[1034] [Heading 3] Teacher Guide & Notes
+[1035] [Normal] Focus heavily on the Box Model, as margins and padding confuse beginners. Teach mobile-first concepts: design for small screens first, then use media queries to scale up. Emphasize using inspect element in browsers to debug CSS layout lines.
+[1036] [Heading 3] Exercises & Review Questions
+[1037] [Normal] Exercises:
+[1038] [List Bullet] Identify what 'margin: 10px 5px 10px 5px;' represents in top-right-bottom-left terms.
+[1039] [List Bullet] Write the syntax for a media query that targets screens smaller than 600px.
+[1041] [Normal] Review Questions:
+[1042] [List Bullet] What is the difference between an ID selector and a Class selector in CSS?
+[1043] [List Bullet] What is semantic HTML and why is it important for accessibility?
+[1044] [List Bullet] How does Flexbox help in aligning navigation items?
+[1046] [Heading 3] Projects & Assessments
+[1047] [Normal] Mini Project:
+The School Homepage Layout: Code a homepage layout for a school featuring a header with navigation, an announcement section, an image gallery, and a styled contact footer.
+[1048] [Normal] Assessment Method:
+Inspection of the personal webpage code structure, checking CSS selectors, validation errors, and mobile screen responsiveness.
+[1049] [Normal] Home Assignment:
+Write a CSS style sheet that defines a navigation bar with a dark blue background, white text, and teal hover effects.
+[1050] [Heading 3] Required Materials
+[1051] [Normal] Web browsers, text editors, code cheatsheets.
+[1053] [Heading 2] Module 14: Git & GitHub Collaboration
+[1054] [Heading 3] Module Overview
+[1055] [Normal] Version control is crucial for software engineering. This module teaches Git and GitHub. Students will learn commands for tracking changes, committing files, pushing code online, branching, cloning repositories, collaborating on projects, and hosting static sites on GitHub Pages.
+[1056] [Heading 3] Estimated Duration
+[1057] [Normal] 3 Weeks (6 Lessons)
+[1058] [Heading 3] Lesson Objectives & Learning Outcomes
+[1059] [Normal] Objectives:
+[1060] [List Bullet] Explain the difference between Git (version control) and GitHub (hosting service).
+[1061] [List Bullet] Initialize a local repository, stage files, and commit changes with clear descriptions.
+[1062] [List Bullet] Push local code to a remote GitHub repository and clone existing code.
+[1063] [List Bullet] Manage branches, perform merges, and resolve simple merge conflicts.
+[1065] [Normal] Expected Learning Outcomes:
+[1066] [List Bullet] Students track changes in their projects using Git terminal or GUI.
+[1067] [List Bullet] Students write meaningful, professional commit logs.
+[1068] [List Bullet] Students publish static HTML portfolio websites to GitHub Pages.
+[1069] [List Bullet] Students participate in code sharing and peer project contributions.
+[1071] [Heading 3] Topics Covered
+[1072] [List Bullet] What is version control? Why is it important? Local vs. remote directories.
+[1073] [List Bullet] Git installation, setup, user configurations (username, email).
+[1074] [List Bullet] Command line operations: git init, git status, git add, git commit, git log.
+[1075] [List Bullet] GitHub interaction: git remote add, git push, git pull, git clone.
+[1076] [List Bullet] Branching: git branch, git checkout, git merge.
+[1077] [List Bullet] Conflict resolution: What happens when code lines overlap, how to edit files to resolve issues.
+[1078] [List Bullet] GitHub Pages: Hosting static web structures for free.
+[1080] [Heading 3] Classroom & Hands-on Activities
+[1081] [Normal] Practical Hands-on Activities:
+[1082] [List Bullet] First Commit: Initializing a local folder, creating 'index.html', staging, committing, and pushing it to a new GitHub repository.
+[1083] [List Bullet] Conflict Resolution Drill: Partner exercise where two students clone the same repo, change line 5 of index.html to different text, push sequentially, and resolve the resulting merge conflict.
+[1085] [Normal] Student Activities:
+[1086] [List Bullet] Cloning a teammate's project, adding a styled paragraph in a new branch, and submitting a pull request.
+[1087] [List Bullet] Enabling GitHub Pages on their personal repository to share their live website.
+[1089] [Heading 3] Teacher Guide & Notes
+[1090] [Normal] Git is conceptual. Draw diagrams on the board showing commits as timeline points and branches as tracks. Use the concept of a 'Time Machine' to describe checking out old commits. Require all students to create clean GitHub accounts for their portfolios.
+[1091] [Heading 3] Exercises & Review Questions
+[1092] [Normal] Exercises:
+[1093] [List Bullet] What command is used to check which files are modified but unstaged?
+[1094] [List Bullet] What is the difference between 'git push' and 'git pull'?
+[1096] [Normal] Review Questions:
+[1097] [List Bullet] What is a commit message, and why should it be descriptive?
+[1098] [List Bullet] How does branching protect main production code?
+[1099] [List Bullet] What is a merge conflict?
+[1101] [Heading 3] Projects & Assessments
+[1102] [Normal] Mini Project:
+The Collaboration Portfolio: Working in pairs, create a project repository containing HTML profiles. Each student writes their own bio page in a separate branch, merges it to main, and publishes the combined page on GitHub Pages.
+[1103] [Normal] Assessment Method:
+Teacher reviews the student's GitHub commit logs to evaluate formatting consistency, command usage, and project updates.
+[1104] [Normal] Home Assignment:
+Write down the exact sequence of 7 Git commands required to initialize, commit, and push a local folder online.
+[1105] [Heading 3] Required Materials
+[1106] [Normal] Git installed, Internet, Git command sheets.
+[1108] [Heading 2] Module 15: AI & Responsible Prompting
+[1109] [Heading 3] Module Overview
+[1110] [Normal] This module introduces artificial intelligence (AI). It focuses on prompt engineering, using tools (ChatGPT, Gemini) for productivity and research, understanding limitations (hallucinations), AI ethics, and fact-checking statements.
+[1111] [Heading 3] Estimated Duration
+[1112] [Normal] 3 Weeks (6 Lessons)
+[1113] [Heading 3] Lesson Objectives & Learning Outcomes
+[1114] [Normal] Objectives:
+[1115] [List Bullet] Explain the concepts of Large Language Models (LLMs) and artificial intelligence.
+[1116] [List Bullet] Write structured prompts using role definitions, context, and clear format constraints.
+[1117] [List Bullet] Analyze AI outputs critically, identifying inaccuracies and 'hallucinations'.
+[1118] [List Bullet] Discuss the ethical concerns of AI (plagiarism, bias, data privacy, environmental costs).
+[1120] [Normal] Expected Learning Outcomes:
+[1121] [List Bullet] Students write prompts that yield precise, useful academic output.
+[1122] [List Bullet] Students identify and document instances of AI error in research trials.
+[1123] [List Bullet] Students cross-reference AI-generated claims against authoritative sources.
+[1124] [List Bullet] Students use AI responsibly as a study tutor while maintaining academic integrity.
+[1126] [Heading 3] Topics Covered
+[1127] [List Bullet] What is Artificial Intelligence? How do Large Language Models work (predictive text patterns)?
+[1128] [List Bullet] Prompt engineering basics: Role, Task, Context, Constraints, Format.
+[1129] [List Bullet] Iterative prompting: Refining outputs through follow-up conversations.
+[1130] [List Bullet] Productivity use cases: Brainstorming, summarization, code debugging, writing outlines.
+[1131] [List Bullet] Limitations: Hallucinations, outdated databases, bias in training datasets.
+[1132] [List Bullet] Fact-checking: Navigating original citations, checking primary sources.
+[1133] [List Bullet] AI Ethics: Copyright, academic integrity (plagiarism), data privacy (never inputting personal info).
+[1135] [Heading 3] Classroom & Hands-on Activities
+[1136] [Normal] Practical Hands-on Activities:
+[1137] [List Bullet] Prompting Battle: Students are given a complex output requirement (e.g. 'explain photosynthesis to a 6-year-old using baking metaphors'). They compete to see whose prompt yields the best response.
+[1138] [List Bullet] Hallucination Spotting: Students prompt an AI to write a historical biography, then verify 5 specific statements (birth dates, achievements) using search engines to find mistakes.
+[1140] [Normal] Student Activities:
+[1141] [List Bullet] Using AI to debug a broken Python script by inputting the code and error log, then testing the recommended fix.
+[1142] [List Bullet] Creating a study schedule tailored to their subjects by prompting an AI with specific time limits.
+[1144] [Heading 3] Teacher Guide & Notes
+[1145] [Normal] Do not ban AI. Teach students how to use it as a powerful collaborator. Stress that AI is often confident but wrong. Make fact-checking a mandatory step. Emphasize academic honesty: using AI to write essays for submission is plagiarism.
+[1146] [Heading 3] Exercises & Review Questions
+[1147] [Normal] Exercises:
+[1148] [List Bullet] Rewrite a weak prompt (e.g., 'tell me about frogs') into a structured prompt using the Role-Task-Context model.
+[1149] [List Bullet] True or False: LLMs understand facts like a human.
+[1151] [Normal] Review Questions:
+[1152] [List Bullet] What is a hallucination in AI terms?
+[1153] [List Bullet] Why is inputting personal data or passwords into public AI engines dangerous?
+[1154] [List Bullet] What are three indicators that an AI-generated claim might be incorrect?
+[1156] [Heading 3] Projects & Assessments
+[1157] [Normal] Mini Project:
+The AI Study Assistant: Design a custom prompt template that turns an AI tool into an interactive quiz tutor. The prompt must instruct the AI to ask one multiple choice science question at a time and explain the answer only after the student replies.
+[1158] [Normal] Assessment Method:
+Students submit a log containing their prompts, AI outputs, and documented verification steps for a chosen historical topic.
+[1159] [Normal] Home Assignment:
+Write a 300-word essay discussing the environmental and social impacts of training large AI neural networks.
+[1160] [Heading 3] Required Materials
+[1161] [Normal] Internet access, accounts on ChatGPT or Google Gemini, prompt guides.
+[1163] [Heading 2] Module 16: Robotics & Physical Computing
+[1164] [Heading 3] Module Overview
+[1165] [Normal] This module bridges software and hardware. Students will learn the Arduino platform, simple circuit design, wiring breadboards, and writing basic code to control LEDs, motors, and read sensors. Due to funding considerations, low-cost options and virtual simulators (TinkerCAD) are detailed.
+[1166] [Heading 3] Estimated Duration
+[1167] [Normal] 3 Weeks (6 Lessons)
+[1168] [Heading 3] Lesson Objectives & Learning Outcomes
+[1169] [Normal] Objectives:
+[1170] [List Bullet] Understand the differences between microprocessors (e.g., Raspberry Pi) and microcontrollers (e.g., Arduino).
+[1171] [List Bullet] Identify pins, power inputs, and components on an Arduino Uno board.
+[1172] [List Bullet] Assemble electrical circuits on breadboards with resistors, LEDs, and sensors.
+[1173] [List Bullet] Write basic C-based code loops using pinMode(), digitalWrite(), and analogRead().
+[1175] [Normal] Expected Learning Outcomes:
+[1176] [List Bullet] Students read schematic wiring diagrams and assemble them.
+[1177] [List Bullet] Students write code to flash LEDs, trigger buzzers, and control motors.
+[1178] [List Bullet] Students read inputs from analog sensors (like light-dependent resistors).
+[1179] [List Bullet] Students troubleshoot faulty wiring or code logic.
+[1181] [Heading 3] Topics Covered
+[1182] [List Bullet] Introduction to physical computing: Microcontrollers vs. General computers.
+[1183] [List Bullet] Arduino Uno board layout: Analog pins, Digital pins, Ground (GND), 5V/3.3V power, USB interface.
+[1184] [List Bullet] Electrical basics: Voltage, Current, Resistance, Ohm's Law.
+[1185] [List Bullet] Components: Breadboards, Jumper wires, Resistors (color bands), LEDs, Pushbuttons, LDR (Light sensor), Servo motors.
+[1186] [List Bullet] Programming Arduino: Setup() and Loop() functions, digitalWrite(), delay(), pinMode(), analogRead().
+[1187] [List Bullet] Virtual simulation: TinkerCAD Circuits interface.
+[1188] [List Bullet] Budget note: Low-cost starter kits (clones of Arduino Uno cost under $10).
+[1190] [Heading 3] Classroom & Hands-on Activities
+[1191] [Normal] Practical Hands-on Activities:
+[1192] [List Bullet] Blinking LED: Building a circuit with an Arduino and an LED, writing code to turn the LED on and off every second.
+[1193] [List Bullet] Light-Sensing Nightlight: Assembling an LDR circuit that measures room brightness and automatically turns on a warning LED when darkness is simulated.
+[1195] [Normal] Student Activities:
+[1196] [List Bullet] Simulating a traffic light sequence using red, yellow, and green LEDs wired on a breadboard.
+[1197] [List Bullet] Writing an Arduino script that changes the blink speed of an LED based on analog potentiometer dials.
+[1199] [Heading 3] Teacher Guide & Notes
+[1200] [Normal] If your school has no budget for physical kits, utilize TinkerCAD Circuits (tinkercad.com). It is completely free, runs in the browser, and simulates components accurately. Warn students about short circuits: always connect a resistor in series with LEDs to prevent burning them out.
+[1201] [Heading 3] Exercises & Review Questions
+[1202] [Normal] Exercises:
+[1203] [List Bullet] Calculate resistance needed for a 5V circuit with 20mA LED limit using Ohm's Law (R = V/I).
+[1204] [List Bullet] Identify the function of 'delay(1000);' in Arduino code.
+[1206] [Normal] Review Questions:
+[1207] [List Bullet] What is a breadboard, and how are its sockets connected inside?
+[1208] [List Bullet] Why is a resistor necessary when wiring an LED?
+[1209] [List Bullet] What is the difference between digital pins and analog pins on the Arduino?
+[1211] [Heading 3] Projects & Assessments
+[1212] [Normal] Mini Project:
+The Automated Burglar Alarm: Build a circuit (physical or virtual) featuring a sensor (motion or light) and a buzzer. Write code that sounds the alarm when the sensor state changes.
+[1213] [Normal] Assessment Method:
+Students build and demonstrate a circuit. Grading evaluates correct wire alignments, resistor selection, and functional code loops.
+[1214] [Normal] Home Assignment:
+Draw a wiring diagram of a circuit containing an Arduino Uno, a resistor, and a green LED connected to digital pin 9.
+[1215] [Heading 3] Required Materials
+[1216] [Normal] Arduino Uno kits or computer lab with TinkerCAD accounts, worksheets on circuit symbols.
+[1218] [Heading 2] Module 17: Digital Creativity & Media
+[1219] [Heading 3] Module Overview
+[1220] [Normal] This module introduces digital media creation. Students will learn graphic design basics using Canva, compile layouts, understand typography, and learn basic timeline video and audio editing techniques.
+[1221] [Heading 3] Estimated Duration
+[1222] [Normal] 4 Weeks (8 Lessons)
+[1223] [Heading 3] Lesson Objectives & Learning Outcomes
+[1224] [Normal] Objectives:
+[1225] [List Bullet] Apply basic design principles (contrast, alignment, hierarchy, balance) in digital layouts.
+[1226] [List Bullet] Navigate the Canva workspace, use templates, layers, and export options.
+[1227] [List Bullet] Perform basic audio edits, cuts, and noise reduction in Audacity.
+[1228] [List Bullet] Compile, cut, splice, and export short video segments using standard timelines.
+[1230] [Normal] Expected Learning Outcomes:
+[1231] [List Bullet] Students design promotional posters, social media grids, and report covers.
+[1232] [List Bullet] Students edit voiceovers by removing noise and splicing audio tracks.
+[1233] [List Bullet] Students edit short video packages with transitions, title cards, and backing tracks.
+[1234] [List Bullet] Students choose appropriate media formats (.png, .mp4, .wav) depending on target displays.
+[1236] [Heading 3] Topics Covered
+[1237] [List Bullet] Graphic Design principles: Color contrast, font selection, whitespace, visual hierarchy.
+[1238] [List Bullet] Canva: Account setup, workspace navigation, templates, shapes, uploads, grouping elements.
+[1239] [List Bullet] Media extensions: JPEG vs. PNG, Vector vs. Raster, MP3 vs. WAV, MP4 video compression.
+[1240] [List Bullet] Audio Editing: Audacity workspace, importing tracks, recording voice, cut/copy/paste, noise reduction.
+[1241] [List Bullet] Video Editing: Timeline concepts, tracks, slicing, transitions, adding titles, overlays, backing music, exporting.
+[1243] [Heading 3] Classroom & Hands-on Activities
+[1244] [Normal] Practical Hands-on Activities:
+[1245] [List Bullet] Classroom Poster: Designing an educational infographic on computer parts using Canva and exporting it as a PDF print file.
+[1246] [List Bullet] Audio Voiceover: Recording a 30-second speech about technology, editing it in Audacity to remove background noise, and adding a soft music track.
+[1247] [List Bullet] Tech Explainer Video: Splicing three video clips, adding a title slide, inserting transitions, syncing the voiceover, and exporting as an MP4.
+[1249] [Normal] Student Activities:
+[1250] [List Bullet] Designing a personal business card layout in Canva.
+[1251] [List Bullet] Creating a short podcast segment by splicing together voice, sound effects, and transitions.
+[1253] [Heading 3] Teacher Guide & Notes
+[1254] [Normal] Students love creative modules. Ensure they maintain design discipline: avoid cluttering layouts with too many fonts or conflicting colors. Use free tools (Canva for Education, Audacity, CapCut/Shotcut) to keep access free.
+[1255] [Heading 3] Exercises & Review Questions
+[1256] [Normal] Exercises:
+[1257] [List Bullet] State whether JPEG or PNG is better for transparent logos.
+[1258] [List Bullet] Explain the concept of 'timeline tracks' in video editing.
+[1260] [Normal] Review Questions:
+[1261] [List Bullet] What does 'visual hierarchy' mean in graphic design?
+[1262] [List Bullet] How does noise reduction work in audio editing?
+[1263] [List Bullet] Why is MP4 the most common format for web videos?
+[1265] [Heading 3] Projects & Assessments
+[1266] [Normal] Mini Project:
+The Campaign Package: Create a digital media campaign for a fictional school club, including a Canva promotional poster, a 30-second audio advert, and a 1-minute video introduction.
+[1267] [Normal] Assessment Method:
+Grading of creative portfolios based on alignment, design discipline, audio clarity, and editing continuity.
+[1268] [Normal] Home Assignment:
+Write a 1-page script for a video tutorial explaining how to create a folder in Windows.
+[1269] [Heading 3] Required Materials
+[1270] [Normal] Computers with audio inputs, internet, Audacity and video editors installed, Canva accounts.
+[1272] [Heading 2] Module 18: Cybersecurity & Digital Hygiene Basics
+[1273] [Heading 3] Module Overview
+[1274] [Normal] This module teaches cybersecurity awareness and hygiene. Students will explore common threat vectors (phishing, malware, social engineering), learn about viruses, privacy settings, safe file downloads, and threat modeling.
+[1275] [Heading 3] Estimated Duration
+[1276] [Normal] 2.5 Weeks (5 Lessons)
+[1277] [Heading 3] Lesson Objectives & Learning Outcomes
+[1278] [Normal] Objectives:
+[1279] [List Bullet] Identify common digital threats, including computer viruses, malware, trojans, and ransomware.
+[1280] [List Bullet] Recognize phishing emails, malicious links, and social engineering manipulation.
+[1281] [List Bullet] Implement strong digital hygiene practices (password managers, two-factor authentication, safe downloads).
+[1282] [List Bullet] Understand the basics of data encryption and private browsing modes.
+[1284] [Normal] Expected Learning Outcomes:
+[1285] [List Bullet] Students analyze suspicious messages and flag threat indicators.
+[1286] [List Bullet] Students configure browser security settings and verify software downloads.
+[1287] [List Bullet] Students outline plans for secure regular offline and cloud backups.
+[1288] [List Bullet] Students write threat-modeling tables for securing personal accounts.
+[1290] [Heading 3] Topics Covered
+[1291] [List Bullet] The threat landscape: What is malware? Viruses vs. Trojans vs. Ransomware.
+[1292] [List Bullet] Phishing: How attackers trick users. Malicious attachments and URL spoofs.
+[1293] [List Bullet] Social Engineering: Impersonation, phone scams, and keeping passwords secret.
+[1294] [List Bullet] Digital Hygiene: Strong passwords, two-factor authentication (2FA), password managers.
+[1295] [List Bullet] Browser safety: Pop-up blockers, extensions, incognito mode limits.
+[1296] [List Bullet] Software sourcing: Safe downloads vs. cracked/pirated software risks.
+[1297] [List Bullet] Backup strategies: 3-2-1 backup rule (3 copies, 2 media types, 1 offsite).
+[1299] [Heading 3] Classroom & Hands-on Activities
+[1300] [Normal] Practical Hands-on Activities:
+[1301] [List Bullet] Phishing Detector: Reviewing 10 sample emails (some real, some fake) to locate signs of fraud (misspelled domains, urgent requests, bad formatting).
+[1302] [List Bullet] Backup Implementation: Simulating a backup process by copying important files to an external drive and setting up an automated sync to cloud storage.
+[1304] [Normal] Student Activities:
+[1305] [List Bullet] Drafting a checklist of action items to secure a smartphone against physical and digital access.
+[1306] [List Bullet] Writing a security advisory poster for their school warning classmates about local social media scams.
+[1308] [Heading 3] Teacher Guide & Notes
+[1309] [Normal] Cybersecurity is not just about code; it is mostly about human behavior. Focus on social engineering. Teach students to be healthily skeptical. Emphasize that 'free/cracked' software is the most common way secondary school students get malware on their home computers.
+[1310] [Heading 3] Exercises & Review Questions
+[1311] [Normal] Exercises:
+[1312] [List Bullet] Identify the vulnerability: An email arrives from your bank requesting immediate password verification. What do you do?
+[1313] [List Bullet] What does 2FA stand for and how does it protect accounts?
+[1315] [Normal] Review Questions:
+[1316] [List Bullet] What is ransomware, and why is it dangerous for businesses?
+[1317] [List Bullet] Explain the 3-2-1 backup rule.
+[1318] [List Bullet] What are the limitations of private browsing (Incognito) mode?
+[1320] [Heading 3] Projects & Assessments
+[1321] [Normal] Mini Project:
+The Lab Security Audit: Inspect the school computer lab under the teacher's guidance. Students list potential security vulnerabilities (e.g. passwords on notes, open ports, lack of screensavers) and write a remediation plan.
+[1322] [Normal] Assessment Method:
+Written scenario test where students must write correct defense steps for various hacking attempts.
+[1323] [Normal] Home Assignment:
+Write a 500-word essay about a major historical cyber breach, detailing the entry method, the impact, and how it could have been prevented.
+[1324] [Heading 3] Required Materials
+[1325] [Normal] Mock phishing emails, worksheets on security standards, backup drives.
+[1327] [Heading 2] Module 19: Career Awareness & Mapping
+[1328] [Heading 3] Module Overview
+[1329] [Normal] This final module prepares students for the future by mapping tech careers. It outlines educational pathways, certification programs, required skills, and portfolio development tips for 12 technology professions.
+[1330] [Heading 3] Estimated Duration
+[1331] [Normal] 3 Weeks (6 Lessons)
+[1332] [Heading 3] Lesson Objectives & Learning Outcomes
+[1333] [Normal] Objectives:
+[1334] [List Bullet] Identify the roles and responsibilities of 12 core technology professions.
+[1335] [List Bullet] Understand the skill sets and tools associated with each technical career.
+[1336] [List Bullet] Map educational pathways (university degrees, certifications, self-study resources).
+[1337] [List Bullet] Prepare a basic professional resume and outline a portfolio strategy.
+[1339] [Normal] Expected Learning Outcomes:
+[1340] [List Bullet] Students write summaries of their chosen future tech roles.
+[1341] [List Bullet] Students identify relevant certifications (e.g., CompTIA, AWS, Cisco).
+[1342] [List Bullet] Students write a professional education-and-skills roadmap.
+[1343] [List Bullet] Students draft a standard CV and structure a project portfolio.
+[1345] [Heading 3] Topics Covered
+[1346] [List Bullet] Career profiles: Software Engineer, Data Scientist, UI/UX Designer, AI Engineer, Cybersecurity Analyst, Cloud Engineer, Web Developer, Mobile Developer, Robotics Engineer, Network Engineer, Product Designer, IT Support Specialist.
+[1347] [List Bullet] Required skills: Coding languages, tools, soft skills (communication, teamwork).
+[1348] [List Bullet] Educational routes: Computer Science degrees vs. coding bootcamps vs. self-study.
+[1349] [List Bullet] Industry Certifications: Entry-level certificates (CompTIA A+, Cisco CCNA, AWS Cloud Practitioner).
+[1350] [List Bullet] Portfolio building: Documenting projects on GitHub, Behance, or personal websites.
+[1351] [List Bullet] CV drafting and interview preparation basics.
+[1353] [Heading 3] Classroom & Hands-on Activities
+[1354] [Normal] Practical Hands-on Activities:
+[1355] [List Bullet] My Dream Job Profile: Students select one tech career, research its salary, daily routine, and tools, and write a report.
+[1356] [List Bullet] Roadmap Design: Drawing a visual career roadmap showing steps from age 16 to age 25, indicating schools, projects, and target companies.
+[1357] [List Bullet] Mock Interview: Splicing class into interviewer/interviewee pairs to practice answering 'Tell me about a project you coded.'
+[1359] [Normal] Student Activities:
+[1360] [List Bullet] Drafting a professional resume template including contact details, education history, and project links.
+[1361] [List Bullet] Creating a list of 5 online courses (e.g. on Coursera, freeCodeCamp) that teach skills for their target job.
+[1363] [Heading 3] Teacher Guide & Notes
+[1364] [Normal] Inspire students but keep expectations realistic. Emphasize that tech careers require continuous learning. Show them that even without university access, self-study and portfolio projects on GitHub can lead to employment. Help them choose roles matching their strengths (e.g. artistic students toward UI/UX; analytical toward Data Science).
+[1365] [Heading 3] Exercises & Review Questions
+[1366] [Normal] Exercises:
+[1367] [List Bullet] Match the job title to its primary tool (e.g. UI/UX Designer -> Figma).
+[1368] [List Bullet] State what an IT Support Specialist does daily.
+[1370] [Normal] Review Questions:
+[1371] [List Bullet] What is the difference between a Front-End Web Developer and a Back-End Web Developer?
+[1372] [List Bullet] Why is a project portfolio often more important than a degree in the tech industry?
+[1373] [List Bullet] Name three entry-level IT certifications.
+[1375] [Heading 3] Projects & Assessments
+[1376] [Normal] Mini Project:
+The Personal Career Roadmap: Create a final poster or document mapping out a chosen tech career, listing 3 target skills, 2 entry-level projects they need to build, and 2 certifications they will study for.
+[1377] [Normal] Assessment Method:
+Submission of the draft resume, career roadmap, and presentation delivery.
+[1378] [Normal] Home Assignment:
+Find and write down the job requirements of a real junior tech position posted on a job search website.
+[1379] [Heading 3] Required Materials
+[1380] [Normal] Resume templates, career mapping worksheets, interview guide sheets.
+[1382] [Heading 1] 7. Sample Lesson Plans
+[1383] [Normal] Below are five comprehensive, detailed sample lesson plans demonstrating how teachers should implement the curriculum modules across all three phases.
+[1384] [Heading 2] Lesson Plan 1: Mastering Keyboard & Typing Posture
+[1385] [Normal] Phase Context: Phase 1: Basic | Duration: 45 Minutes
+[1386] [Heading 3] Lesson Objectives
+[1387] [List Bullet] Students will position their bodies in correct typing posture (back straight, feet flat, elbows at 90 degrees).
+[1388] [List Bullet] Students will locate the 'Home Row' keys (ASDF JKL;) and place their fingers correctly.
+[1389] [List Bullet] Students will type basic home-row character patterns without looking at the keyboard.
+[1391] [Heading 3] Required Lesson Materials
+[1392] [Normal] Computers, Tux Typing software, posture posters, keyboard worksheets.
+[1393] [Heading 3] Lesson Sequence & Activities
+[1394] [Normal] Introduction (10 Mins):
+- Welcome students and seat them in the lab.
+- Explain why posture is critical for health and typing speed.
+- Demonstrate correct vs. incorrect sitting postures physically.
+[1395] [Normal] Main Lesson (15 Mins):
+- Guide students to adjust their chairs and monitors.
+- Introduce the Home Row concept. Explain that the left index finger goes on F (feel the tactile bump) and the right index finger goes on J (feel the bump).
+- Project a keyboard layout showing finger-to-key associations.
+[1396] [Normal] Practical Exercise (15 Mins):
+- Launch Tux Typing or Thonny to open an empty text file.
+- Conduct a typing drill: Type 'a a a s s s d d d f f f' then 'j j j k k k l l l ; ; ;'.
+- Circulate the room to correct physical hand setups.
+[1397] [Normal] Assessment & Homework (5 Mins):
+- Exit Ticket: List the four letters your left hand rests on in the Home Row.
+- Homework: Practice typing patterns on a printed keyboard layout sheet at home using your fingers.
+[1399] [Heading 2] Lesson Plan 2: Creating and Organizing Folders
+[1400] [Normal] Phase Context: Phase 1: Basic | Duration: 45 Minutes
+[1401] [Heading 3] Lesson Objectives
+[1402] [List Bullet] Students will create new folders on the desktop and within directories.
+[1403] [List Bullet] Students will rename folders using clear naming standards.
+[1404] [List Bullet] Students will move files into folders using drag-and-drop and copy-paste methods.
+[1406] [Heading 3] Required Lesson Materials
+[1407] [Normal] Computers, preloaded sample text files, directory worksheets.
+[1408] [Heading 3] Lesson Sequence & Activities
+[1409] [Normal] Introduction (10 Mins):
+- Use the analogy of a physical filing cabinet: files are papers, folders are cardboard sleeves.
+- Explain what a folder directory is and why digital organization saves time.
+[1410] [Normal] Main Lesson (15 Mins):
+- Demonstrate right-clicking on the desktop, selecting 'New > Folder', and naming it.
+- Show how to double-click to open a folder and create a 'subfolder' inside it.
+- Demonstrate moving a sample file into a folder using drag-and-drop.
+[1411] [Normal] Practical Exercise (15 Mins):
+- Create a folder on the Desktop named 'MySchoolWork'.
+- Inside it, create three subfolders: 'Math', 'Science', and 'English'.
+- Move 3 sample text files from the Desktop into their matching subject folders.
+[1412] [Normal] Assessment & Homework (5 Mins):
+- Check folders: Teacher visually checks student directories.
+- Homework: List the steps required to rename an existing folder.
+[1414] [Heading 2] Lesson Plan 3: Python Logic & Conditional Branches (if-else)
+[1415] [Normal] Phase Context: Phase 2: Intermediate | Duration: 45 Minutes
+[1416] [Heading 3] Lesson Objectives
+[1417] [List Bullet] Students will explain the logical role of conditional checking.
+[1418] [List Bullet] Students will write basic Python scripts containing if-else branches.
+[1419] [List Bullet] Students will evaluate comparisons (>, <, ==) in conditions.
+[1421] [Heading 3] Required Lesson Materials
+[1422] [Normal] Thonny IDE installed, logic card templates, projector.
+[1423] [Heading 3] Lesson Sequence & Activities
+[1424] [Normal] Introduction (10 Mins):
+- Present real-world logic: 'If it is dark, turn on light. Else, turn off light.'
+- Explain that conditional statements let programs make decisions based on changing data.
+[1425] [Normal] Main Lesson (15 Mins):
+- Explain python if-else syntax, emphasizing the colon (:) and indentation blocks.
+- Write a simple script checking if age is greater than 18: 
+  `if age >= 18: print('Adult') else: print('Minor')`.
+[1426] [Normal] Practical Exercise (15 Mins):
+- Open Thonny IDE.
+- Write a script that prompts the user to enter their test score (0-100).
+- Use conditionals: If score >= 50, output 'Passed!'. Else, output 'Try Again!'.
+[1427] [Normal] Assessment & Homework (5 Mins):
+- Code Check: Verify that scripts execute without indentation errors.
+- Homework: Draw a flowchart representing a score checking algorithm.
+[1429] [Heading 2] Lesson Plan 4: Structuring Web Pages with HTML & CSS
+[1430] [Normal] Phase Context: Phase 3: Advanced | Duration: 45 Minutes
+[1431] [Heading 3] Lesson Objectives
+[1432] [List Bullet] Students will build a structured webpage using semantic HTML5 tags.
+[1433] [List Bullet] Students will link an external CSS style sheet to an HTML file.
+[1434] [List Bullet] Students will style layouts using background colors, alignments, and padding.
+[1436] [Heading 3] Required Lesson Materials
+[1437] [Normal] VS Code, web browsers, CSS cheatsheets.
+[1438] [Heading 3] Lesson Sequence & Activities
+[1439] [Normal] Introduction (10 Mins):
+- Explain that HTML provides structure (bones) and CSS provides styling (clothes/skin).
+- Show how professional websites separate these files.
+[1440] [Normal] Main Lesson (15 Mins):
+- Outline basic page setup: <!DOCTYPE html>, <html>, <head>, <body>.
+- Introduce the <link> tag to attach styles.css.
+- Demonstrate CSS class selectors and properties (color, background-color, font-family).
+[1441] [Normal] Practical Exercise (15 Mins):
+- Create 'index.html' and 'styles.css' in a folder.
+- Write a layout with a header, a section showing an image and paragraph, and a footer.
+- Use CSS to style the header with a dark blue background, white centered text, and 20px padding.
+[1442] [Normal] Assessment & Homework (5 Mins):
+- Browser review: Double-click HTML files to render them in browser tabs.
+- Homework: Write a CSS class rule that centers text and adds a gray border.
+[1444] [Heading 2] Lesson Plan 5: Responsible Prompt Engineering & Verification
+[1445] [Normal] Phase Context: Phase 3: Advanced | Duration: 45 Minutes
+[1446] [Heading 3] Lesson Objectives
+[1447] [List Bullet] Students will identify the key elements of a structured prompt.
+[1448] [List Bullet] Students will use AI to assist research while spotting inaccuracies.
+[1449] [List Bullet] Students will cross-reference claims using search engine resources.
+[1451] [Heading 3] Required Lesson Materials
+[1452] [Normal] Internet access, ChatGPT/Gemini interface, fact-checking worksheet.
+[1453] [Heading 3] Lesson Sequence & Activities
+[1454] [Normal] Introduction (10 Mins):
+- Discuss what Large Language Models do: predict word matches based on training datasets.
+- Explain that AI does not 'think' and can easily create false facts (hallucinations).
+[1455] [Normal] Main Lesson (15 Mins):
+- Teach the Role-Task-Context-Format prompt template.
+- Demonstrate prompting: 'Act as a historian. Summarize the invention of the telephone in 100 words. Format as bullet points.'
+- Show a sample AI hallucination and explain how to verify it.
+[1456] [Normal] Practical Exercise (15 Mins):
+- Prompt an AI tool to write an outline on the history of computers.
+- Select 3 historical statements from the output.
+- Search Google to find authoritative sources (museums, universities) confirming or correcting those points.
+[1457] [Normal] Assessment & Homework (5 Mins):
+- Verification logs check: Students show links matching their verified details.
+- Homework: Write down a structured prompt that outlines instructions for a study session.
+[1459] [Heading 1] 8. Recommended Resources & Free Software
+[1460] [Heading 2] Teacher Support Resources
+[1461] [List Bullet] Computer Science Teachers Association (CSTA) Standards & Guides - https://csteachers.org
+[1462] [List Bullet] Code.org Teacher Panel - Curriculum resources and lesson plan slides - https://code.org
+[1463] [List Bullet] Raspberry Pi Foundation Teacher Resources - Free physical computing plans - https://raspberrypi.org
+[1464] [List Bullet] TinkerCAD Circuits Guides - Interactive simulation worksheets - https://tinkercad.com
+[1465] [List Bullet] CS Unplugged - Free classroom activities teaching logic without computers - https://csunplugged.org
+[1466] [List Bullet] Book: 'Computer Science Education: Perspectives on Teaching and Learning' by Sue Sentance
+[1467] [List Bullet] Book: 'Coding in the Classroom: A Teacher's Guide to Helping Kids Code' by Ryan Somma
+[1469] [Heading 2] Student Learning Resources
+[1470] [List Bullet] typing.com - Free typing drills and keyboard layout games
+[1471] [List Bullet] w3schools.com - Interactive tutorials for HTML, CSS, JavaScript, and Python
+[1472] [List Bullet] freecodecamp.org - Coding paths with interactive consoles
+[1473] [List Bullet] Scratch online gallery - Explore and remix open-source projects - https://scratch.mit.edu
+[1474] [List Bullet] sololearn.com - Mobile learning platform for Python and web design basics
+[1475] [List Bullet] YouTube: 'Crash Course Computer Science' channel - Outstanding history and conceptual series
+[1476] [List Bullet] YouTube: 'Programming with Mosh' channel - Highly structured beginner syntax guides
+[1479] [Heading 1] 9. Appendices & Classroom Templates
+[1480] [Heading 2] Appendix A: Glossary of Core Computer Science Terms
+[1482] [Heading 2] Appendix B: Essential Keyboard Shortcuts Cheatsheet
+[1484] [Heading 2] Appendix C: Computer Laboratory Rules Poster
+[1485] [List Bullet] 1. Food and Drinks: Absolutely no food or liquids are allowed near the computer workstations to prevent spills and hardware damage.
+[1486] [List Bullet] 2. Hand Hygiene: Wash and dry hands before entering the lab to keep keyboards, mice, and touchscreens clean.
+[1487] [List Bullet] 3. Equipment Handling: Handle all physical cables, mouse devices, keyboards, and boards gently. Never pull cords forcefully.
+[1488] [List Bullet] 4. Startup/Shutdown: Always start and shut down computers using the operating system menu commands, never the physical power button.
+[1489] [List Bullet] 5. Assigned Workstations: Work only at your assigned computer workstation. Do not change seats without permission.
+[1490] [List Bullet] 6. Safe Storage: Save all your work in your designated student folder. Do not modify or delete files belonging to other students.
+[1491] [List Bullet] 7. Authorized Software: Do not download, install, or run unauthorized applications, games, or browser extensions in the lab.
+[1492] [List Bullet] 8. Lab Cleanliness: Pack away all jumper wires, components, and pens. Push your chair in and shut down your system before leaving.
+[1494] [Heading 2] Appendix D: Internet Safety & Cybersecurity Rules
+[1495] [List Bullet] 1. Privacy Protection: Never share personal details online (full name, address, phone number, school, password pins).
+[1496] [List Bullet] 2. Strong Passwords: Create passwords with at least 8 characters, combining uppercase/lowercase letters, numbers, and symbols.
+[1497] [List Bullet] 3. Safe Downloads: Download files and software only from verified, trusted sources. Avoid cracked/pirated software domains.
+[1498] [List Bullet] 4. Phishing Awareness: Do not click links or open attachments in emails from unknown senders. Verify sender addresses.
+[1499] [List Bullet] 5. Secure Sites: Check for the lock icon and 'https://' in browser address bars before entering details on a website.
+[1500] [List Bullet] 6. Cyberbullying: Treat others with kindness online. Report cyberbullying, threat messages, or mean comments to teachers.
+[1501] [List Bullet] 7. Digital Footprint: Think before you post. Information posted online can remain permanent and affect your future career.
+[1503] [Heading 2] Appendix E: Digital Citizenship Pledge
+[1505] [Heading 2] Appendix F: Student Progress Tracking Template
+[1507] [Heading 2] Appendix G: Laboratory Attendance Log Template
+[1509] [Heading 2] Appendix H: Rubric Grading Template
+[1511] [Heading 2] Appendix I: Project Evaluation Template
+[1513] [Heading 2] Appendix J: Sample Certificate of Completion Structure
+[1515] [Heading 2] Appendix K: Dzuels Foundation Contact Information

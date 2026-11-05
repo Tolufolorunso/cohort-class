@@ -1,0 +1,22 @@
+# Dependencies and build output
+node_modules/
+.next/
+__pycache__/
+*.py[cod]
+
+# Temporary and Office lockfiles
+~$*
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment
+.env*
+!.env.example
