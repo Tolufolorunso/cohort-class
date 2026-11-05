@@ -1,5 +1,8 @@
 import {
   ModuleData,
+  LessonUnit,
+  ImageCard,
+  KahootQuestion,
   ComputerCharacteristic,
   ComparisonRow,
   IPOSStepInfo,
@@ -17,26 +20,26 @@ export const module1Info: ModuleData = {
   moduleNumber: 1,
   phaseName: 'Phase 1: Basic (Foundational Literacy)',
   title: 'Introduction to Computers',
-  duration: '2 Weeks (4 Lessons)',
+  duration: '4 Lessons (~40 mins each, 2+ Hours Total)',
   objective:
-    'Demystify the computer, understand the Input-Processing-Output-Storage (IPOS) data cycle, trace the historical evolution of computing, and classify modern computing devices in society.',
+    'Demystify the computer, understand the Input-Processing-Output-Storage (IPOS) data cycle, trace the historical evolution of computing from the abacus to AI, classify modern computing devices, and explore real-world applications and lab etiquette.',
   stages: [
     {
       id: 'what-is-a-computer',
       title: '1. What is a Computer?',
-      subtitle: 'Definition, Core Characteristics & Everyday Comparison',
+      subtitle: 'Definition, Data vs. Information & 5 Superpowers',
       type: 'definition',
     },
     {
       id: 'ipos-cycle',
       title: '2. The IPOS Cycle Simulator',
-      subtitle: 'Input, Processing, Output & Storage with Real-World Analogies',
+      subtitle: 'Input, Processing, Output & Storage with Cooking & ATM Analogies',
       type: 'ipos',
     },
     {
       id: 'history-timeline',
       title: '3. Evolution of Computing',
-      subtitle: 'From the Ancient Abacus to Modern Microchips',
+      subtitle: 'From the Ancient Abacus to Babbage, Lovelace & 5 Generations',
       type: 'timeline',
     },
     {
@@ -48,17 +51,174 @@ export const module1Info: ModuleData = {
     {
       id: 'applications',
       title: '5. Where Computers Are Used',
-      subtitle: 'Impact on Schools, Hospitals, Banks, Supermarkets & Homes',
+      subtitle: 'Impact on Schools, Hospitals, Banks, Agriculture & Lab Safety',
       type: 'applications',
     },
     {
       id: 'review-quiz',
-      title: '6. Classroom Knowledge Check',
-      subtitle: '10-Question Interactive Review & Comprehension Challenge',
+      title: '6. Gamified Kahoot Quiz Arena',
+      subtitle: '10-Question Live Shape Battle: 🔺 Red, 🔷 Blue, 🟡 Yellow, 🟩 Green',
       type: 'quiz',
     },
   ],
 };
+
+export const module1Lessons: LessonUnit[] = [
+  {
+    id: 'lesson-1',
+    lessonNumber: 1,
+    title: 'Lesson 1: Understanding Computers',
+    duration: '40 minutes',
+    objective:
+      'Define a computer in simple terms, contrast raw data with processed information, master the IPOS cycle using familiar cooking and ATM analogies, understand the CPU as the brain, and explore the 5 core characteristics.',
+    summary:
+      'A computer is an electronic machine that accepts data (Input), works on it at high speed (Processing), displays the result (Output), and preserves it for future use (Storage). It follows the rule: RECEIVES -> WORKS -> SHOWS -> STORES.',
+    topics: [
+      'What is a Computer? (Definition & Everyday Electronics)',
+      'Data vs. Information (Raw Facts vs. Meaningful Results)',
+      'The IPOS Cycle (Input, Processing, Output, Storage)',
+      'Real-Life IPOS Analogies: Making Yam/Cassava Stew & Withdrawing at the ATM',
+      'The CPU as the Electronic Brain of the Computer',
+      '5 Core Characteristics: Speed, High Accuracy (GIGO), Diligence, Storage, Automation',
+    ],
+  },
+  {
+    id: 'lesson-2',
+    lessonNumber: 2,
+    title: 'Lesson 2: History and Evolution of Computers',
+    duration: '40 minutes',
+    objective:
+      'Trace humanity’s quest to calculate from fingers and the ancient Abacus to John Napier, Blaise Pascal, Charles Babbage (Father of Computers), Ada Lovelace (First Programmer), and the 5 electronic generations.',
+    summary:
+      'Before microchips, humans used pebbles and counting frames. The Abacus, Pascaline, and Jacquard Loom led Charles Babbage to conceive the Analytical Engine. In the 20th century, computers evolved from giant vacuum tubes to microprocessors and AI.',
+    topics: [
+      'Early Counting Tools: Fingers, Pebbles, Tally Sticks, and the Wooden Abacus',
+      'Mechanical Pioneers: Napier’s Bones (1617) & Blaise Pascal’s Pascaline (1642)',
+      'Jacquard Loom (1801): The Birth of Punched Cards and Binary Control',
+      'Charles Babbage (Difference & Analytical Engines) & Ada Lovelace (First Programmer)',
+      'Herman Hollerith (1890 Census Tabulator & Foundation of IBM)',
+      'The 5 Generations: 1st (Vacuum Tubes) -> 2nd (Transistors) -> 3rd (ICs) -> 4th (Microprocessors) -> 5th (AI & Beyond)',
+    ],
+  },
+  {
+    id: 'lesson-3',
+    lessonNumber: 3,
+    title: 'Lesson 3: Types of Computers',
+    duration: '40 minutes',
+    objective:
+      'Classify computers across three dimensions: physical size and computational power, types of data handled (analog, digital, hybrid), and application purpose (general-purpose vs. special-purpose).',
+    summary:
+      'Computers range from colossal multi-rack supercomputers predicting weather to personal desktop PCs, portable laptops, tablets, pocket smartphones, and invisible embedded microchips inside home appliances.',
+    topics: [
+      'Classification by Size: Supercomputers, Mainframes, Minicomputers, Microcomputers, Embedded Systems',
+      'Personal Microcomputers: Desktop PCs, Laptops, Tablets, and Smartphones',
+      'Classification by Data Type: Analog (Continuous Waves), Digital (0s & 1s), Hybrid (Hospital ICU Monitors)',
+      'Classification by Purpose: General Purpose (Versatile PCs) vs. Special Purpose (ATMs, Microwave Controllers)',
+      'Hands-on Device Classification & Mystery Device Deduction',
+    ],
+  },
+  {
+    id: 'lesson-4',
+    lessonNumber: 4,
+    title: 'Lesson 4: Uses and Importance of Computers',
+    duration: '40 minutes',
+    objective:
+      'Understand how computers revolutionize education, healthcare, banking, transportation, agriculture, and daily communication, recognize the lifelong power of computer literacy, and master computer lab safety rules.',
+    summary:
+      'Computers empower doctors to diagnose illness, banks to transfer funds instantly, farmers to monitor weather, and students to research global knowledge. Proper lab safety protects both students and equipment from harm.',
+    topics: [
+      'Computers in Schools: Interactive Research, Typing, E-Libraries, and Visual Simulations',
+      'Computers in Healthcare: Patient Records, Ultrasound/MRI Scanners, and Life Support',
+      'Computers in Banking & Commerce: 24/7 ATMs, Online Mobile Money, and Supermarket Barcode Scanners',
+      'Computers in Transportation & Agriculture: Satellite GPS Navigation and Soil Moisture Sensors',
+      'Why Computer Literacy Matters for Secondary School Students and Future Careers',
+      'Computer Laboratory Safety & Etiquette: No Liquids, Clean Dry Hands, Gentle Keystrokes, Safe Shutdown',
+    ],
+  },
+];
+
+export const module1ImageCards: ImageCard[] = [
+  {
+    id: 'classroom-desktop',
+    title: 'Modern Desktop Computer Setup',
+    caption: 'A complete desktop workstation with monitor, system unit, keyboard, and mouse used in classroom computer labs.',
+    url: 'https://images.unsplash.com/photo-1547082299-de196ea013d6?auto=format&fit=crop&w=800&q=80',
+    fallbackType: 'desktop',
+    badge: 'Hardware Station',
+  },
+  {
+    id: 'kid-laptop',
+    title: 'Kid-Friendly Learning Laptop',
+    caption: 'Portable computer designed for students to take notes, research topics, and complete school assignments anywhere.',
+    url: 'https://images.unsplash.com/photo-1588702547919-26089e690ecc?auto=format&fit=crop&w=800&q=80',
+    fallbackType: 'laptop',
+    badge: 'Mobile Learning',
+  },
+  {
+    id: 'tablet-education',
+    title: 'Interactive Digital Tablet',
+    caption: 'Touchscreen computing device ideal for interactive reading, diagram drawing, and educational quizzes.',
+    url: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80',
+    fallbackType: 'tablet',
+    badge: 'Touch Computing',
+  },
+  {
+    id: 'ipos-poster',
+    title: 'The IPOS Cycle Architecture',
+    caption: 'Visual diagram showing Input (Keyboard) -> Processing (CPU) -> Output (Monitor) -> Storage (Drive).',
+    url: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80',
+    fallbackType: 'ipos',
+    badge: 'Core Concept',
+  },
+  {
+    id: 'history-abacus',
+    title: 'The Ancient Wooden Abacus',
+    caption: 'Humanity’s earliest bead-sliding calculator, invented thousands of years ago in Mesopotamia and Asia.',
+    url: 'https://images.unsplash.com/photo-1596495578065-6e0763fa1178?auto=format&fit=crop&w=800&q=80',
+    fallbackType: 'abacus',
+    badge: 'Ancient Roots',
+  },
+  {
+    id: 'history-babbage',
+    title: 'Charles Babbage’s Mechanical Engines',
+    caption: 'The Difference and Analytical Engines introduced the world’s first concept of a programmable general computer.',
+    url: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80',
+    fallbackType: 'babbage',
+    badge: 'Father of Computers',
+  },
+  {
+    id: 'supercomputer-datacenter',
+    title: 'World-Class Supercomputer Racks',
+    caption: 'Massive parallel computing clusters used by scientists to model global climate, weather, and aerospace physics.',
+    url: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80',
+    fallbackType: 'supercomputer',
+    badge: 'Scientific Power',
+  },
+  {
+    id: 'hospital-healthcare',
+    title: 'Computers in Modern Healthcare',
+    caption: 'Medical monitors, ultrasound diagnostics, and digital patient record systems helping doctors save lives.',
+    url: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=800&q=80',
+    fallbackType: 'hospital',
+    badge: 'Saving Lives',
+  },
+  {
+    id: 'banking-atm',
+    title: '24/7 ATM Banking Terminal',
+    caption: 'Specialized computer that validates bank cards, dispenses cash, and securely updates bank accounts in seconds.',
+    url: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=800&q=80',
+    fallbackType: 'bank',
+    badge: 'Instant Commerce',
+  },
+  {
+    id: 'lab-safety',
+    title: 'Safe Computer Laboratory Practices',
+    caption: 'Clean desks, safe electrical cables, no food or liquids, and orderly student workstations.',
+    url: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80',
+    fallbackType: 'safety',
+    badge: 'Lab Etiquette',
+  },
+];
 
 export const computerCharacteristics: ComputerCharacteristic[] = [
   {
@@ -155,9 +315,40 @@ export const iposHardwareSteps: Record<string, IPOSStepInfo> = {
 
 export const iposAnalogies: IPOSAnalogy[] = [
   {
+    id: 'cooking-yam',
+    title: 'Cooking Yam & Stew',
+    tagline: 'Kitchen Cooking Analogy (module-1.md)',
+    steps: {
+      input: {
+        phase: 'input',
+        label: 'Raw Yam, Water & Pepper',
+        description: 'Gathering raw unpeeled yam tubers, water, tomatoes, peppers, and salt into the kitchen.',
+        badge: 'Raw Ingredients',
+      },
+      processing: {
+        phase: 'processing',
+        label: 'Boiling & Pounding',
+        description: 'Peeling, boiling over a hot fire in a pot, and pounding vigorously in a wooden mortar.',
+        badge: 'Transformation',
+      },
+      output: {
+        phase: 'output',
+        label: 'Hot Pounded Yam Served',
+        description: 'Serving hot, delicious, smooth pounded yam and steaming vegetable soup on a dining plate.',
+        badge: 'Finished Meal',
+      },
+      storage: {
+        phase: 'storage',
+        label: 'Saving in Food Warmer / Fridge',
+        description: 'Storing leftover portions in a clean food flask or refrigerator to eat tomorrow.',
+        badge: 'Preserved for Dinner',
+      },
+    },
+  },
+  {
     id: 'cake',
     title: 'Baking a Cake',
-    tagline: 'Kitchen Analogy (Everyday Life)',
+    tagline: 'Kitchen Bakery Analogy',
     steps: {
       input: {
         phase: 'input',
@@ -566,244 +757,243 @@ export const applicationSectors: ApplicationSector[] = [
   },
 ];
 
-export const quizQuestions: QuizQuestion[] = [
+export const kahootQuestions: KahootQuestion[] = [
   {
     id: 1,
-    topic: 'Definition',
-    question: 'Which of the following is the most accurate definition of a computer?',
+    topic: 'Lesson 1: Understanding Computers',
+    question: 'A computer is an electronic device that:',
     options: [
-      'A mechanical tool used only for typing letters and printing paper.',
-      'An electronic device that accepts data as input, processes it, and produces information as output.',
-      'A television screen with a keyboard attached for watching movies.',
-      'A battery-powered calculator that can only add and subtract numbers.',
+      'Only stores books',
+      'Processes data to produce information',
+      'Only plays music',
+      'Only makes calls',
     ],
-    correctIndex: 1,
+    correctIndex: 1, // B -> Blue Diamond
     explanation:
-      'A computer is an electronic machine that accepts raw data (input), manipulates it according to instructions (processing), presents results (output), and stores it for future use.',
+      'A computer is an electronic machine that accepts raw data (Input), processes it at high speed, produces meaningful information (Output), and preserves it for future use (Storage).',
+    timeLimitSeconds: 30,
   },
   {
     id: 2,
-    topic: 'Data Cycle',
-    question: 'What do the four letters in the "IPOS" cycle stand for?',
-    options: [
-      'Internet, Printing, Operating, Software',
-      'Input, Processing, Output, Storage',
-      'Information, Programs, Output, Systems',
-      'Interface, Processor, Operations, Screen',
-    ],
-    correctIndex: 1,
+    topic: 'Lesson 1: Hardware Roles',
+    question: 'Which of the following is an input device?',
+    options: ['Monitor', 'Printer', 'Keyboard', 'Speaker'],
+    correctIndex: 2, // C -> Yellow Circle
     explanation:
-      'IPOS stands for Input (data in), Processing (CPU computing), Output (results displayed), and Storage (data saved to disk).',
+      'A keyboard allows you to enter text, numbers, and commands into the computer, making it an input device. Monitors, printers, and speakers deliver output.',
+    timeLimitSeconds: 30,
   },
   {
     id: 3,
-    topic: 'Characteristics',
-    question: 'What does the computer science principle "GIGO" stand for?',
+    topic: 'Lesson 1: The CPU Brain',
+    question: 'The CPU is responsible for:',
     options: [
-      'Great Inputs Give Outcomes',
-      'General Information, General Output',
-      'Garbage In, Garbage Out',
-      'Grid Input, Grounded Output',
+      'Processing data and instructions',
+      'Printing documents',
+      'Producing sound',
+      'Displaying pictures',
     ],
-    correctIndex: 2,
+    correctIndex: 0, // A -> Red Triangle
     explanation:
-      '"Garbage In, Garbage Out" means that if incorrect or erroneous data is fed into a computer, the resulting output will also be incorrect. The computer follows instructions faithfully.',
+      'The CPU (Central Processing Unit) is the electronic brain of the computer that performs all calculations, logical decisions, and instruction executions.',
+    timeLimitSeconds: 30,
   },
   {
     id: 4,
-    topic: 'Hardware Roles',
-    question: 'Which part of a computer is commonly referred to as the "Brain" of the computer?',
-    options: [
-      'The Computer Monitor',
-      'The Mouse',
-      'The CPU (Central Processing Unit)',
-      'The Keyboard',
-    ],
-    correctIndex: 2,
+    topic: 'Lesson 1: Output Devices',
+    question: 'Which of the following is an output device?',
+    options: ['Mouse', 'Keyboard', 'Scanner', 'Monitor'],
+    correctIndex: 3, // D -> Green Square
     explanation:
-      'The CPU (Central Processing Unit) performs all calculations, logical decisions, and data processing, acting as the brain of the computer system.',
+      'A monitor displays processed visual results and text on screen for the user to see, making it an output device. Mice, keyboards, and scanners are input tools.',
+    timeLimitSeconds: 30,
   },
   {
     id: 5,
-    topic: 'History',
-    question: 'Which ancient tool made of wooden frames and sliding beads is considered the earliest calculation device?',
-    options: [
-      'The Abacus',
-      'The Pascaline',
-      'The Slide Rule',
-      "Napier's Bones",
-    ],
-    correctIndex: 0,
+    topic: 'Lesson 1: The IPOS Cycle',
+    question: 'Which stage of IPOS involves saving information?',
+    options: ['Input', 'Processing', 'Output', 'Storage'],
+    correctIndex: 3, // D -> Green Square
     explanation:
-      'The Abacus, used thousands of years ago in ancient Mesopotamia and Asia, is widely recognized as humanity’s earliest counting and calculation tool.',
+      'Storage is the 4th stage of the IPOS cycle where files, documents, and data are safely saved onto hard drives, SSDs, or flash drives for future retrieval.',
+    timeLimitSeconds: 30,
   },
   {
     id: 6,
-    topic: 'History',
-    question: 'Who is widely honored as the "Father of Computing" for designing the Analytical Engine in 1837?',
+    topic: 'Lesson 2: Pioneers of Computing',
+    question: 'Who is known as the Father of the Computer?',
     options: [
-      'Thomas Edison',
+      'John Napier',
       'Charles Babbage',
-      'Bill Gates',
       'Blaise Pascal',
+      'Isaac Newton',
     ],
-    correctIndex: 1,
+    correctIndex: 1, // B -> Blue Diamond
     explanation:
-      'English inventor and mathematician Charles Babbage conceived the Analytical Engine, introducing the core concepts of memory, processor, and programmable instructions.',
+      'Charles Babbage conceived the Difference Engine and the Analytical Engine in the 19th century, laying down the fundamental principles of modern digital computers.',
+    timeLimitSeconds: 30,
   },
   {
     id: 7,
-    topic: 'History',
-    question: 'Who worked with Charles Babbage and is celebrated as the world’s very first computer programmer?',
-    options: [
-      'Marie Curie',
-      'Florence Nightingale',
-      'Ada Lovelace',
-      'Grace Hopper',
-    ],
-    correctIndex: 2,
+    topic: 'Lesson 2: Early Calculating Tools',
+    question: 'Which device was used for early counting?',
+    options: ['Abacus', 'Smartphone', 'Laptop', 'Printer'],
+    correctIndex: 0, // A -> Red Triangle
     explanation:
-      'Ada Lovelace wrote the first published algorithm intended to be executed by Babbage’s Analytical Engine, making her the first programmer in history.',
+      'The Abacus is an ancient wooden frame with sliding beads invented thousands of years ago in Mesopotamia and Asia to perform manual counting and arithmetic.',
+    timeLimitSeconds: 30,
   },
   {
     id: 8,
-    topic: 'Device Types',
-    question: 'Why is a modern smartphone classified as a computer?',
-    options: [
-      'Because it has a glass screen.',
-      'Because it has a microprocessor, memory, storage, input (touchscreen), and outputs information.',
-      'Only because it can make cellular phone calls.',
-      'It is not a computer; it is only a telephone.',
-    ],
-    correctIndex: 1,
+    topic: 'Lesson 3: Types of Computers',
+    question: 'Which computer is designed to be carried easily?',
+    options: ['Mainframe', 'Desktop', 'Laptop', 'Supercomputer'],
+    correctIndex: 2, // C -> Yellow Circle
     explanation:
-      'Smartphones contain a complete computer architecture (CPU, RAM, storage, operating system, and input/output sensors) and execute millions of computer instructions.',
+      'A laptop is a portable microcomputer with an integrated screen, keyboard, trackpad, and battery designed for easy transport and learning on the go.',
+    timeLimitSeconds: 30,
   },
   {
     id: 9,
-    topic: 'Device Types',
-    question: 'Which class of computers is the largest, most expensive, and used for colossal scientific work like weather forecasting?',
-    options: [
-      'Supercomputers',
-      'Desktop PCs',
-      'Tablets',
-      'Laptops',
-    ],
-    correctIndex: 0,
+    topic: 'Lesson 3: Scientific Computing',
+    question:
+      'Which computer is commonly used for weather forecasting and complex scientific calculations?',
+    options: ['Smartphone', 'Supercomputer', 'Tablet', 'Calculator'],
+    correctIndex: 1, // B -> Blue Diamond
     explanation:
-      'Supercomputers combine thousands of high-performance processors in large data centers to solve immense scientific, climate, and space exploration equations.',
+      'Supercomputers possess massive parallel processing power capable of billions of calculations per second, making them ideal for modeling global weather and space exploration.',
+    timeLimitSeconds: 30,
   },
   {
     id: 10,
-    topic: 'Real-world Application',
-    question: 'In a modern supermarket, which computer peripheral allows the cashier to ring up prices in less than a second without typing numbers?',
+    topic: 'Lesson 4: Uses and Importance',
+    question: 'Computer literacy means:',
     options: [
-      'A high-speed laser printer',
-      'A barcode scanner',
-      'A mechanical microphone',
-      'A computer joystick',
+      'Knowing how to repair every computer',
+      'Knowing how to use computers effectively',
+      'Owning a computer',
+      'Playing computer games',
     ],
-    correctIndex: 1,
+    correctIndex: 1, // B -> Blue Diamond
     explanation:
-      'A barcode scanner shines an optical sensor on product line patterns, immediately reading the product ID and querying the store database for the exact price and description.',
+      'Computer literacy is having the knowledge, skills, and confidence to use computers effectively and responsibly for learning, work, and communication in modern society.',
+    timeLimitSeconds: 30,
   },
 ];
 
-
+// Backwards-compatible quiz questions list
+export const quizQuestions: QuizQuestion[] = kahootQuestions.map((q) => ({
+  id: q.id,
+  topic: q.topic,
+  question: q.question,
+  options: [...q.options],
+  correctIndex: q.correctIndex,
+  explanation: q.explanation,
+}));
 
 export const module1Notes: ModuleNotes = {
   moduleId: 'module-1',
-  moduleTitle: 'Module 1: Introduction to Computers',
+  moduleTitle: 'Module 1: Introduction to Computers (Complete 4-Lesson Study Notes)',
   phaseName: 'Phase 1: Basic (Foundational Literacy)',
   summary:
     'Comprehensive study notes designed for student exercise notebooks. Copy these definitions, tables, and rules into your computer notebook for revision and study.',
   sections: [
     {
-      id: 'definition-and-characteristics',
-      title: '1. Definition & Core Characteristics of a Computer',
+      id: 'lesson-1-definition-ipos',
+      title: 'Lesson 1: Understanding Computers & The IPOS Cycle',
       summary:
-        'A computer is an electronic device that accepts raw data as input, processes it under the control of stored instructions, produces meaningful information as output, and stores the results for future use.',
+        'A computer is an electronic device that receives data (Input), processes it at high speed (Processing), produces information (Output), and stores it for future use (Storage). Memory rule: RECEIVES -> WORKS -> SHOWS -> STORES.',
       keyTakeaway:
-        'Data is raw unorganized facts (e.g., numbers, names). Information is processed, organized, meaningful data (e.g., report cards, sales totals).',
+        'The Central Processing Unit (CPU) is the brain of the computer that coordinates all operations.',
       points: [
-        'Speed: Computers execute billions of instructions per second without delay.',
-        'Accuracy: When supplied with correct data and instructions, computers do not make mathematical errors (GIGO: Garbage In, Garbage Out).',
-        'Storage Capacity: High-density storage devices (Hard Drives, SSDs, Flash drives) hold vast libraries of textbooks, images, and programs.',
-        'Diligence: Unlike humans, computers never experience fatigue, boredom, loss of concentration, or tiredness.',
-        'Versatility: The same computer can write an essay, play music, compute school fees, edit photos, and browse the internet.',
+        'Definition: An electronic machine that accepts raw data, processes it following instructions, produces meaningful information, and stores it.',
+        'Data vs. Information: Data refers to unorganized raw facts or numbers (e.g., 45, 60, "Tolu"). Information is processed data that is meaningful (e.g., Student Report Card with Total: 105, Average: 52.5%).',
+        'Input: Entering raw data and instructions into the computer using devices like the Keyboard, Mouse, Scanner, and Microphone.',
+        'Processing: Manipulating and calculating data using the Central Processing Unit (CPU).',
+        'Output: Presenting processed results to the user via the Monitor (screen), Printer, or Speakers.',
+        'Storage: Preserving information permanently or temporarily using Hard Drives, SSDs, Flash Drives, and Memory Cards.',
+        'Cooking Analogy: Raw Yam & Pepper (Input) -> Cooking in Pot over Fire (Processing) -> Delicious Hot Pounded Yam (Output) -> Leftovers saved in Refrigerator (Storage).',
+        'ATM Analogy: Inserting ATM Card and PIN (Input) -> Bank Server verifying account balance (Processing) -> Cash dispensed from slot (Output) -> Transaction record saved in bank database (Storage).',
       ],
     },
     {
-      id: 'ipos-cycle',
-      title: '2. The IPOS Cycle (Data Processing Cycle)',
+      id: 'lesson-1-characteristics',
+      title: 'Lesson 1: Five Core Characteristics of Computers',
       summary:
-        'Every computer operation follows the four-stage cycle: Input -> Processing -> Output -> Storage.',
+        'Computers possess unique superpowers that distinguish them from humans and mechanical tools.',
       keyTakeaway:
-        'Without input, there is nothing to compute. Without processing, raw data cannot become information. Output delivers results to humans, and storage preserves it.',
+        'Garbage In, Garbage Out (GIGO): If incorrect data is input, the resulting output will also be incorrect. Computers follow instructions faithfully.',
       points: [
-        'Input: Entering raw data and commands into the computer using devices like the Keyboard, Mouse, Microphone, or Scanner.',
-        'Processing: Manipulating and calculating the data using the Central Processing Unit (CPU), which is the electronic "brain" of the computer.',
-        'Output: Presenting the processed results to the user using devices like the Monitor (screen), Printer, or Speakers.',
-        'Storage: Preserving information permanently or temporarily using Storage devices like SSDs, Hard Drives, and Flash Drives.',
+        '1. Immense Speed: Performs millions or billions of calculations in a fraction of a second.',
+        '2. High Accuracy: Computers do not make calculation errors on their own. Errors occur only if humans input wrong data (GIGO).',
+        '3. Diligence: Computers never get tired, bored, sleepy, or lose concentration even when repeating a task one million times.',
+        '4. Massive Storage: High-density drives hold entire school libraries of textbooks, pictures, videos, and applications in a device the size of a thumb.',
+        '5. Automation & Versatility: Once programmed, computers carry out complex operations automatically and can switch from typing an essay to playing music or calculating bank interest.',
       ],
     },
     {
-      id: 'computer-vs-human',
-      title: '3. Comparison: Computer vs. Human Being',
+      id: 'lesson-2-history-evolution',
+      title: 'Lesson 2: History and Evolution of Computers',
       summary:
-        'Computers and humans work together as partners. Computers excel at repetitive mechanical computations, while humans excel at creative thinking, ethics, and emotional intelligence.',
+        'Computers did not appear overnight; they evolved from early counting tools to mechanical calculators, punched card machines, and five generations of electronic computing.',
       keyTakeaway:
-        'Computers cannot think on their own. They require human software programmers to tell them what to do.',
+        'Charles Babbage is honored as the "Father of the Computer", and Ada Lovelace is celebrated as the world\'s first computer programmer.',
       points: [
-        'Speed & Volume: Computers calculate millions of transactions in milliseconds; humans require pen, paper, and time.',
-        'Fatigue & Emotion: Computers work 24/7 without rest or emotional distraction; humans experience fatigue and need rest.',
-        'Independent Judgment: Humans possess intuition, common sense, and creativity; computers only execute programmed rules.',
-        'Physical Vulnerability: Computers require reliable electric power and clean environments; power cuts stop their operation.',
+        'Early Counting Tools: Early humans used fingers, pebbles, sticks, and notches on bones before inventing the wooden Abacus.',
+        'The Abacus (3000 BC): A wooden frame with sliding beads, recognized as the earliest calculating instrument in history.',
+        'Napier’s Bones (1617): Invented by Scottish mathematician John Napier using carved ivory rods to perform multiplication and division.',
+        'The Pascaline (1642): Invented by Blaise Pascal in France; the first mechanical gear-driven calculator that could add and subtract.',
+        'Jacquard Loom (1801): Joseph Marie Jacquard used punched cards with holes to automatically weave intricate textile patterns, inspiring computer binary storage.',
+        'Charles Babbage (1830s): Designed the Difference Engine and the Analytical Engine featuring an input unit, store (memory), mill (CPU), and output.',
+        'Ada Lovelace (1843): Wrote the first algorithm intended to be executed by Babbage’s engine, becoming the first computer programmer.',
+        'Herman Hollerith (1890): Invented an electric punched-card tabulator to count the US Census in weeks instead of years; his company later became IBM.',
       ],
     },
     {
-      id: 'historical-generations',
-      title: '4. Evolution & Five Generations of Computers',
+      id: 'lesson-2-five-generations',
+      title: 'Lesson 2: The Five Generations of Computers',
       summary:
-        'Computers evolved from ancient counting frames (Abacus) to mechanical calculators (Pascaline, Babbage Analytical Engine) and modern microprocessors.',
+        'Each generation of electronic computers is marked by a major technological breakthrough that made computers smaller, faster, cheaper, and more powerful.',
       keyTakeaway:
-        'Charles Babbage is universally honored as the "Father of Computing", and Ada Lovelace is recognized as the first computer programmer.',
+        '1st Gen: Vacuum Tubes -> 2nd Gen: Transistors -> 3rd Gen: Integrated Circuits -> 4th Gen: Microprocessors -> 5th Gen: Artificial Intelligence.',
       points: [
-        '1st Generation (1940-1956): Vacuum Tubes. Very large (room-sized), consumed huge electric power, generated intense heat (e.g., ENIAC, UNIVAC).',
-        '2nd Generation (1956-1963): Transistors. Smaller, faster, cheaper, and far more energy-efficient than vacuum tubes.',
-        '3rd Generation (1964-1971): Integrated Circuits (ICs). Multiple microscopic transistors placed on silicon chips; keyboard and monitor interfaces introduced.',
-        '4th Generation (1971-Present): Microprocessors (VLSI / ULSI). Entire CPU placed on a single microchip (Intel 4004 to modern Intel Core/Ryzen/Apple Silicon); made Personal Computers (PCs) and laptops affordable for families and schools.',
-        '5th Generation (Present & Beyond): Artificial Intelligence (AI). Quantum computing, natural language processing, voice recognition, and autonomous systems.',
+        '1st Generation (1940-1956): Vacuum Tubes. Huge (room-sized), consumed enormous electricity, generated intense heat, broke down often (e.g., ENIAC, UNIVAC).',
+        '2nd Generation (1956-1963): Transistors. Replaced vacuum tubes; made computers much smaller, faster, cheaper, and more reliable.',
+        '3rd Generation (1964-1971): Integrated Circuits (ICs). Placed hundreds of transistors onto tiny silicon chips; keyboard and monitor interfaces introduced.',
+        '4th Generation (1971-Present): Microprocessors (VLSI / ULSI). Placed an entire CPU on a single silicon microchip; gave birth to Personal Computers (PCs), laptops, and smartphones.',
+        '5th Generation (Present & Future): Artificial Intelligence (AI). Voice recognition, robotics, autonomous vehicles, neural networks, and quantum computing.',
       ],
     },
     {
-      id: 'classification-of-computers',
-      title: '5. Classification of Computers by Size & Power',
+      id: 'lesson-3-classification',
+      title: 'Lesson 3: Classification of Computers',
       summary:
-        'Computers are classified based on physical size, processing power, storage capacity, and intended purpose.',
+        'Computers are classified in three ways: by physical size and power, by the type of data they process, and by their purpose.',
       keyTakeaway:
-        'Microcomputers (PCs, laptops, tablets, smartphones) are the most common computers used in classrooms, homes, and offices.',
+        'Microcomputers (desktops, laptops, tablets, smartphones) are the most popular computers used by students and teachers today.',
       points: [
-        'Supercomputers: The fastest and most expensive computers on Earth. Used for weather forecasting, nuclear research, and aerospace modeling.',
-        'Mainframe Computers: Large, powerful systems supporting thousands of simultaneous users in banks, airlines, and government agencies.',
-        'Minicomputers (Midrange): Multi-user computers used in medium-sized manufacturing plants, universities, and research labs.',
-        'Microcomputers (Personal Computers): Desktop PCs, Laptops, Tablets, and Smartphones equipped with microprocessors for individual use.',
-        'Embedded Computers: Specialized microcontrollers built inside home appliances, cars, microwave ovens, and digital cameras.',
+        'Classification by Size and Power: Supercomputers (fastest on Earth, used for weather and space), Mainframes (banks, airlines, thousands of users), Minicomputers (medium enterprises), Microcomputers (PCs, laptops, phones), and Embedded Computers (chips in microwaves, cars, washing machines).',
+        'Classification by Data Handled: Analog Computers (measure continuous physical changes like temperature, pressure, speed), Digital Computers (process discrete binary digits: 0s and 1s), Hybrid Computers (combine analog sensors with digital displays, e.g., hospital ICU patient monitors).',
+        'Classification by Purpose: General-Purpose (handles multiple tasks: writing, gaming, web browsing) vs. Special-Purpose (built for one dedicated job: ATM cash dispenser, speedometer).',
       ],
     },
     {
-      id: 'lab-safety-rules',
-      title: '6. Computer Laboratory Rules & Safe Practices',
+      id: 'lesson-4-uses-and-safety',
+      title: 'Lesson 4: Uses in Society & Computer Laboratory Safety',
       summary:
-        'To protect both the students and the computer equipment, strict lab etiquette must be observed at all times.',
+        'Computers touch every part of our lives. Computer literacy equips students with the skills to learn, work, and thrive. Strict lab rules protect both students and equipment.',
       keyTakeaway:
-        'Electricity and computers can be hazardous if handled carelessly. Always follow your teacher’s directions.',
+        'Always handle computers with clean dry hands, press keys gently, avoid all liquids and food, and shut down properly through the operating system menu.',
       points: [
-        'No Food or Liquids: Never bring water, drinks, or snacks near computers; spills cause short circuits and permanent damage.',
-        'Clean & Dry Hands: Wash and dry hands before touching keyboards and mice to keep equipment clean and prevent stickiness.',
-        'Gentle Typing: Press keyboard keys and mouse buttons gently; hammering damage the delicate internal switches.',
-        'Proper Shutdown: Always shut down the computer properly through the operating system menu; never pull the power plug directly.',
-        'Report Problems: If you see sparks, smell burning, or notice loose wires, inform your instructor immediately without touching the cable.',
+        'Schools & Education: Researching topics online, typing homework, interactive simulation software, and e-learning libraries.',
+        'Hospitals & Healthcare: Maintaining patient medical history, performing ultrasound/MRI diagnostics, and operating life-support systems.',
+        'Banking & Business: Managing savings accounts, dispensing cash at ATMs, paying bills with mobile money, and scanning barcodes in supermarkets.',
+        'Transportation & Agriculture: Guiding airplanes with radar, satellite GPS navigation in cars, and monitoring soil moisture on farms.',
+        'Rule 1: No Food or Liquids in the lab. A single water spill can destroy delicate circuit boards and cause electrical hazards.',
+        'Rule 2: Clean and dry hands before touching keyboards and mice to prevent dirt buildup and sticky keys.',
+        'Rule 3: Press keys and mouse buttons gently. Hammering or banging damages the mechanical switches.',
+        'Rule 4: Always shut down the computer properly through the Start menu. Never pull the power cable directly.',
+        'Rule 5: Report any strange smell, sparks, or loose cables to the teacher immediately without touching the wires.',
       ],
     },
   ],
@@ -811,33 +1001,54 @@ export const module1Notes: ModuleNotes = {
 
 export const module1Assignment: ModuleAssignment = {
   moduleId: 'module-1',
-  moduleTitle: 'Module 1: Introduction to Computers - Assignment 1',
+  moduleTitle: 'Module 1: Introduction to Computers - Comprehensive Assignment',
   instructions:
-    'Complete the following 4 assignment questions. Ensure you enter your assigned Patron Number (e.g., DZ-2026-001) and your Full Name before submitting. Your answers will be recorded directly for your instructor to review.',
+    'Complete the following 5 assignment questions carefully. Ensure you enter your assigned Patron Number (e.g., 20230194) and your Full Name before submitting. Your submission will be recorded for your instructor to review.',
   questions: [
     {
       id: 1,
-      prompt: 'In your own words, define a computer and state the full meaning of the acronym IPOS.',
-      guidance: 'Give a 2-3 sentence definition and explain what each letter (I, P, O, S) stands for.',
-      placeholder: 'A computer is... IPOS stands for: I = ..., P = ..., O = ..., S = ...',
+      prompt:
+        'In your own words, define a computer and explain each of the four stages of the IPOS cycle using a real-life analogy (e.g., cooking food or withdrawing money from an ATM).',
+      guidance:
+        'State a 2-3 sentence definition, explain Input, Processing, Output, and Storage, and clearly link each stage to your chosen analogy.',
+      placeholder:
+        'A computer is...\n\nIPOS stands for:\n- Input: (e.g., in cooking...)\n- Processing: (e.g., in cooking...)\n- Output: (e.g., in cooking...)\n- Storage: (e.g., in cooking...)',
     },
     {
       id: 2,
-      prompt: 'Compare a computer and a human brain in terms of calculation speed, fatigue/tiredness, and independent decision making.',
-      guidance: 'State at least two advantages of computers and one advantage humans have over computers.',
-      placeholder: 'In terms of speed... In terms of tiredness... While humans are able to...',
+      prompt:
+        'Explain the difference between Data and Information, and explain what the computer science principle "GIGO" means.',
+      guidance:
+        'Give two concrete examples of raw data and show how they transform into meaningful information. State the full meaning of GIGO.',
+      placeholder:
+        'Data refers to...\nExample of Data: ...\n\nInformation refers to...\nExample of Information: ...\n\nGIGO stands for: ... and it means that...',
     },
     {
       id: 3,
-      prompt: 'List the four major electronic technologies used in the 1st, 2nd, 3rd, and 4th generations of computers.',
-      guidance: 'Mention the primary electronic component developed for each generation.',
-      placeholder: '1st Gen: ... | 2nd Gen: ... | 3rd Gen: ... | 4th Gen: ...',
+      prompt:
+        'Who is known as the "Father of the Computer" and who was the world’s first computer programmer? List the primary electronic component used in each of the 5 generations of computers.',
+      guidance:
+        'Name Charles Babbage and Ada Lovelace. Then list 1st Gen (Vacuum Tubes), 2nd Gen (Transistors), 3rd Gen (ICs), 4th Gen (Microprocessors), and 5th Gen (AI).',
+      placeholder:
+        'Father of the Computer: ...\nFirst Computer Programmer: ...\n\n5 Generations:\n1st Gen: ...\n2nd Gen: ...\n3rd Gen: ...\n4th Gen: ...\n5th Gen: ...',
     },
     {
       id: 4,
-      prompt: 'Identify three different types of computers or computing devices you see in everyday life and explain what each one is used for.',
-      guidance: 'Examples: ATM, smartphone, desktop PC, barcode scanner, digital wristwatch, supermarket checkout.',
-      placeholder: '1. Device Name: Use...\n2. Device Name: Use...\n3. Device Name: Use...',
+      prompt:
+        'Classify the following five computing devices into their appropriate category (Supercomputer, Desktop, Laptop, Smartphone, or Embedded Computer) and mention one place where each is used: A weather forecasting cluster, a family study PC, a student portable computer, a mobile telephone, and a microwave timer chip.',
+      guidance:
+        'Match each device to its size/category and state its specific real-world application.',
+      placeholder:
+        '1. Weather cluster -> Category: ... | Used in: ...\n2. Family study PC -> Category: ... | Used in: ...\n3. Student portable computer -> Category: ... | Used in: ...\n4. Mobile telephone -> Category: ... | Used in: ...\n5. Microwave timer chip -> Category: ... | Used in: ...',
+    },
+    {
+      id: 5,
+      prompt:
+        'HOME ASSIGNMENT - Interview Your Parents or Guardians: Ask your parent or guardian: (a) What type of computer do they use at work or home? (b) What do they use it for? (c) How does the computer make their work easier? Write a three-sentence summary of their answers.',
+      guidance:
+        'Example summary: "My father uses a laptop at his office. He uses it to write letters, send emails, and balance bank accounts. The laptop helps him complete work much faster and keep files organized without losing papers."',
+      placeholder:
+        'Parent/Guardian Name: ...\nComputer Type Used: ...\nSummary:\n1. ...\n2. ...\n3. ...',
     },
   ],
 };

@@ -1,6 +1,6 @@
 # Dzuel's Computer Class - Project Overview
 
-<!-- blueprint:source-hash 09baa42814dfc1ed2acdd1055b06034b4923bc35b8e82d946c127a49c865a4b3 -->
+<!-- blueprint:source-hash b21268a806951ec8e6c98eeed3d36ff68f25ea6b351a29750615ca7b5e7ceda7 -->
 
 > Interactive classroom presentation and digital literacy curriculum platform replacing static slides with visual simulations, real-time slide mirroring, gamified Kahoot-style quiz battles, and dedicated student laptop portals.
 

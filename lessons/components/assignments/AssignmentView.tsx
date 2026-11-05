@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { ModuleAssignment, StudentSubmission } from '../../types/platform';
 import { saveSubmission, getSubmissions } from '../../lib/platformStorage';
+import { getStudentSession } from '../../lib/roster';
 import { FileText, CheckCircle, Award } from '../icons/Icons';
 
 interface AssignmentViewProps {
@@ -17,9 +18,15 @@ export function AssignmentView({ assignment }: AssignmentViewProps) {
   const [errorMessage, setErrorMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Check if this student/browser already submitted for this module
+  // Check if this student/browser already submitted for this module or has active session
   useEffect(() => {
     const timer = setTimeout(() => {
+      const session = getStudentSession();
+      if (session) {
+        setPatronNumber(session.patronNumber);
+        setStudentName(session.studentName);
+      }
+
       const existing = getSubmissions();
       const found = existing.find((sub) => sub.moduleId === assignment.moduleId);
       if (found) {
@@ -48,7 +55,7 @@ export function AssignmentView({ assignment }: AssignmentViewProps) {
     const trimmedName = studentName.trim();
 
     if (!trimmedPatron) {
-      setErrorMessage('Please enter your assigned Patron Number (e.g. DZ-2026-001) before submitting.');
+      setErrorMessage('Please enter your 8-digit Patron Number (e.g. 20230194) before submitting.');
       return;
     }
 

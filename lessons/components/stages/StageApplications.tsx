@@ -1,8 +1,42 @@
 'use client';
 
 import React, { useState } from 'react';
-import { applicationSectors } from '../../data/module1';
-import { Sparkles, ArrowRight, CheckCircle } from '../icons/Icons';
+import { applicationSectors, module1ImageCards } from '../../data/module1';
+import { Sparkles, ArrowRight, CheckCircle, Shield } from '../icons/Icons';
+import { EducationalImage } from '../presentation/EducationalImage';
+
+const LAB_SAFETY_RULES = [
+  {
+    number: 1,
+    title: 'No Food or Liquids',
+    description: 'Never bring water, juices, or snacks near computers. Spills cause devastating short circuits and shock hazards.',
+    icon: '🚫',
+  },
+  {
+    number: 2,
+    title: 'Clean & Dry Hands',
+    description: 'Always wash and dry hands before typing. Keeps key switches clean and prevents dirt accumulation.',
+    icon: '🧼',
+  },
+  {
+    number: 3,
+    title: 'Gentle Keystrokes',
+    description: 'Press keyboard keys and mouse buttons gently. Banging or hammering breaks delicate internal springs.',
+    icon: '⌨️',
+  },
+  {
+    number: 4,
+    title: 'Proper OS Shutdown',
+    description: 'Always shut down through the operating system menu. Never unplug the wall socket directly while files are open.',
+    icon: '🔌',
+  },
+  {
+    number: 5,
+    title: 'Report Hazards Immediately',
+    description: 'If you smell burning, see sparks, or notice frayed cables, inform your teacher immediately without touching.',
+    icon: '⚠️',
+  },
+];
 
 export function StageApplications() {
   const [selectedSectorId, setSelectedSectorId] = useState(
@@ -15,16 +49,54 @@ export function StageApplications() {
   const activeSector =
     applicationSectors[activeIndex >= 0 ? activeIndex : 0];
 
+  const hospitalImage = module1ImageCards.find((c) => c.id === 'hospital-healthcare') || {
+    id: 'hospital-healthcare',
+    title: 'Computers in Modern Healthcare',
+    caption: 'Medical monitors, ultrasound diagnostics, and digital patient record systems helping doctors save lives.',
+    url: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=800&q=80',
+    fallbackType: 'hospital' as const,
+    badge: 'Saving Lives',
+  };
+
+  const atmImage = module1ImageCards.find((c) => c.id === 'banking-atm') || {
+    id: 'banking-atm',
+    title: '24/7 ATM Banking Terminal',
+    caption: 'Specialized computer that validates bank cards, dispenses cash, and securely updates bank accounts in seconds.',
+    url: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=800&q=80',
+    fallbackType: 'bank' as const,
+    badge: 'Instant Commerce',
+  };
+
   return (
     <div className="space-y-8 animate-fadeIn">
+      {/* Educational Image Highlights */}
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <EducationalImage
+          src={hospitalImage.url}
+          alt={hospitalImage.title}
+          title={hospitalImage.title}
+          caption={hospitalImage.caption}
+          fallbackType={hospitalImage.fallbackType}
+          badge={hospitalImage.badge}
+        />
+        <EducationalImage
+          src={atmImage.url}
+          alt={atmImage.title}
+          title={atmImage.title}
+          caption={atmImage.caption}
+          fallbackType={atmImage.fallbackType}
+          badge={atmImage.badge}
+        />
+      </section>
+
       {/* Sector Selection Tabs */}
-      <section className="bg-zinc-900 border border-zinc-800 rounded-2xl p-5">
+      <section className="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 sm:p-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20 text-xs font-bold uppercase tracking-wider mb-2">
-              <Sparkles size={14} /> Societal Impact
+              <Sparkles size={14} /> Lesson 4: Uses and Importance of Computers
             </div>
-            <h2 className="text-xl sm:text-2xl font-black text-white">
+            <h2 className="text-xl sm:text-3xl font-black text-white">
               Where Are Computers Used in Everyday Society?
             </h2>
             <p className="text-zinc-400 text-sm sm:text-base mt-1">
@@ -40,10 +112,11 @@ export function StageApplications() {
               <button
                 key={sector.id}
                 onClick={() => setSelectedSectorId(sector.id)}
-                className={`p-3 rounded-xl text-center transition-all border cursor-pointer ${isSelected
+                className={`p-3 rounded-2xl text-center transition-all border cursor-pointer ${
+                  isSelected
                     ? 'bg-sky-500/10 border-sky-400 ring-2 ring-sky-500/30 text-sky-300 font-bold shadow-md'
                     : 'bg-zinc-800/60 border-zinc-700/60 text-zinc-300 hover:bg-zinc-800'
-                  }`}
+                }`}
               >
                 <div className="text-xs sm:text-sm font-bold truncate">
                   {sector.name.split(' ')[0]}
@@ -55,7 +128,7 @@ export function StageApplications() {
       </section>
 
       {/* Active Sector Display */}
-      <section className="bg-gradient-to-br from-zinc-900 via-zinc-900 to-zinc-950 border-2 border-sky-500/30 rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
+      <section className="bg-gradient-to-br from-zinc-900 via-zinc-900 to-zinc-950 border-2 border-sky-500/30 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6">
         <div className="border-b border-zinc-800 pb-4">
           <span className="px-3 py-1 rounded-full bg-sky-500 text-zinc-950 text-xs font-black uppercase tracking-wider">
             Sector In Focus
@@ -73,7 +146,7 @@ export function StageApplications() {
           {activeSector.examples.map((example, idx) => (
             <div
               key={idx}
-              className="bg-zinc-950/80 border border-zinc-800 rounded-xl p-5 flex flex-col justify-between shadow-sm"
+              className="bg-zinc-950/80 border border-zinc-800 rounded-2xl p-5 flex flex-col justify-between shadow-sm"
             >
               <div>
                 <div className="flex items-center gap-2 text-xs font-bold text-sky-400 uppercase tracking-wider mb-2">
@@ -91,7 +164,7 @@ export function StageApplications() {
         </div>
 
         {/* Classroom Discussion Callout Box */}
-        <div className="bg-gradient-to-r from-amber-500/10 via-zinc-900 to-zinc-900 border border-amber-500/30 rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="bg-gradient-to-r from-amber-500/10 via-zinc-900 to-zinc-900 border border-amber-500/30 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="space-y-1">
             <span className="text-xs font-black text-amber-400 uppercase tracking-wider">
               Classroom Discussion Prompt for Students:
@@ -106,11 +179,46 @@ export function StageApplications() {
               const nextIdx = (activeIndex + 1) % applicationSectors.length;
               setSelectedSectorId(applicationSectors[nextIdx].id);
             }}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-zinc-950 font-bold text-sm transition-all cursor-pointer whitespace-nowrap self-end sm:self-auto shadow-md"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-sky-500 hover:bg-sky-400 text-zinc-950 font-bold text-sm transition-all cursor-pointer whitespace-nowrap self-end sm:self-auto shadow-md"
           >
             <span>Next Sector</span>
             <ArrowRight size={16} />
           </button>
+        </div>
+      </section>
+
+      {/* Computer Laboratory Rules & Safe Practices */}
+      <section className="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 sm:p-8 space-y-4">
+        <div className="flex items-center gap-2 text-rose-400 font-black text-xs uppercase tracking-wider">
+          <Shield size={16} /> Vital Lab Etiquette
+        </div>
+        <h3 className="text-xl sm:text-2xl font-black text-white">
+          Computer Laboratory Safety & Etiquette Rules
+        </h3>
+        <p className="text-zinc-400 text-sm sm:text-base">
+          To protect yourself from electrical shock and preserve our school computers, memorize and practice these 5 rules in every class:
+        </p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-5 gap-3 pt-2">
+          {LAB_SAFETY_RULES.map((rule) => (
+            <div
+              key={rule.number}
+              className="bg-zinc-950 p-4 rounded-2xl border border-zinc-800 flex flex-col justify-between space-y-2"
+            >
+              <div>
+                <div className="text-2xl">{rule.icon}</div>
+                <div className="text-xs font-black text-amber-400 uppercase tracking-wider mt-2">
+                  Rule #{rule.number}
+                </div>
+                <div className="text-sm font-bold text-white mt-0.5">
+                  {rule.title}
+                </div>
+              </div>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                {rule.description}
+              </p>
+            </div>
+          ))}
         </div>
       </section>
     </div>

@@ -42,6 +42,9 @@ export default function StudentPortal() {
   const [unlockedModuleIds, setUnlockedModuleIds] = useState<string[]>(['module-1']);
   const [syncMode, setSyncMode] = useState<SyncMode>('follow-teacher');
   const [liveStageIndex, setLiveStageIndex] = useState<number>(0);
+  const [liveKahootQuestionId, setLiveKahootQuestionId] = useState<number | null>(null);
+  const [liveIsKahootRevealed, setLiveIsKahootRevealed] = useState<boolean>(false);
+  const [liveKahootTally, setLiveKahootTally] = useState<[number, number, number, number]>([0, 0, 0, 0]);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
   // Initialize student session on mount
@@ -102,6 +105,17 @@ export default function StudentPortal() {
           if (data.activeModuleId && data.activeModuleId !== currentModuleId) {
             setCurrentModuleId(data.activeModuleId);
           }
+
+          // Mirror active Kahoot question & reveal state
+          if (data.activeKahootQuestionId !== undefined) {
+            setLiveKahootQuestionId(data.activeKahootQuestionId);
+          }
+          if (data.isKahootRevealed !== undefined) {
+            setLiveIsKahootRevealed(data.isKahootRevealed);
+          }
+          if (data.kahootTally) {
+            setLiveKahootTally(data.kahootTally);
+          }
         }
       } catch {
         // Fallback silently if offline in local computer lab
@@ -112,6 +126,22 @@ export default function StudentPortal() {
     const interval = setInterval(pollSession, 1500); // Poll every 1.5s
     return () => clearInterval(interval);
   }, [studentSession, currentModuleId]);
+
+  const handleStudentVote = async (_questionId: number, optionIndex: number) => {
+    if (!studentSession) return;
+    try {
+      await fetch('/api/live-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          patronNumber: studentSession.patronNumber,
+          kahootOptionIndex: optionIndex,
+        }),
+      });
+    } catch {
+      // Offline laboratory fallback
+    }
+  };
 
   // Fullscreen state listener
   useEffect(() => {
@@ -196,7 +226,16 @@ export default function StudentPortal() {
                 case 'applications':
                   return <StageApplications />;
                 case 'review-quiz':
-                  return <StageQuiz userRole="student" />;
+                  return (
+                    <StageQuiz
+                      userRole="student"
+                      syncedQuestionId={liveKahootQuestionId}
+                      syncedIsRevealed={liveIsKahootRevealed}
+                      liveTally={liveKahootTally}
+                      patronNumber={studentSession?.patronNumber}
+                      onStudentVote={handleStudentVote}
+                    />
+                  );
                 default:
                   return <StageDefinition />;
               }

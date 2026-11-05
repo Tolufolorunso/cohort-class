@@ -13,6 +13,64 @@ export interface StageMeta {
   type: StageType;
 }
 
+export interface LessonUnit {
+  id: string;
+  lessonNumber: number;
+  title: string;
+  duration: string;
+  objective: string;
+  summary: string;
+  topics: string[];
+}
+
+export type ImageFallbackType =
+  | 'desktop'
+  | 'laptop'
+  | 'tablet'
+  | 'smartphone'
+  | 'supercomputer'
+  | 'ipos'
+  | 'abacus'
+  | 'babbage'
+  | 'history'
+  | 'safety'
+  | 'school'
+  | 'hospital'
+  | 'bank'
+  | 'farm';
+
+export interface ImageCard {
+  id: string;
+  title: string;
+  caption: string;
+  url: string;
+  fallbackType: ImageFallbackType;
+  badge?: string;
+  aspect?: string;
+}
+
+export type KahootShape = 'triangle' | 'diamond' | 'circle' | 'square';
+
+export interface KahootOptionConfig {
+  shape: KahootShape;
+  label: string;
+  colorName: string;
+  bgColor: string;
+  hoverColor: string;
+  borderColor: string;
+  textColor: string;
+}
+
+export interface KahootQuestion {
+  id: number;
+  question: string;
+  options: [string, string, string, string]; // Exactly 4 options for [Red Triangle, Blue Diamond, Yellow Circle, Green Square]
+  correctIndex: number; // 0, 1, 2, 3
+  explanation: string;
+  topic: string;
+  timeLimitSeconds?: number;
+}
+
 export interface ComputerCharacteristic {
   id: string;
   title: string;

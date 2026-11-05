@@ -72,6 +72,9 @@ export default function InstructorControlRoom() {
   const [zoomLevel, setZoomState] = useState<ZoomLevel>('normal');
   const [submissions, setSubmissions] = useState<StudentSubmission[]>([]);
   const [selectedSubmission, setSelectedSubmission] = useState<StudentSubmission | null>(null);
+  const [kahootQuestionId, setKahootQuestionId] = useState<number | null>(null);
+  const [isKahootRevealed, setIsKahootRevealed] = useState<boolean>(false);
+  const [liveTally, setLiveTally] = useState<[number, number, number, number]>([0, 0, 0, 0]);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Check existing session on mount
@@ -97,6 +100,9 @@ export default function InstructorControlRoom() {
         if (res.ok) {
           const data: LiveSessionState = await res.json();
           setActiveStudents(data.activeStudents || {});
+          if (data.kahootTally) setLiveTally(data.kahootTally);
+          if (data.activeKahootQuestionId !== undefined) setKahootQuestionId(data.activeKahootQuestionId);
+          if (data.isKahootRevealed !== undefined) setIsKahootRevealed(data.isKahootRevealed);
           setCurrentTime(Date.now());
         }
       } catch {
@@ -150,6 +156,19 @@ export default function InstructorControlRoom() {
     setSyncModeState(mode);
     broadcastUpdate({ syncMode: mode });
   };
+
+  const handleBroadcastKahoot = useCallback(
+    (updates: { activeKahootQuestionId?: number | null; isKahootRevealed?: boolean }) => {
+      if (updates.activeKahootQuestionId !== undefined) {
+        setKahootQuestionId(updates.activeKahootQuestionId);
+      }
+      if (updates.isKahootRevealed !== undefined) {
+        setIsKahootRevealed(updates.isKahootRevealed);
+      }
+      broadcastUpdate(updates);
+    },
+    [broadcastUpdate]
+  );
 
   const handleToggleModuleLock = (moduleId: string) => {
     let next: string[];
@@ -471,7 +490,15 @@ export default function InstructorControlRoom() {
               {currentStage.id === 'history-timeline' && <StageTimeline />}
               {currentStage.id === 'device-sorting' && <StageDeviceSorting />}
               {currentStage.id === 'applications' && <StageApplications />}
-              {currentStage.id === 'review-quiz' && <StageQuiz userRole="teacher" />}
+              {currentStage.id === 'review-quiz' && (
+                <StageQuiz
+                  userRole="teacher"
+                  syncedQuestionId={kahootQuestionId}
+                  syncedIsRevealed={isKahootRevealed}
+                  liveTally={liveTally}
+                  onBroadcastState={handleBroadcastKahoot}
+                />
+              )}
             </div>
           </div>
         </section>

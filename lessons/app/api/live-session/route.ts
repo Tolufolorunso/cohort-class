@@ -9,9 +9,24 @@ const liveSession: LiveSessionState = {
   syncMode: 'follow-teacher',
   activeKahootQuestionId: null,
   isKahootRevealed: false,
+  kahootVotes: {},
+  kahootTally: [0, 0, 0, 0],
   activeStudents: {},
   updatedAt: Date.now(),
 };
+
+// Compute vote tally across the 4 Kahoot shapes
+function computeTally(): [number, number, number, number] {
+  const tally: [number, number, number, number] = [0, 0, 0, 0];
+  if (liveSession.kahootVotes) {
+    for (const optIdx of Object.values(liveSession.kahootVotes)) {
+      if (optIdx >= 0 && optIdx <= 3) {
+        tally[optIdx]++;
+      }
+    }
+  }
+  return tally;
+}
 
 // Clean up students who have been inactive for more than 45 seconds
 function pruneInactiveStudents() {
@@ -39,8 +54,12 @@ export async function GET(request: Request) {
     };
   }
 
+  const currentTally = computeTally();
+  liveSession.kahootTally = currentTally;
+
   return NextResponse.json({
     ...liveSession,
+    kahootTally: currentTally,
     connectedCount: Object.keys(liveSession.activeStudents).length,
   });
 }
@@ -62,19 +81,35 @@ export async function POST(request: Request) {
       liveSession.syncMode = body.syncMode;
     }
     if (body.activeKahootQuestionId !== undefined) {
-      liveSession.activeKahootQuestionId = body.activeKahootQuestionId;
+      if (liveSession.activeKahootQuestionId !== body.activeKahootQuestionId) {
+        liveSession.activeKahootQuestionId = body.activeKahootQuestionId;
+        liveSession.kahootVotes = {}; // Reset votes for new question
+        liveSession.isKahootRevealed = false;
+      }
     }
     if (body.isKahootRevealed !== undefined) {
       liveSession.isKahootRevealed = Boolean(body.isKahootRevealed);
     }
 
+    // Handle student live vote submission
+    if (body.patronNumber && typeof body.kahootOptionIndex === 'number') {
+      if (!liveSession.kahootVotes) {
+        liveSession.kahootVotes = {};
+      }
+      liveSession.kahootVotes[body.patronNumber] = Number(body.kahootOptionIndex);
+    }
+
     liveSession.updatedAt = Date.now();
     pruneInactiveStudents();
+
+    const currentTally = computeTally();
+    liveSession.kahootTally = currentTally;
 
     return NextResponse.json({
       success: true,
       session: {
         ...liveSession,
+        kahootTally: currentTally,
         connectedCount: Object.keys(liveSession.activeStudents).length,
       },
     });

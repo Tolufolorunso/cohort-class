@@ -33,6 +33,8 @@ export interface LiveSessionState {
   syncMode: SyncMode;
   activeKahootQuestionId: number | null;
   isKahootRevealed: boolean;
+  kahootVotes?: Record<string, number>; // patronNumber -> optionIndex (0, 1, 2, 3)
+  kahootTally?: [number, number, number, number]; // counts for Red Triangle, Blue Diamond, Yellow Circle, Green Square
   activeStudents: Record<string, { studentName: string; lastSeen: number }>;
   updatedAt: number;
 }
