@@ -1,51 +1,61 @@
-# Project Plan
-
-> One of the two planning docs you provide. Use as much detail as the project
-> needs, including rationale, constraints, examples, edge cases, and explicit
-> exclusions that should guide later feature work. Draft it directly, develop it
-> through any AI conversation, or optionally run `/discovery` for a guided deep
-> planning session. The content is always yours to direct. When it is filled in,
-> run `/overview` to generate the project overview from this plus `build-plan.md`.
+# Project Plan: Dzuel's Computer Class Interactive Curriculum
 
 ## 1. Problem - What problem are we solving?
 
-Add the problem that this project solves and its main purpose
+Traditional slide decks (PowerPoint, static PDFs) are passive and ineffective for teaching foundational digital literacy to secondary school students (ages 12–18) who have zero prior computer experience. Teachers need an interactive presentation platform directly in the browser that replaces slides with dynamic visual models, real-world analogies, and hands-on exercises to demystify computers and keep students engaged during classroom and laboratory sessions.
 
 ## 2. Users - Who is this for?
 
-What kind of users are you focusing on? eg. new programmers, college students, single people
+- **Primary User (Teacher / Instructor):** Uses the web interface to lead live classroom sessions in front of the class on a projector or large monitor, controlling the flow without switching between slides and tools.
+- **Secondary User (Students, Ages 12–18):** Engages with live demonstrations, answers review questions, and participates in hands-on activities. In future phases, students can navigate the interactive exercises on individual lab computers.
 
 ## 3. Features - What does the MVP need?
 
-High level list of features. One line each, don't go into deep detail
+### MVP Scope (Feature 1 Focus)
+- **Slide-Alternative Stage View Shell:** Fullscreen-ready presentation layout with keyboard navigation (`←`, `→`, Space, Esc), stage progress bar, quick stage selector, and large projector-friendly typography.
+- **Module 1: Introduction to Computers Interactive Beats:**
+  1. *What is a Computer?* — Accessible definition, device comparison, and core characteristics.
+  2. *The IPOS Cycle Simulator* — Interactive simulation of Input → Processing → Output → Storage using real-world analogies (e.g. cake baking, arithmetic) with animated visual feedback.
+  3. *Computer History Journey* — Interactive visual timeline from ancient counting (Abacus, Napier's Bones, Pascaline, Analytical Engine) to modern microchips.
+  4. *Device Classification Lab* — Interactive drag/click sorting of Desktops, Laptops, Tablets, Smartphones, and Supercomputers.
+  5. *Where Computers Are Used* — Interactive environment cards (Schools, Hospitals, Banks, Supermarkets, Homes).
+  6. *Classroom Knowledge Check* — 10-question live review quiz with instant visual feedback and score tally.
+- **Curriculum Navigation:** Seamless navigation between sections and phases.
+
+### Explicit Exclusions / Non-Goals for Feature 1
+- No backend database or authentication required (runs 100% client-side).
+- No external CDN or internet dependencies (all graphics and logic are bundled locally for offline lab use).
+- Subsequent modules (Modules 2–19) will be implemented as subsequent features.
 
 ## 4. Data - What are we storing?
 
-List of data that will be stored eg. users, products, stats
+- Structured curriculum content stored as TypeScript data structures in `lessons/`.
+- Transient client-side state: current presentation stage, interactive simulator states, and quiz scores (reset on demand for fresh class sessions).
+- No sensitive or persistent database storage needed for MVP.
 
 ## 5. Tech - What stack are we using?
 
-The stack this project will use eg. Next.js, Neon Postgres, ShadCN UI, Claude Haiku for content generation
+- **Framework:** Next.js 16 (App Router), React 19, TypeScript 5.
+- **Styling:** Tailwind CSS v4 (`lessons/app/globals.css`).
+- **Icons & Graphics:** Local SVG components / Lucide React icons bundled offline.
+- **Portability:** 100% offline-ready; runs locally via `npm --prefix lessons run dev`.
 
 ## 6. Monetize - How will this make money?
 
-Explain how you plan to make money. eg. Ads, memberships, etc
+Non-profit philanthropic education initiative by Dzuels Foundation to bridge the digital divide. Free for educational deployment.
 
 ## 7. UI/UX - How should this look and feel?
 
-Describe the look and feel. Add examples if you want
+- **Presentation-First Design:** Clean, distraction-free stage layout with large headings, high-contrast readable typography, and dark/light classroom options suitable for projectors.
+- **Interactive Micro-Experiences:** Interactive buttons, animated process flows, and tactile feedback on sorting/quiz exercises.
+- **Teacher Ergonomics:** Keyboard shortcuts for effortless slide/stage advancing while walking around the classroom.
 
 ## 8. Deployment - Where and how will this ship?
 
-Target host if known, such as Render or Vercel. Include app type, build command,
-start command or output directory, env vars by name, database or storage needs,
-workers or cron jobs, health check path, and domain notes if you know them.
+- **Primary Mode:** Local offline execution on the teacher's classroom PC (`npm --prefix lessons run dev` or `npm --prefix lessons run start`).
+- **Optional Online Hosting:** Vercel deployment for remote teacher preparation and public curriculum access.
 
-## 9. Usage model and constraints (optional)
+## 9. Usage model and constraints
 
-Record only what is known and relevant: expected user count and approximate scale;
-local, internal, or internet-facing operation; trusted or adversarial users;
-single-tenant or multi-tenant use when applicable; required security, compliance,
-availability, or audit constraints; and explicit non-requirements. Leave this
-section unanswered when those facts are not established. Unknown does not mean
-enterprise, hostile, multi-tenant, or single-user.
+- Must operate reliably without active internet connectivity in school laboratories.
+- Self-contained with zero external API dependencies.

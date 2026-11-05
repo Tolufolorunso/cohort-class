@@ -16,3 +16,4 @@ Commands run against the Next.js application in `lessons/`:
 - Build: `npm --prefix lessons run build`
 - Production server: `npm --prefix lessons run start`
 - Lint: `npm --prefix lessons run lint`
+
