@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Header } from '../components/navigation/Header';
 import { StageShell } from '../components/presentation/StageShell';
 import { StudentNotesView } from '../components/notes/StudentNotesView';
 import { AssignmentView } from '../components/assignments/AssignmentView';
-import { InstructorDashboard } from '../components/teacher/InstructorDashboard';
+import { StudentLogin } from '../components/auth/StudentLogin';
 
 import { StageDefinition } from '../components/stages/StageDefinition';
 import { StageIPOS } from '../components/stages/StageIPOS';
@@ -17,50 +17,101 @@ import { StageQuiz } from '../components/stages/StageQuiz';
 import { module1Notes, module1Assignment } from '../data/module1';
 import {
   ActiveView,
-  UserRole,
   ZoomLevel,
-  ModuleLockState,
+  StudentSession,
+  SyncMode,
 } from '../types/platform';
 import {
-  getUserRole,
-  setUserRole,
   getZoomLevel,
   setZoomLevel,
   getUnlockedModules,
 } from '../lib/platformStorage';
+import {
+  getStudentSession,
+  clearStudentSession,
+  saveStudentSession,
+} from '../lib/roster';
 
-export default function Home() {
+export default function StudentPortal() {
+  const [studentSession, setStudentSessionState] = useState<StudentSession | null>(null);
+  const [hasCheckedSession, setHasCheckedSession] = useState(false);
+
   const [currentModuleId, setCurrentModuleId] = useState<string>('module-1');
   const [activeView, setActiveView] = useState<ActiveView>('stage');
   const [zoomLevel, setZoomState] = useState<ZoomLevel>('normal');
-  const [userRole, setRoleState] = useState<UserRole>('student');
   const [unlockedModuleIds, setUnlockedModuleIds] = useState<string[]>(['module-1']);
+  const [syncMode, setSyncMode] = useState<SyncMode>('follow-teacher');
+  const [liveStageIndex, setLiveStageIndex] = useState<number>(0);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
-  // Initialize saved platform settings on client mount (safe with React 19 / Next 16 lint rule)
+  // Initialize student session on mount
   useEffect(() => {
     const timer = setTimeout(() => {
-      setRoleState(getUserRole());
-      const savedZoom = getZoomLevel();
-      setZoomState(savedZoom);
+      const active = getStudentSession();
+      setStudentSessionState(active);
+      setZoomState(getZoomLevel());
       setUnlockedModuleIds(getUnlockedModules());
+      setHasCheckedSession(true);
     }, 0);
     return () => clearTimeout(timer);
   }, []);
 
-  // Synchronize visual zoom scaling across the document for projector readability
+  // Check 1-hour session expiry every 30 seconds
+  useEffect(() => {
+    if (!studentSession) return;
+    const interval = setInterval(() => {
+      const valid = getStudentSession();
+      if (!valid) {
+        setStudentSessionState(null);
+      }
+    }, 30 * 1000);
+    return () => clearInterval(interval);
+  }, [studentSession]);
+
+  // Synchronize visual zoom scaling across document
   useEffect(() => {
     if (typeof document === 'undefined') return;
     const root = document.documentElement;
-
     if (zoomLevel === 'xlarge') {
-      root.style.fontSize = '20.5px'; // 130% scaling for distant or low-light projectors
+      root.style.fontSize = '20.5px';
     } else if (zoomLevel === 'large') {
-      root.style.fontSize = '18.5px'; // 115% scaling for standard classroom projectors
+      root.style.fontSize = '18.5px';
     } else {
-      root.style.fontSize = '16px'; // 100% normal scale
+      root.style.fontSize = '16px';
     }
   }, [zoomLevel]);
+
+  // Real-time live slide mirroring & heartbeat polling
+  useEffect(() => {
+    if (!studentSession) return;
+
+    const pollSession = async () => {
+      try {
+        const url = `/api/live-session?patron=${encodeURIComponent(
+          studentSession.patronNumber
+        )}&name=${encodeURIComponent(studentSession.studentName)}`;
+        const res = await fetch(url);
+        if (res.ok) {
+          const data = await res.json();
+          setSyncMode(data.syncMode || 'follow-teacher');
+
+          // If instructor is in Follow-Teacher mode, mirror stage
+          if (data.syncMode === 'follow-teacher' && typeof data.activeStageIndex === 'number') {
+            setLiveStageIndex(data.activeStageIndex);
+          }
+          if (data.activeModuleId && data.activeModuleId !== currentModuleId) {
+            setCurrentModuleId(data.activeModuleId);
+          }
+        }
+      } catch {
+        // Fallback silently if offline in local computer lab
+      }
+    };
+
+    pollSession();
+    const interval = setInterval(pollSession, 1500); // Poll every 1.5s
+    return () => clearInterval(interval);
+  }, [studentSession, currentModuleId]);
 
   // Fullscreen state listener
   useEffect(() => {
@@ -81,23 +132,38 @@ export default function Home() {
     }
   };
 
+  const handleLoginSuccess = useCallback((session: StudentSession) => {
+    setStudentSessionState(session);
+    saveStudentSession(session);
+  }, []);
+
+  const handleLogout = useCallback(() => {
+    clearStudentSession();
+    setStudentSessionState(null);
+  }, []);
+
   const handleZoomChange = (level: ZoomLevel) => {
     setZoomState(level);
     setZoomLevel(level);
   };
 
-  const handleRoleChange = (role: UserRole) => {
-    setRoleState(role);
-    setUserRole(role);
-  };
+  // Prevent flicker before initial session check
+  if (!hasCheckedSession) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-zinc-950 text-emerald-400 font-mono text-sm">
+        Loading classroom session...
+      </div>
+    );
+  }
 
-  const handleUpdateLockState = (state: ModuleLockState) => {
-    setUnlockedModuleIds(state.unlockedModuleIds);
-  };
+  // If student is not logged in or session expired, show student login gate
+  if (!studentSession) {
+    return <StudentLogin onLoginSuccess={handleLoginSuccess} />;
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-zinc-950 text-zinc-100 selection:bg-emerald-500 selection:text-zinc-950">
-      {/* Enhanced Classroom Navigation Header */}
+      {/* Student Portal Navigation Header */}
       <Header
         currentModuleId={currentModuleId}
         onSelectModule={setCurrentModuleId}
@@ -105,9 +171,10 @@ export default function Home() {
         onSelectView={setActiveView}
         zoomLevel={zoomLevel}
         onChangeZoom={handleZoomChange}
-        userRole={userRole}
-        onChangeRole={handleRoleChange}
         unlockedModuleIds={unlockedModuleIds}
+        session={studentSession}
+        syncMode={syncMode}
+        onLogout={handleLogout}
         isFullscreen={isFullscreen}
         onToggleFullscreen={handleToggleFullscreen}
       />
@@ -115,7 +182,7 @@ export default function Home() {
       {/* Main View Router */}
       <div className="flex-1 flex flex-col">
         {activeView === 'stage' && (
-          <StageShell>
+          <StageShell currentStageIndex={syncMode === 'follow-teacher' ? liveStageIndex : undefined}>
             {(_currentStageIndex, currentStageId) => {
               switch (currentStageId) {
                 case 'what-is-a-computer':
@@ -129,7 +196,7 @@ export default function Home() {
                 case 'applications':
                   return <StageApplications />;
                 case 'review-quiz':
-                  return <StageQuiz userRole={userRole} />;
+                  return <StageQuiz userRole="student" />;
                 default:
                   return <StageDefinition />;
               }
@@ -146,18 +213,6 @@ export default function Home() {
         {activeView === 'assignment' && (
           <main className="flex-1">
             <AssignmentView assignment={module1Assignment} />
-          </main>
-        )}
-
-        {activeView === 'dashboard' && (
-          <main className="flex-1">
-            <InstructorDashboard
-              currentModuleId={currentModuleId}
-              onSelectModule={setCurrentModuleId}
-              unlockedModuleIds={unlockedModuleIds}
-              onUpdateLockState={handleUpdateLockState}
-              onClose={() => setActiveView('stage')}
-            />
           </main>
         )}
       </div>

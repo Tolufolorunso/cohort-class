@@ -6,28 +6,42 @@ import { PresenterControls } from './PresenterControls';
 import { module1Info } from '../../data/module1';
 
 interface StageShellProps {
+  initialStageIndex?: number;
+  currentStageIndex?: number;
+  onStageChange?: (index: number) => void;
   children: (currentStageIndex: number, currentStageId: string) => React.ReactNode;
 }
 
-export function StageShell({ children }: StageShellProps) {
-  const [currentStageIndex, setCurrentStageIndex] = useState(0);
+export function StageShell({
+  initialStageIndex = 0,
+  currentStageIndex: propStageIndex,
+  onStageChange,
+  children,
+}: StageShellProps) {
+  const [internalStageIndex, setInternalStageIndex] = useState(initialStageIndex);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   const totalStages = module1Info.stages.length;
+  const currentStageIndex = propStageIndex !== undefined ? propStageIndex : internalStageIndex;
 
   const handleNext = useCallback(() => {
-    setCurrentStageIndex((prev) => (prev < totalStages - 1 ? prev + 1 : prev));
-  }, [totalStages]);
+    const next = currentStageIndex < totalStages - 1 ? currentStageIndex + 1 : currentStageIndex;
+    setInternalStageIndex(next);
+    onStageChange?.(next);
+  }, [currentStageIndex, totalStages, onStageChange]);
 
   const handlePrev = useCallback(() => {
-    setCurrentStageIndex((prev) => (prev > 0 ? prev - 1 : prev));
-  }, []);
+    const prev = currentStageIndex > 0 ? currentStageIndex - 1 : currentStageIndex;
+    setInternalStageIndex(prev);
+    onStageChange?.(prev);
+  }, [currentStageIndex, onStageChange]);
 
   const handleSelectStage = useCallback((index: number) => {
     if (index >= 0 && index < totalStages) {
-      setCurrentStageIndex(index);
+      setInternalStageIndex(index);
+      onStageChange?.(index);
     }
-  }, [totalStages]);
+  }, [totalStages, onStageChange]);
 
   const handleToggleFullscreen = useCallback(() => {
     if (!document.fullscreenElement) {

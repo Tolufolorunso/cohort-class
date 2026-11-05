@@ -1,8 +1,41 @@
 export type UserRole = 'teacher' | 'student';
 
+export type TeacherRole = 'adminTolu' | 'adminIsaac';
+
 export type ZoomLevel = 'normal' | 'large' | 'xlarge';
 
 export type ActiveView = 'stage' | 'notes' | 'assignment' | 'dashboard';
+
+export type SyncMode = 'follow-teacher' | 'self-paced';
+
+export interface AuthorizedStudent {
+  patronNumber: string;
+  studentName: string;
+}
+
+export interface StudentSession {
+  patronNumber: string;
+  studentName: string;
+  loggedInAt: number;
+  expiresAt: number; // loggedInAt + 1 hour (3,600,000 ms)
+}
+
+export interface TeacherSession {
+  role: TeacherRole;
+  displayName: string;
+  authenticatedAt: number;
+}
+
+export interface LiveSessionState {
+  activeModuleId: string;
+  activeLessonIndex: number;
+  activeStageIndex: number;
+  syncMode: SyncMode;
+  activeKahootQuestionId: number | null;
+  isKahootRevealed: boolean;
+  activeStudents: Record<string, { studentName: string; lastSeen: number }>;
+  updatedAt: number;
+}
 
 export interface StudentSubmission {
   id: string;
@@ -48,4 +81,3 @@ export interface ModuleAssignment {
 export interface ModuleLockState {
   unlockedModuleIds: string[];
 }
-
