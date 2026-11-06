@@ -38,6 +38,19 @@ const FIVE_GENERATIONS = [
   },
 ];
 
+const SIMPLE_ENGLISH_TIMELINE: Record<string, string> = {
+  abacus:
+    'People had only 10 fingers, and counting big piles of pebbles was slow. So scholars strung wooden beads on wires. Sliding beads allowed shopkeepers and traders to add and subtract big numbers quickly!',
+  'napiers-bones':
+    'Multiplication used to take hours! John Napier carved math tables onto animal bones. By placing the bones side by side, doing hard multiplication became as simple as adding small numbers together.',
+  pascaline:
+    'A 19-year-old French teenager named Blaise Pascal got tired of seeing his father suffer while calculating tax records late into the night. So he built a metal box with interlocking gear wheels that turned numbers automatically!',
+  'analytical-engine':
+    'Charles Babbage is called the "Father of Computers" because he designed a machine with a Mill (the CPU to do the math) and a Store (the memory to keep answers). Ada Lovelace, a brilliant mathematician, wrote the world\'s very first computer program for this machine!',
+  microprocessor:
+    'Instead of filling an entire classroom with hot glass tubes or separate parts, engineers shrank an entire computer processor onto a tiny black square of silicon smaller than a postage stamp! This is why you can now carry a computer in your school bag or pocket.',
+};
+
 export function StageTimeline() {
   const [selectedEventId, setSelectedEventId] = useState(timelineEvents[0].id);
 
@@ -159,11 +172,21 @@ export function StageTimeline() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
             <div className="md:col-span-2 space-y-4">
+              {/* In Simple English Spotlight */}
+              <div className="p-4 rounded-2xl bg-zinc-950/80 border border-amber-500/40 space-y-1">
+                <span className="text-xs font-black uppercase tracking-wider text-amber-400 block">
+                  💡 In Simple English: What Happened Here?
+                </span>
+                <p className="text-sm text-zinc-200 leading-relaxed font-medium">
+                  {SIMPLE_ENGLISH_TIMELINE[activeEvent.id]}
+                </p>
+              </div>
+
               <div>
                 <h4 className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
                   Historical Background & Design:
                 </h4>
-                <p className="text-base sm:text-lg text-zinc-200 mt-2 leading-relaxed">
+                <p className="text-base text-zinc-300 mt-1 leading-relaxed">
                   {activeEvent.description}
                 </p>
               </div>
@@ -172,7 +195,7 @@ export function StageTimeline() {
                 <div className="flex items-center gap-2 text-xs font-bold text-emerald-400 uppercase tracking-wider">
                   <Award size={16} /> Why This Changed Computing History
                 </div>
-                <p className="text-sm sm:text-base text-zinc-300 mt-1 font-medium">
+                <p className="text-sm text-zinc-300 mt-1 font-medium">
                   {activeEvent.significance}
                 </p>
               </div>

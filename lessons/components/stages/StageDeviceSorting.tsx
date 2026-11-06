@@ -18,11 +18,11 @@ export function StageDeviceSorting() {
 
   const laptopImage = module1ImageCards.find((c) => c.id === 'kid-laptop') || {
     id: 'kid-laptop',
-    title: 'Kid-Friendly Learning Laptop',
-    caption: 'Portable computer designed for students to take notes, research topics, and complete school assignments anywhere.',
-    url: 'https://images.unsplash.com/photo-1588702547919-26089e690ecc?auto=format&fit=crop&w=800&q=80',
+    title: 'African Secondary School Students in ICT Class',
+    caption: 'Black African secondary school students in uniforms learning together with equal lab laptops in the computer room.',
+    url: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=800&q=80',
     fallbackType: 'laptop' as const,
-    badge: 'Mobile Learning',
+    badge: 'African Students in Lab',
   };
 
   const superImage = module1ImageCards.find((c) => c.id === 'supercomputer-datacenter') || {

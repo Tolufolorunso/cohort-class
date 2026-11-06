@@ -90,9 +90,17 @@ export default function StudentPortal() {
 
     const pollSession = async () => {
       try {
-        const url = `/api/live-session?patron=${encodeURIComponent(
-          studentSession.patronNumber
-        )}&name=${encodeURIComponent(studentSession.studentName)}`;
+        const params = new URLSearchParams();
+        params.set('mode', studentSession.mode || 'solo');
+        params.set('patron', studentSession.patronNumber);
+        params.set('name', studentSession.studentName);
+        if (studentSession.mode === 'partner' && studentSession.partnerB) {
+          params.set('patronA', studentSession.partnerA.patronNumber);
+          params.set('nameA', studentSession.partnerA.studentName);
+          params.set('patronB', studentSession.partnerB.patronNumber);
+          params.set('nameB', studentSession.partnerB.studentName);
+        }
+        const url = `/api/live-session?${params.toString()}`;
         const res = await fetch(url);
         if (res.ok) {
           const data = await res.json();

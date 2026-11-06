@@ -51,6 +51,17 @@ const PHASE_COLORS: Record<IPOSPhase, { ring: string; bg: string; text: string; 
   },
 };
 
+const SIMPLE_ENGLISH_PHASES: Record<IPOSPhase, string> = {
+  input:
+    'You are feeding the machine! Just like putting raw ingredients into a cooking pot or typing your ATM PIN, you press keys, click the mouse, or tap the screen to give the computer something to work on.',
+  processing:
+    'The electronic brain is doing the heavy lifting! The CPU calculates, sorts, and organizes millions of numbers per second inside microscopic silicon circuits.',
+  output:
+    'The computer shows you the answer! It displays glowing words and pictures on the screen, plays sound through the speakers, or prints ink on paper so you can read your results.',
+  storage:
+    'Safe inside the digital cupboard! Even if NEPA takes light or your battery dies, your hard drive keeps your work preserved so you can continue tomorrow without losing anything.',
+};
+
 export function StageIPOS() {
   const [selectedAnalogyId, setSelectedAnalogyId] = useState('cooking-yam');
   const [activePhaseIndex, setActivePhaseIndex] = useState(0);
@@ -269,9 +280,19 @@ export function StageIPOS() {
             <p className="text-base text-zinc-300 mt-2 leading-relaxed">
               {activeHardware.functionDesc}
             </p>
+
+            {/* In Simple English Spotlight */}
+            <div className="mt-4 p-3.5 rounded-xl bg-zinc-950/80 border border-sky-500/30 space-y-1">
+              <span className="text-[11px] font-black uppercase text-sky-400 block tracking-wider">
+                💡 In Simple English:
+              </span>
+              <p className="text-xs text-zinc-200 leading-relaxed font-medium">
+                {SIMPLE_ENGLISH_PHASES[activePhase]}
+              </p>
+            </div>
           </div>
 
-          <div className="mt-6 pt-4 border-t border-zinc-800/80">
+          <div className="mt-5 pt-4 border-t border-zinc-800/80">
             <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
               Typical Hardware Used:
             </span>

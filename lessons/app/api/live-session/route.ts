@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { LiveSessionState } from '../../../types/platform';
+import { LiveSessionState, LiveConnectedLaptop } from '../../../types/platform';
 
 // In-memory live session state for classroom mirroring
 const liveSession: LiveSessionState = {
@@ -12,6 +12,7 @@ const liveSession: LiveSessionState = {
   kahootVotes: {},
   kahootTally: [0, 0, 0, 0],
   activeStudents: {},
+  activeLaptops: {},
   updatedAt: Date.now(),
 };
 
@@ -28,39 +29,115 @@ function computeTally(): [number, number, number, number] {
   return tally;
 }
 
-// Clean up students who have been inactive for more than 45 seconds
-function pruneInactiveStudents() {
+// Clean up students and laptops who have been inactive for more than 45 seconds
+function pruneInactiveSessions() {
   const now = Date.now();
   const threshold = 45 * 1000;
+
   for (const [patron, record] of Object.entries(liveSession.activeStudents)) {
     if (now - record.lastSeen > threshold) {
       delete liveSession.activeStudents[patron];
     }
   }
+
+  if (liveSession.activeLaptops) {
+    for (const [laptopId, laptop] of Object.entries(liveSession.activeLaptops)) {
+      if (now - laptop.lastSeen > threshold) {
+        delete liveSession.activeLaptops[laptopId];
+      }
+    }
+  }
+}
+
+// Calculate total active students across all laptops
+function countActiveStudents(): { studentCount: number; laptopCount: number } {
+  if (!liveSession.activeLaptops) {
+    const studentCount = Object.keys(liveSession.activeStudents).length;
+    return { studentCount, laptopCount: studentCount };
+  }
+
+  let totalStudents = 0;
+  const laptops = Object.values(liveSession.activeLaptops);
+  for (const laptop of laptops) {
+    if (laptop.mode === 'partner' && laptop.partnerB) {
+      totalStudents += 2;
+    } else {
+      totalStudents += 1;
+    }
+  }
+
+  return {
+    studentCount: Math.max(totalStudents, Object.keys(liveSession.activeStudents).length),
+    laptopCount: laptops.length,
+  };
 }
 
 export async function GET(request: Request) {
-  pruneInactiveStudents();
+  pruneInactiveSessions();
 
-  // Check if student heartbeat is attached in query params
+  // Check if student / laptop heartbeat is attached in query params
   const { searchParams } = new URL(request.url);
+  const mode = searchParams.get('mode') || 'solo';
   const patron = searchParams.get('patron');
   const studentName = searchParams.get('name');
+  const patronA = searchParams.get('patronA');
+  const nameA = searchParams.get('nameA');
+  const patronB = searchParams.get('patronB');
+  const nameB = searchParams.get('nameB');
 
-  if (patron) {
+  const now = Date.now();
+
+  if (mode === 'partner' && patronA && patronB) {
+    const laptopId = `${patronA}_${patronB}`;
+    if (!liveSession.activeLaptops) {
+      liveSession.activeLaptops = {};
+    }
+    const laptop: LiveConnectedLaptop = {
+      laptopId,
+      mode: 'partner',
+      partnerA: { patronNumber: patronA, studentName: nameA || 'Partner A' },
+      partnerB: { patronNumber: patronB, studentName: nameB || 'Partner B' },
+      lastSeen: now,
+    };
+    liveSession.activeLaptops[laptopId] = laptop;
+
+    liveSession.activeStudents[patronA] = {
+      studentName: `${nameA || 'Student A'} & ${nameB || 'Student B'} (Lab Partners)`,
+      lastSeen: now,
+      mode: 'partner',
+      partnerB: { patronNumber: patronB, studentName: nameB || 'Partner B' },
+    };
+  } else if (patron) {
+    const laptopId = patron;
+    if (!liveSession.activeLaptops) {
+      liveSession.activeLaptops = {};
+    }
+    const laptop: LiveConnectedLaptop = {
+      laptopId,
+      mode: 'solo',
+      partnerA: { patronNumber: patron, studentName: studentName || 'Student' },
+      lastSeen: now,
+    };
+    liveSession.activeLaptops[laptopId] = laptop;
+
     liveSession.activeStudents[patron] = {
       studentName: studentName || 'Student',
-      lastSeen: Date.now(),
+      lastSeen: now,
+      mode: 'solo',
     };
   }
 
   const currentTally = computeTally();
   liveSession.kahootTally = currentTally;
 
+  const counts = countActiveStudents();
+
   return NextResponse.json({
     ...liveSession,
     kahootTally: currentTally,
-    connectedCount: Object.keys(liveSession.activeStudents).length,
+    connectedCount: counts.studentCount,
+    connectedLaptops: counts.laptopCount,
+    activeLaptops: liveSession.activeLaptops,
   });
 }
 
@@ -100,17 +177,20 @@ export async function POST(request: Request) {
     }
 
     liveSession.updatedAt = Date.now();
-    pruneInactiveStudents();
+    pruneInactiveSessions();
 
     const currentTally = computeTally();
     liveSession.kahootTally = currentTally;
+    const counts = countActiveStudents();
 
     return NextResponse.json({
       success: true,
       session: {
         ...liveSession,
         kahootTally: currentTally,
-        connectedCount: Object.keys(liveSession.activeStudents).length,
+        connectedCount: counts.studentCount,
+        connectedLaptops: counts.laptopCount,
+        activeLaptops: liveSession.activeLaptops,
       },
     });
   } catch {
@@ -120,4 +200,3 @@ export async function POST(request: Request) {
     );
   }
 }
-

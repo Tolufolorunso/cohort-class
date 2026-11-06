@@ -112,3 +112,4 @@ Overhaul Module 1 using the complete 4-lesson curriculum from `module-1.md` (Und
 6. On the student window, click **🔷 Blue Diamond (Option B)**. Observe the "Answer locked in!" status and score update.
 7. On the instructor window, observe the live vote distribution bar showing 1 vote for Blue Diamond.
 8. Click **"Reveal Answer to Class"** on the instructor screen and watch both screens instantly celebrate the correct answer with full pedagogical explanations.
+

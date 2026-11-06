@@ -6,13 +6,16 @@ import {
   calculatorVsComputer,
   module1ImageCards,
 } from '../../data/module1';
-import { Cpu, Monitor, CheckCircle, Sparkles } from '../icons/Icons';
+import { Cpu, Monitor, CheckCircle, Sparkles, BookOpen } from '../icons/Icons';
 import { EducationalImage } from '../presentation/EducationalImage';
 
 export function StageDefinition() {
   const [selectedTraitId, setSelectedTraitId] = useState(
     computerCharacteristics[0].id
   );
+  const [explanationMode, setExplanationMode] = useState<
+    'bookish' | 'simple' | 'nigerian'
+  >('simple');
 
   const activeTrait =
     computerCharacteristics.find((t) => t.id === selectedTraitId) ||
@@ -20,57 +23,158 @@ export function StageDefinition() {
 
   const desktopImage = module1ImageCards.find((c) => c.id === 'classroom-desktop') || {
     id: 'classroom-desktop',
-    title: 'Modern Desktop Computer Setup',
+    title: 'Classroom Desktop Computer Workstation',
     caption: 'A complete desktop workstation with monitor, system unit, keyboard, and mouse used in classroom computer labs.',
     url: 'https://images.unsplash.com/photo-1547082299-de196ea013d6?auto=format&fit=crop&w=800&q=80',
     fallbackType: 'desktop' as const,
-    badge: 'Hardware Station',
+    badge: 'Hardware Workstation',
   };
 
-  const tabletImage = module1ImageCards.find((c) => c.id === 'tablet-education') || {
-    id: 'tablet-education',
-    title: 'Interactive Digital Tablet',
-    caption: 'Touchscreen computing device ideal for interactive reading, diagram drawing, and educational quizzes.',
-    url: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80',
-    fallbackType: 'tablet' as const,
-    badge: 'Touch Computing',
+  const studentLabImage = module1ImageCards.find((c) => c.id === 'kid-laptop') || {
+    id: 'kid-laptop',
+    title: 'African Secondary School Students in ICT Class',
+    caption: 'Black African secondary school students in uniforms learning together with equal lab laptops in the computer room.',
+    url: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=800&q=80',
+    fallbackType: 'laptop' as const,
+    badge: 'African Students in Lab',
   };
 
   return (
     <div className="space-y-8 animate-fadeIn">
+      {/* Dual-Layer Language Mode Selector Bar */}
+      <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-2 flex flex-wrap items-center justify-between gap-2 shadow-lg">
+        <div className="flex items-center gap-2 px-3 text-xs font-bold text-zinc-400">
+          <BookOpen size={16} className="text-emerald-400" />
+          <span>How would you like this explained?</span>
+        </div>
+        <div className="flex items-center gap-1.5 flex-wrap">
+          <button
+            type="button"
+            onClick={() => setExplanationMode('simple')}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+              explanationMode === 'simple'
+                ? 'bg-emerald-500 text-zinc-950 shadow-md ring-1 ring-emerald-400'
+                : 'text-zinc-300 hover:text-white hover:bg-zinc-800'
+            }`}
+          >
+            <span>💡 In Simple English</span>
+            <span className="text-[10px] opacity-80">(Recommended)</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setExplanationMode('bookish')}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+              explanationMode === 'bookish'
+                ? 'bg-emerald-500 text-zinc-950 shadow-md ring-1 ring-emerald-400'
+                : 'text-zinc-300 hover:text-white hover:bg-zinc-800'
+            }`}
+          >
+            <span>🎓 Formal Bookish Definition</span>
+            <span className="text-[10px] opacity-80">(WAEC / NECO)</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setExplanationMode('nigerian')}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+              explanationMode === 'nigerian'
+                ? 'bg-emerald-500 text-zinc-950 shadow-md ring-1 ring-emerald-400'
+                : 'text-zinc-300 hover:text-white hover:bg-zinc-800'
+            }`}
+          >
+            <span>🍠 Nigerian Everyday Analogies</span>
+          </button>
+        </div>
+      </div>
+
       {/* Hero Definition Card for Projector */}
       <section className="bg-gradient-to-br from-zinc-900 via-zinc-900 to-zinc-800 rounded-3xl border-2 border-emerald-500/30 p-6 sm:p-8 shadow-xl relative overflow-hidden">
         <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
           <Cpu size={160} />
         </div>
 
-        <div className="max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold uppercase tracking-wider mb-3">
-            <Sparkles size={14} /> Lesson 1: Core Universal Definition
-          </div>
+        <div className="max-w-3xl space-y-4">
+          {explanationMode === 'simple' && (
+            <div className="space-y-4 animate-in fade-in duration-200">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold uppercase tracking-wider">
+                <Sparkles size={14} /> Lesson 1: Plain English Breakdown
+              </div>
+              <h2 className="text-xl sm:text-3xl font-extrabold text-white leading-relaxed">
+                Think of a <span className="text-emerald-400 underline decoration-emerald-500/50 underline-offset-4">computer</span> as a super-fast, tireless helper!
+              </h2>
+              <div className="space-y-2.5 text-zinc-200 text-sm sm:text-base leading-relaxed bg-zinc-950/60 p-5 rounded-2xl border border-zinc-800">
+                <p>
+                  <strong>1. You give it work to do (Input):</strong> You type numbers, write words, tap the screen, or click the mouse.
+                </p>
+                <p>
+                  <strong>2. It thinks and works (Processing):</strong> Its electronic brain (the CPU) calculates the answer in less than one second.
+                </p>
+                <p>
+                  <strong>3. It shows you the result (Output):</strong> It displays the answer on your screen or prints it on paper.
+                </p>
+                <p>
+                  <strong>4. It remembers your work (Storage):</strong> Even if NEPA takes light or you turn it off, it keeps your work safe so you never lose it!
+                </p>
+              </div>
+            </div>
+          )}
 
-          <h2 className="text-xl sm:text-3xl font-extrabold text-white leading-relaxed">
-            A <span className="text-emerald-400 underline decoration-emerald-500/50 underline-offset-4">computer</span> is an electronic machine that accepts raw{' '}
-            <span className="text-amber-400 font-bold">Data (Input)</span>,{' '}
-            <span className="text-sky-400 font-bold">Processes</span> it at high speed following stored instructions, produces meaningful{' '}
-            <span className="text-emerald-400 font-bold">Information (Output)</span>, and{' '}
-            <span className="text-purple-400 font-bold">Stores</span> it for future use.
-          </h2>
+          {explanationMode === 'bookish' && (
+            <div className="space-y-4 animate-in fade-in duration-200">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 text-sky-400 border border-sky-500/20 text-xs font-bold uppercase tracking-wider">
+                <Sparkles size={14} /> Academic Exam Standard (WAEC &amp; NECO)
+              </div>
+              <h2 className="text-xl sm:text-3xl font-extrabold text-white leading-relaxed">
+                A <span className="text-emerald-400 underline decoration-emerald-500/50 underline-offset-4">computer</span> is an automatic electronic device that accepts raw{' '}
+                <span className="text-amber-400 font-bold">Data (Input)</span> through input units,{' '}
+                <span className="text-sky-400 font-bold">Processes</span> it systematically under stored program instructions in the Central Processing Unit (CPU), produces meaningful{' '}
+                <span className="text-emerald-400 font-bold">Information (Output)</span>, and{' '}
+                <span className="text-purple-400 font-bold">Stores</span> it in storage media for future retrieval.
+              </h2>
+              <p className="text-xs text-zinc-400 italic">
+                💡 <strong>Exam Tip:</strong> Memorize the 4 core verbs: <em>Accepts (Input)</em>, <em>Processes (CPU)</em>, <em>Produces (Output)</em>, and <em>Stores (Storage)</em> to get full marks in WAEC/NECO questions.
+              </p>
+            </div>
+          )}
+
+          {explanationMode === 'nigerian' && (
+            <div className="space-y-4 animate-in fade-in duration-200">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 text-xs font-bold uppercase tracking-wider">
+                <Sparkles size={14} /> Relatable Everyday Nigerian Connections
+              </div>
+              <h2 className="text-xl sm:text-2xl font-extrabold text-white leading-relaxed">
+                Just like cooking raw yam into delicious pounded yam:
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                <div className="p-4 rounded-xl bg-zinc-950 border border-amber-500/30 space-y-1.5">
+                  <span className="text-xs font-black uppercase text-amber-400 block">🍠 1. The Kitchen Yam Story</span>
+                  <p className="text-xs text-zinc-300 leading-relaxed">
+                    You cannot eat dirty, raw unpeeled yam. You must peel it, boil it in a pot, and pound it in a mortar. Once it is hot pounded yam on your plate, it is ready to eat!
+                  </p>
+                </div>
+                <div className="p-4 rounded-xl bg-zinc-950 border border-emerald-500/30 space-y-1.5">
+                  <span className="text-xs font-black uppercase text-emerald-400 block">💳 2. The Market POS Agent Story</span>
+                  <p className="text-xs text-zinc-300 leading-relaxed">
+                    You insert your ATM card and enter your PIN (Input). The bank server checks your balance (Processing). The machine prints your receipt and the agent hands you cash (Output)!
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Golden Memory Rule Pill */}
-          <div className="mt-5 inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 font-mono font-bold text-xs sm:text-sm">
-            <span>💡 MEMORY FORMULA:</span>
+          <div className="mt-5 inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 font-mono font-bold text-xs sm:text-sm">
+            <span>💡 GOLDEN MEMORY FORMULA:</span>
             <span className="text-white">RECEIVES → WORKS → SHOWS → STORES</span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6">
             <div className="bg-zinc-800/80 rounded-2xl p-4 border border-zinc-700/60">
-              <div className="text-emerald-400 font-bold text-sm">1. Electronic Device</div>
+              <div className="text-emerald-400 font-bold text-sm">1. Electronic Machine</div>
               <p className="text-xs text-zinc-300 mt-1">Runs on electric power and billions of microscopic transistors.</p>
             </div>
             <div className="bg-zinc-800/80 rounded-2xl p-4 border border-zinc-700/60">
               <div className="text-sky-400 font-bold text-sm">2. Multi-Purpose</div>
-              <p className="text-xs text-zinc-300 mt-1">Unlike a calculator, it can write books, design graphics, and play music.</p>
+              <p className="text-xs text-zinc-300 mt-1">Unlike a simple calculator, it can write books, design graphics, and play music.</p>
             </div>
             <div className="bg-zinc-800/80 rounded-2xl p-4 border border-zinc-700/60">
               <div className="text-purple-400 font-bold text-sm">3. Programmable</div>
@@ -80,8 +184,16 @@ export function StageDefinition() {
         </div>
       </section>
 
-      {/* Visual Educational Cards Side-by-Side */}
+      {/* Visual Educational Cards Side-by-Side (Authentic African Student Representation) */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <EducationalImage
+          src={studentLabImage.url}
+          alt={studentLabImage.title}
+          title={studentLabImage.title}
+          caption={studentLabImage.caption}
+          fallbackType={studentLabImage.fallbackType}
+          badge={studentLabImage.badge}
+        />
         <EducationalImage
           src={desktopImage.url}
           alt={desktopImage.title}
@@ -90,23 +202,15 @@ export function StageDefinition() {
           fallbackType={desktopImage.fallbackType}
           badge={desktopImage.badge}
         />
-        <EducationalImage
-          src={tabletImage.url}
-          alt={tabletImage.title}
-          title={tabletImage.title}
-          caption={tabletImage.caption}
-          fallbackType={tabletImage.fallbackType}
-          badge={tabletImage.badge}
-        />
       </section>
 
       {/* Data vs Information Pedagogical Spotlight */}
       <section className="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 sm:p-8 space-y-4 shadow-lg">
         <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-sky-400">
-          <Sparkles size={16} /> Fundamental Concept
+          <Sparkles size={16} /> Fundamental Concept: Data vs. Information
         </div>
         <h3 className="text-xl sm:text-2xl font-black text-white">
-          Data vs. Information: What is the Difference?
+          What is the Difference Between Data and Information?
         </h3>
         <p className="text-zinc-400 text-sm sm:text-base leading-relaxed">
           Before a computer can show anything useful, it must turn raw facts into organized, meaningful results.
@@ -118,7 +222,7 @@ export function StageDefinition() {
               RAW DATA (Unprocessed Facts)
             </span>
             <p className="text-sm text-zinc-300">
-              Raw figures or isolated symbols without context.
+              Unorganized numbers, words, or measurements without context.
             </p>
             <div className="bg-zinc-900 p-3 rounded-xl font-mono text-sm text-amber-400 border border-zinc-800">
               45, 60, &quot;Tolu&quot;, &quot;Math&quot;, &quot;English&quot;
@@ -133,7 +237,7 @@ export function StageDefinition() {
               PROCESSED INFORMATION (Meaningful Results)
             </span>
             <p className="text-sm text-zinc-300">
-              Data organized and calculated so that humans can make informed decisions.
+              Data organized, calculated, and arranged so that humans can understand and act.
             </p>
             <div className="bg-zinc-900 p-3 rounded-xl font-mono text-sm text-emerald-400 border border-zinc-800">
               Student: Tolu | Total Score: 105 / 200 | Average: 52.5% (Passed)
@@ -237,4 +341,3 @@ export function StageDefinition() {
     </div>
   );
 }
-

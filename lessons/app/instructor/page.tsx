@@ -66,7 +66,18 @@ export default function InstructorControlRoom() {
   const [currentModuleId, setCurrentModuleId] = useState('module-1');
   const [currentStageIndex, setCurrentStageIndex] = useState(0);
   const [syncMode, setSyncModeState] = useState<SyncMode>('follow-teacher');
-  const [activeStudents, setActiveStudents] = useState<Record<string, { studentName: string; lastSeen: number }>>({});
+  const [activeStudents, setActiveStudents] = useState<
+    Record<
+      string,
+      {
+        studentName: string;
+        lastSeen: number;
+        partnerB?: { patronNumber: string; studentName: string };
+        mode?: string;
+      }
+    >
+  >({});
+  const [connectedLaptopsCount, setConnectedLaptopsCount] = useState<number>(0);
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [unlockedModuleIds, setUnlockedModuleIds] = useState<string[]>(['module-1']);
   const [zoomLevel, setZoomState] = useState<ZoomLevel>('normal');
@@ -98,8 +109,11 @@ export default function InstructorControlRoom() {
       try {
         const res = await fetch('/api/live-session');
         if (res.ok) {
-          const data: LiveSessionState = await res.json();
+          const data = await res.json();
           setActiveStudents(data.activeStudents || {});
+          if (typeof data.connectedLaptops === 'number') {
+            setConnectedLaptopsCount(data.connectedLaptops);
+          }
           if (data.kahootTally) setLiveTally(data.kahootTally);
           if (data.activeKahootQuestionId !== undefined) setKahootQuestionId(data.activeKahootQuestionId);
           if (data.isKahootRevealed !== undefined) setIsKahootRevealed(data.isKahootRevealed);
@@ -306,7 +320,20 @@ export default function InstructorControlRoom() {
     );
   }
 
-  const activeConnectedCount = Object.keys(activeStudents).length;
+  const activeConnectedCount = AUTHORIZED_PATRONS.filter((patron) => {
+    const direct = activeStudents[patron];
+    if (direct && currentTime - direct.lastSeen <= 45000) return true;
+    for (const student of Object.values(activeStudents)) {
+      if (
+        student.partnerB &&
+        student.partnerB.patronNumber === patron &&
+        currentTime - student.lastSeen <= 45000
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }).length;
   const currentStage = module1Info.stages[currentStageIndex];
   const isSuper = isSuperAdmin(teacherSession.role);
 
@@ -503,26 +530,62 @@ export default function InstructorControlRoom() {
           </div>
         </section>
 
-        {/* Live Attendance Roster Grid (22 Students) */}
+        {/* Live Attendance Roster Grid (29 Students) */}
         <section className="bg-zinc-900 border border-zinc-800 rounded-3xl p-5 sm:p-7 shadow-xl space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-800 pb-3">
             <div>
               <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                <span>👥</span> Class Attendance &amp; Laptop Connection Roster (22 Students)
+                <span>👥</span> Class Attendance &amp; Laptop Connection Roster ({AUTHORIZED_PATRONS.length} Students)
               </h3>
               <p className="text-xs text-zinc-400 mt-0.5">
-                Real-time connection status of student laptops in the laboratory.
+                Real-time connection status of student laptops and equal lab partners in the laboratory.
               </p>
             </div>
-            <div className="text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-              {activeConnectedCount} of 22 Connected
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                {activeConnectedCount} of {AUTHORIZED_PATRONS.length} Students Connected
+              </span>
+              {connectedLaptopsCount > 0 && (
+                <span className="text-xs font-bold px-3 py-1 rounded-full bg-zinc-800 text-zinc-300 border border-zinc-700">
+                  {connectedLaptopsCount} Laptop{connectedLaptopsCount === 1 ? '' : 's'} Active
+                </span>
+              )}
             </div>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5 pt-1">
             {AUTHORIZED_PATRONS.map((patron) => {
               const live = activeStudents[patron];
-              const isConnected = Boolean(live && currentTime - live.lastSeen <= 45000);
+              let partnerOf: string | null = null;
+              let partnerName = '';
+              for (const [key, student] of Object.entries(activeStudents)) {
+                if (student.partnerB && student.partnerB.patronNumber === patron) {
+                  partnerOf = key;
+                  partnerName = student.partnerB.studentName;
+                  break;
+                }
+              }
+
+              const isDirectConnected = Boolean(live && currentTime - live.lastSeen <= 45000);
+              const isPartnerConnected = Boolean(
+                partnerOf && currentTime - activeStudents[partnerOf].lastSeen <= 45000
+              );
+              const isConnected = isDirectConnected || isPartnerConnected;
+
+              let displayName = 'Offline';
+              let badge = '';
+              if (isDirectConnected && live) {
+                if (live.mode === 'partner' && live.partnerB) {
+                  displayName = live.studentName.split('&')[0].trim();
+                  badge = `🤝 Partner A`;
+                } else {
+                  displayName = live.studentName;
+                  badge = `👤 Solo`;
+                }
+              } else if (isPartnerConnected) {
+                displayName = partnerName || 'Partner B';
+                badge = `🤝 Partner B`;
+              }
 
               return (
                 <div
@@ -542,8 +605,13 @@ export default function InstructorControlRoom() {
                     />
                   </div>
                   <span className="text-[10px] font-medium truncate block">
-                    {isConnected ? live.studentName : 'Offline'}
+                    {displayName}
                   </span>
+                  {badge && (
+                    <span className="text-[9px] font-bold text-emerald-400/80 block mt-0.5">
+                      {badge}
+                    </span>
+                  )}
                 </div>
               );
             })}
@@ -673,7 +741,20 @@ export default function InstructorControlRoom() {
                   {submissions.map((sub) => (
                     <tr key={sub.id} className="hover:bg-zinc-800/40">
                       <td className="p-3 font-mono font-bold text-emerald-400">{sub.patronNumber}</td>
-                      <td className="p-3 font-bold text-white">{sub.studentName}</td>
+                      <td className="p-3 font-bold text-white">
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          <span>{sub.studentName}</span>
+                          {sub.submissionType === 'joint' ? (
+                            <span className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-emerald-950 text-emerald-400 border border-emerald-800">
+                              🤝 Joint
+                            </span>
+                          ) : (
+                            <span className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-zinc-800 text-zinc-400 border border-zinc-700">
+                              👤 Individual
+                            </span>
+                          )}
+                        </div>
+                      </td>
                       <td className="p-3 text-zinc-400">{sub.moduleTitle}</td>
                       <td className="p-3 text-zinc-400">{new Date(sub.submittedAt).toLocaleTimeString()}</td>
                       <td className="p-3 text-right">

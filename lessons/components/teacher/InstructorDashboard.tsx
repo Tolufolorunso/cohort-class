@@ -364,7 +364,18 @@ export function InstructorDashboard({
                       {sub.patronNumber}
                     </td>
                     <td className="p-3 sm:p-4 font-bold text-white">
-                      {sub.studentName}
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span>{sub.studentName}</span>
+                        {sub.submissionType === 'joint' ? (
+                          <span className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-emerald-950 text-emerald-400 border border-emerald-800">
+                            🤝 Joint
+                          </span>
+                        ) : (
+                          <span className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-zinc-800 text-zinc-400 border border-zinc-700">
+                            👤 Individual
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td className="p-3 sm:p-4 text-zinc-400">
                       {sub.moduleTitle}

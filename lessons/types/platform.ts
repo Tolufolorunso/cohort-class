@@ -8,14 +8,25 @@ export type ActiveView = 'stage' | 'notes' | 'assignment' | 'dashboard';
 
 export type SyncMode = 'follow-teacher' | 'self-paced';
 
+export type LoginMode = 'solo' | 'partner';
+
+export interface StudentPartner {
+  patronNumber: string;
+  studentName: string;
+}
+
 export interface AuthorizedStudent {
   patronNumber: string;
   studentName: string;
 }
 
 export interface StudentSession {
-  patronNumber: string;
-  studentName: string;
+  mode: LoginMode;
+  partnerA: StudentPartner;
+  partnerB?: StudentPartner; // present when mode === 'partner'
+  // Convenience accessors for display and backward-compatibility
+  patronNumber: string; // partnerA.patronNumber
+  studentName: string; // formatted e.g. "Adewale O." or "Adewale O. & Chioma E. (Lab Partners)"
   loggedInAt: number;
   expiresAt: number; // loggedInAt + 1 hour (3,600,000 ms)
 }
@@ -26,6 +37,14 @@ export interface TeacherSession {
   authenticatedAt: number;
 }
 
+export interface LiveConnectedLaptop {
+  laptopId: string;
+  mode: LoginMode;
+  partnerA: StudentPartner;
+  partnerB?: StudentPartner;
+  lastSeen: number;
+}
+
 export interface LiveSessionState {
   activeModuleId: string;
   activeLessonIndex: number;
@@ -33,16 +52,23 @@ export interface LiveSessionState {
   syncMode: SyncMode;
   activeKahootQuestionId: number | null;
   isKahootRevealed: boolean;
-  kahootVotes?: Record<string, number>; // patronNumber -> optionIndex (0, 1, 2, 3)
+  kahootVotes?: Record<string, number>; // patronNumber or laptopId -> optionIndex (0, 1, 2, 3)
   kahootTally?: [number, number, number, number]; // counts for Red Triangle, Blue Diamond, Yellow Circle, Green Square
-  activeStudents: Record<string, { studentName: string; lastSeen: number }>;
+  activeStudents: Record<string, { studentName: string; lastSeen: number; partnerB?: StudentPartner; mode?: LoginMode }>;
+  activeLaptops?: Record<string, LiveConnectedLaptop>;
   updatedAt: number;
 }
 
+export type SubmissionType = 'joint' | 'individual';
+
 export interface StudentSubmission {
   id: string;
-  patronNumber: string;
-  studentName: string;
+  submissionType?: SubmissionType;
+  partnerA?: StudentPartner;
+  partnerB?: StudentPartner;
+  submittingStudent?: string; // patron or name when individual submission from shared laptop
+  patronNumber: string; // primary reference
+  studentName: string; // display reference
   moduleId: string;
   moduleTitle: string;
   answers: Record<number, string>;

@@ -218,18 +218,29 @@ export function Header({
 
           {/* Student Identity Pill with 1h Session Countdown */}
           <div
-            className="flex items-center gap-2 px-2.5 py-1 rounded-xl bg-zinc-900 border border-zinc-700/80 text-xs shadow-sm"
+            className="flex items-center gap-2 px-3 py-1 rounded-xl bg-zinc-900 border border-zinc-700/80 text-xs shadow-sm"
             title={`Session expires in ${remainingMinutes} minutes`}
           >
-            <div className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-[10px]">
-              <GraduationCap size={12} />
+            <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-[11px]">
+              {session.mode === 'partner' ? '👥' : <GraduationCap size={14} />}
             </div>
             <div className="text-left hidden sm:block">
-              <span className="font-bold text-white block leading-tight max-w-[120px] truncate">
-                {session.studentName}
-              </span>
+              <div className="flex items-center gap-1.5">
+                <span className="font-bold text-white block leading-tight max-w-[200px] truncate">
+                  {session.mode === 'partner' && session.partnerB
+                    ? `${session.partnerA.studentName.split(' ')[0]} & ${session.partnerB.studentName.split(' ')[0]}`
+                    : session.studentName}
+                </span>
+                {session.mode === 'partner' && (
+                  <span className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-emerald-950 text-emerald-400 border border-emerald-800">
+                    Partners
+                  </span>
+                )}
+              </div>
               <span className="text-[10px] text-zinc-400 font-mono block leading-tight">
-                {session.patronNumber} • {remainingMinutes}m
+                {session.mode === 'partner' && session.partnerB
+                  ? `${session.partnerA.patronNumber} • ${session.partnerB.patronNumber} • ${remainingMinutes}m`
+                  : `${session.patronNumber} • ${remainingMinutes}m`}
               </span>
             </div>
           </div>

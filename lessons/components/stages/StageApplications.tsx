@@ -9,31 +9,31 @@ const LAB_SAFETY_RULES = [
   {
     number: 1,
     title: 'No Food or Liquids',
-    description: 'Never bring water, juices, or snacks near computers. Spills cause devastating short circuits and shock hazards.',
+    description: 'Never bring pure water sachets, soft drinks, gala, or oily snacks near computers. Spills cause instant electrical short circuits and destroy motherboards.',
     icon: '🚫',
   },
   {
     number: 2,
     title: 'Clean & Dry Hands',
-    description: 'Always wash and dry hands before typing. Keeps key switches clean and prevents dirt accumulation.',
+    description: 'Always wash and wipe hands completely dry before touching laptops and keyboards. Prevents moisture and dirt from getting trapped under keys.',
     icon: '🧼',
   },
   {
     number: 3,
     title: 'Gentle Keystrokes',
-    description: 'Press keyboard keys and mouse buttons gently. Banging or hammering breaks delicate internal springs.',
+    description: 'Press keyboard keys and click the mouse gently. Never hammer, bang, or pound keys when thinking through a difficult problem.',
     icon: '⌨️',
   },
   {
     number: 4,
-    title: 'Proper OS Shutdown',
-    description: 'Always shut down through the operating system menu. Never unplug the wall socket directly while files are open.',
+    title: 'Proper Operating System Shutdown',
+    description: 'Always shut down cleanly through the computer menu. Never pull the power cable or turn off the extension socket directly while files are open.',
     icon: '🔌',
   },
   {
     number: 5,
-    title: 'Report Hazards Immediately',
-    description: 'If you smell burning, see sparks, or notice frayed cables, inform your teacher immediately without touching.',
+    title: 'NEPA & Electrical Hazard Caution',
+    description: 'If you smell burning, see sparks, hear the lab UPS inverter beeping loudly, or notice loose wires, alert your instructor immediately without touching.',
     icon: '⚠️',
   },
 ];
@@ -51,20 +51,20 @@ export function StageApplications() {
 
   const hospitalImage = module1ImageCards.find((c) => c.id === 'hospital-healthcare') || {
     id: 'hospital-healthcare',
-    title: 'Computers in Modern Healthcare',
-    caption: 'Medical monitors, ultrasound diagnostics, and digital patient record systems helping doctors save lives.',
-    url: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=800&q=80',
+    title: 'Computers in African Healthcare & Clinics',
+    caption: 'African healthcare doctors and nurses using digital diagnostic monitors, patient ultrasound, and electronic health records to save lives.',
+    url: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=800&q=80',
     fallbackType: 'hospital' as const,
-    badge: 'Saving Lives',
+    badge: 'African Medical Innovation',
   };
 
   const atmImage = module1ImageCards.find((c) => c.id === 'banking-atm') || {
     id: 'banking-atm',
-    title: '24/7 ATM Banking Terminal',
-    caption: 'Specialized computer that validates bank cards, dispenses cash, and securely updates bank accounts in seconds.',
-    url: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=800&q=80',
+    title: 'Nigerian Market POS & 24/7 ATM Terminal',
+    caption: 'POS terminals and ATM machines used across Nigerian markets, supermarkets, and banks for instant electronic cash withdrawals and card transfers.',
+    url: 'https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=800&q=80',
     fallbackType: 'bank' as const,
-    badge: 'Instant Commerce',
+    badge: 'Instant Digital Commerce',
   };
 
   return (
