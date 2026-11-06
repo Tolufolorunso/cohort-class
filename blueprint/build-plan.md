@@ -9,16 +9,17 @@
 - [x] 5. **Shared Laptop Equal-Partner System, Cultural Visual Architecture & Module 1 Simple-English Overhaul** - Support Solo Learner vs. Equal Lab Partners (Partner A & Partner B) login modes; remove the patron list lookup toggle from login; update live session attendance and assignment submissions to support Joint and Individual options; enforce strict African-only cultural educational imagery (zero white people photos); and critically overhaul Module 1 with the Dual-Layer Explanation pattern (formal definition + simple English breakdown + relatable Nigerian analogies + memory formulas) across all 4 lessons and stages.
 - [x] 6. **Module 2: Parts of a Computer (Full 4-Lesson Hardware Lab & Disassembly)** - Integrate full 4-lesson content from `modules data/module-2.md` (Hardware Introduction, Input/Output Devices, System Unit Internals, Storage Devices & Lab Safety); dual-layer explanations (formal + simple English); human body hardware analogy interactive widget; extensive labeled African component photography; interactive System Unit disassembly simulator; and Module 2 pre-generated Kahoot game arena.
 - [x] 7. **Platform Architecture Perfection & Classroom Attention Security** - Real-time student inattention & screen-leave detection with live instructor alert banners and attendance grid focus indicators; 3-hour extended session validity; clean student login security (complete removal of instructor/admin access button); multi-page architecture with direct-to-active-lesson landing (`/learn/[moduleId]`, `/notes`, `/assignments`); sticky floating instructor slide controller dock (always visible without scrolling); increased classroom typography zoom scale (18px / 21px / 24px); and expanded visual illustration density across lesson stages.
-- [ ] 8. **Module 3: Computer Usage, Booting & Core Terminology** - Mouse & touch typing practice, virtual booting sequence, and hardware/software terminology cards.
-- [ ] 9. **Module 4: Operating Systems & Basic Configurations** - Virtual OS desktop explorer, window management, and system settings simulation.
-- [ ] 10. **Module 5: File Management & Organization** - Interactive folder hierarchy tree, file extensions lab, and file organization simulation.
-- [ ] 11. **Module 6: Internet Basics & Digital Citizenship** - URL anatomy simulator, browser controls, and online safety pledge.
-- [ ] 12. **Module 7: Microsoft Office Productivity Suite** - Interactive overview of Word, Excel, and PowerPoint interfaces and use cases.
+- [ ] 8. **Official Cohort Attendance API Integration & Instructor Desk** - Real-time student attendance marking via DZF Cohort API (https://dzf-cohorts.vercel.app/api/cohorts/{cohortType}/attendance) with API key authentication; support for Single Check-In (scanner/toggle), Quick Bulk Barcode Check-In ("Mark All Connected Present", "Mark All Roster"), and Detailed Roster Sync; live attendance retrieval (GET) with present/absent counts and attendance rate (%); roster expansion to include student 20250645; and offline resilience caching.
+- [ ] 9. **Module 3: Computer Usage, Booting & Core Terminology** - Mouse & touch typing practice, virtual booting sequence, and hardware/software terminology cards.
+- [ ] 10. **Module 4: Operating Systems & Basic Configurations** - Virtual OS desktop explorer, window management, and system settings simulation.
+- [ ] 11. **Module 5: File Management & Organization** - Interactive folder hierarchy tree, file extensions lab, and file organization simulation.
+- [ ] 12. **Module 6: Internet Basics & Digital Citizenship** - URL anatomy simulator, browser controls, and online safety pledge.
+- [ ] 13. **Module 7: Microsoft Office Productivity Suite** - Interactive overview of Word, Excel, and PowerPoint interfaces and use cases.
 
 ## Phase 2: Intermediate (Creative Logic & App Development)
 
-- [ ] 13. **Phase 2 Curriculum Hub (Modules 8-13)** - Interactive lessons for Computational Thinking (Mod 8), Scratch Programming (Mod 9), Python Scripting (Mod 10), JavaScript Web Logic (Mod 11), and Mobile App Concepts (Mod 12-13).
+- [ ] 14. **Phase 2 Curriculum Hub (Modules 8-13)** - Interactive lessons for Computational Thinking (Mod 8), Scratch Programming (Mod 9), Python Scripting (Mod 10), JavaScript Web Logic (Mod 11), and Mobile App Concepts (Mod 12-13).
 
 ## Phase 3: Advanced (Specialized Technologies & Futures)
 
-- [ ] 14. **Phase 3 Curriculum Hub (Modules 14-19)** - Interactive lessons for Web Design (Mod 14), Git/GitHub (Mod 15), AI Prompting (Mod 16), Robotics/Arduino (Mod 17), Digital Design (Mod 18), Cybersecurity & Career Pathways (Mod 19).
+- [ ] 15. **Phase 3 Curriculum Hub (Modules 14-19)** - Interactive lessons for Web Design (Mod 14), Git/GitHub (Mod 15), AI Prompting (Mod 16), Robotics/Arduino (Mod 17), Digital Design (Mod 18), Cybersecurity & Career Pathways (Mod 19).

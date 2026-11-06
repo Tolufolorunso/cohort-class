@@ -62,20 +62,32 @@ Every computer science topic, component, and stage must follow this rigorous tea
 - **4 Vibrant Response Shapes:** 🔺 Red Triangle (A), 🔷 Blue Diamond (B), 🟡 Yellow Circle (C), 🟩 Green Square (D).
 - **Classroom Battle Flow:** 30s countdown timer, live response distribution tally, instructor-triggered reveal celebrations, and collaborative partner scoring.
 
+### E. Official Cohort Attendance API Integration
+- **Direct Integration:** Synchronizes attendance records directly with the Dzuels Foundation Cohort API at `https://dzf-cohorts.vercel.app/api`.
+- **Authentication:** Authenticates with secret staff key `dzf_live_85605f3bdd15ab044f0ed52e13f025be11cb60cc3c7187e4` via `X-DZF-API-Key`.
+- **Active Cohort:** `cohort-8`.
+- **Multi-Mode Attendance Desk:**
+  - **Single Check-In (Scanner / Mobile):** Real-time toggle or barcode scan for individual students.
+  - **Quick Bulk Check-In:** Batch submission of barcodes (`Mark All Connected Present`, `Mark All Roster`).
+  - **Detailed Records Sync:** Full roster sync with explicit `attended: true/false` status per student.
+- **Session Attendance Retrieval (GET):** Live query of cohort attendance for any date and curriculum week (`totalStudents`, `presentCount`, `absentCount`, `attendanceRate` %).
+- **Roster Alignment:** Expanded authorized patron whitelist to 30 students, including newly enrolled student `20250645`.
+
 ## 4. Multi-Page Architecture & Route Map
 
 - `/` — Student entry gate (with direct-to-lesson routing upon login).
 - `/learn/[moduleId]` — Fullscreen interactive classroom stage (Module 1, Module 2, etc.).
 - `/notes` & `/notes/[moduleId]` — Dedicated student notebook transcription desk (with progress check-offs and print layout).
 - `/assignments` & `/assignments/[moduleId]` — Homework & practical submission center (Solo and Joint partner submissions).
-- `/instructor` — Instructor Control Room with live slide broadcast dock, screen-leave attention alerts, module locking, and grading ledger.
+- `/instructor` — Instructor Control Room with live slide broadcast dock, official cohort attendance desk, screen-leave attention alerts, module locking, and grading ledger.
 
 ## 5. Features & Build Modules (Phases 1, 2 & 3)
 
 ### Phase 1: Foundational Digital Literacy & Core Platform
 - **Module 1 (Shipped):** Introduction to Computers (Data vs. Information, IPOS Cycle with Cooking & ATM, History & Generations, Computer Classification, Societal Applications, and Kahoot Arena).
 - **Module 2 (Shipped):** Parts of a Computer (Hardware Anatomy, Human Body Analogy, Peripheral Sorting, 7-Step PC Disassembly Simulator, Storage Drives & Byte Scale Ladder, and Kahoot Arena).
-- **Feature 7 (Platform Perfection):** Inattention detection, 3-hour sessions, sticky instructor dock, enhanced zoom, clean login, multi-page routing, and expanded visual density.
+- **Feature 7 (Shipped):** Inattention detection, 3-hour sessions, sticky instructor dock, enhanced zoom, clean login, multi-page routing, and expanded visual density.
+- **Feature 8 (Official Cohort Attendance Desk):** Official Cohort API integration (`dzf-cohorts.vercel.app`), multi-mode attendance marking (single, bulk, detailed sync), live stats (rate, present/absent), and roster expansion for `20250645`.
 - **Modules 3–7:** Computer Usage & Booting, Operating Systems & Desktop Explorer, File Management & Organization, Internet Basics & Digital Citizenship, Microsoft Office Productivity Suite.
 
 ### Phase 2: Intermediate (Creative Logic & App Development)
