@@ -28,7 +28,7 @@ export interface StudentSession {
   patronNumber: string; // partnerA.patronNumber
   studentName: string; // formatted e.g. "Adewale O." or "Adewale O. & Chioma E. (Lab Partners)"
   loggedInAt: number;
-  expiresAt: number; // loggedInAt + 1 hour (3,600,000 ms)
+  expiresAt: number; // loggedInAt + 3 hours (10,800,000 ms)
 }
 
 export interface TeacherSession {
@@ -43,6 +43,16 @@ export interface LiveConnectedLaptop {
   partnerA: StudentPartner;
   partnerB?: StudentPartner;
   lastSeen: number;
+  isFocused?: boolean; // false when student minimized or switched tabs
+  leftScreenAt?: number | null; // timestamp when screen was left
+  awayDurationSeconds?: number; // duration student has been away from screen
+}
+
+export interface ClassroomAttentionAlert {
+  laptopId: string;
+  studentName: string;
+  leftScreenAt: number;
+  awayDurationSeconds: number;
 }
 
 export interface LiveSessionState {
@@ -54,8 +64,20 @@ export interface LiveSessionState {
   isKahootRevealed: boolean;
   kahootVotes?: Record<string, number>; // patronNumber or laptopId -> optionIndex (0, 1, 2, 3)
   kahootTally?: [number, number, number, number]; // counts for Red Triangle, Blue Diamond, Yellow Circle, Green Square
-  activeStudents: Record<string, { studentName: string; lastSeen: number; partnerB?: StudentPartner; mode?: LoginMode }>;
+  activeStudents: Record<
+    string,
+    {
+      studentName: string;
+      lastSeen: number;
+      partnerB?: StudentPartner;
+      mode?: LoginMode;
+      isFocused?: boolean;
+      leftScreenAt?: number | null;
+      awayDurationSeconds?: number;
+    }
+  >;
   activeLaptops?: Record<string, LiveConnectedLaptop>;
+  attentionAlerts?: ClassroomAttentionAlert[];
   updatedAt: number;
 }
 

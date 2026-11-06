@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { LiveSessionState, LiveConnectedLaptop } from '../../../types/platform';
+import { LiveSessionState, LiveConnectedLaptop, ClassroomAttentionAlert } from '../../../types/platform';
 
 // In-memory live session state for classroom mirroring
 const liveSession: LiveSessionState = {
@@ -85,7 +85,15 @@ export async function GET(request: Request) {
   const patronB = searchParams.get('patronB');
   const nameB = searchParams.get('nameB');
 
+  // Attention tracking query parameters
+  const isFocusedParam = searchParams.get('isFocused');
+  const isFocused = isFocusedParam !== 'false';
+  const leftScreenAtParam = searchParams.get('leftScreenAt');
+  const rawLeftScreenAt = leftScreenAtParam ? Number(leftScreenAtParam) : null;
+
   const now = Date.now();
+  const leftScreenAt = !isFocused ? (rawLeftScreenAt || now) : null;
+  const awayDurationSeconds = !isFocused && leftScreenAt ? Math.max(0, Math.round((now - leftScreenAt) / 1000)) : 0;
 
   if (mode === 'partner' && patronA && patronB) {
     const laptopId = `${patronA}_${patronB}`;
@@ -98,6 +106,9 @@ export async function GET(request: Request) {
       partnerA: { patronNumber: patronA, studentName: nameA || 'Partner A' },
       partnerB: { patronNumber: patronB, studentName: nameB || 'Partner B' },
       lastSeen: now,
+      isFocused,
+      leftScreenAt,
+      awayDurationSeconds,
     };
     liveSession.activeLaptops[laptopId] = laptop;
 
@@ -106,6 +117,9 @@ export async function GET(request: Request) {
       lastSeen: now,
       mode: 'partner',
       partnerB: { patronNumber: patronB, studentName: nameB || 'Partner B' },
+      isFocused,
+      leftScreenAt,
+      awayDurationSeconds,
     };
   } else if (patron) {
     const laptopId = patron;
@@ -117,6 +131,9 @@ export async function GET(request: Request) {
       mode: 'solo',
       partnerA: { patronNumber: patron, studentName: studentName || 'Student' },
       lastSeen: now,
+      isFocused,
+      leftScreenAt,
+      awayDurationSeconds,
     };
     liveSession.activeLaptops[laptopId] = laptop;
 
@@ -124,7 +141,28 @@ export async function GET(request: Request) {
       studentName: studentName || 'Student',
       lastSeen: now,
       mode: 'solo',
+      isFocused,
+      leftScreenAt,
+      awayDurationSeconds,
     };
+  }
+
+  // Aggregate current attention alerts for the instructor
+  const attentionAlerts: ClassroomAttentionAlert[] = [];
+  if (liveSession.activeLaptops) {
+    for (const [lapId, lap] of Object.entries(liveSession.activeLaptops)) {
+      if (lap.isFocused === false && lap.leftScreenAt) {
+        const studentDisplayName = lap.mode === 'partner' && lap.partnerB
+          ? `${lap.partnerA.studentName} & ${lap.partnerB.studentName} (Shared Laptop)`
+          : lap.partnerA.studentName;
+        attentionAlerts.push({
+          laptopId: lapId,
+          studentName: studentDisplayName,
+          leftScreenAt: lap.leftScreenAt,
+          awayDurationSeconds: Math.max(0, Math.round((now - lap.leftScreenAt) / 1000)),
+        });
+      }
+    }
   }
 
   const currentTally = computeTally();
@@ -138,6 +176,7 @@ export async function GET(request: Request) {
     connectedCount: counts.studentCount,
     connectedLaptops: counts.laptopCount,
     activeLaptops: liveSession.activeLaptops,
+    attentionAlerts,
   });
 }
 

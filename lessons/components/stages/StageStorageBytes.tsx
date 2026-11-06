@@ -157,8 +157,8 @@ export function StageStorageBytes() {
               src={hddImage.url}
               alt={hddImage.title}
               title={hddImage.title}
-              fallbackType={hddImage.fallbackType}
-              badge="Traditional Drive"
+              fallbackType="storage-platter"
+              badge="Magnetic Platter Cutaway"
               aspect="aspect-16/10"
             />
             <ul className="space-y-1.5 text-xs text-zinc-300">

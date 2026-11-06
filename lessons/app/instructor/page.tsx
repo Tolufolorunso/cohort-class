@@ -8,6 +8,7 @@ import {
   SyncMode,
   StudentSubmission,
   ZoomLevel,
+  ClassroomAttentionAlert,
 } from '../../types/platform';
 import {
   getTeacherSession,
@@ -81,9 +82,13 @@ export default function InstructorControlRoom() {
         lastSeen: number;
         partnerB?: { patronNumber: string; studentName: string };
         mode?: string;
+        isFocused?: boolean;
+        leftScreenAt?: number | null;
+        awayDurationSeconds?: number;
       }
     >
   >({});
+  const [attentionAlerts, setAttentionAlerts] = useState<ClassroomAttentionAlert[]>([]);
   const [connectedLaptopsCount, setConnectedLaptopsCount] = useState<number>(0);
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [unlockedModuleIds, setUnlockedModuleIds] = useState<string[]>(['module-1']);
@@ -118,6 +123,9 @@ export default function InstructorControlRoom() {
         if (res.ok) {
           const data = await res.json();
           setActiveStudents(data.activeStudents || {});
+          if (data.attentionAlerts) {
+            setAttentionAlerts(data.attentionAlerts);
+          }
           if (typeof data.connectedLaptops === 'number') {
             setConnectedLaptopsCount(data.connectedLaptops);
           }
@@ -136,16 +144,16 @@ export default function InstructorControlRoom() {
     return () => clearInterval(interval);
   }, [teacherSession]);
 
-  // Synchronize visual zoom
+  // Synchronize visual zoom (Normal: 18px, Large: 21px, X-Large: 24px)
   useEffect(() => {
     if (typeof document === 'undefined') return;
     const root = document.documentElement;
     if (zoomLevel === 'xlarge') {
-      root.style.fontSize = '20.5px';
+      root.style.fontSize = '24px';
     } else if (zoomLevel === 'large') {
-      root.style.fontSize = '18.5px';
+      root.style.fontSize = '21px';
     } else {
-      root.style.fontSize = '16px';
+      root.style.fontSize = '18px';
     }
   }, [zoomLevel]);
 
@@ -257,6 +265,41 @@ export default function InstructorControlRoom() {
       setIsFullscreen(false);
     }
   };
+
+  // Global arrow key navigation for presenter clickers and quick slide navigation
+  useEffect(() => {
+    if (!teacherSession) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+      if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')) {
+        return;
+      }
+      if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+        e.preventDefault();
+        const total = activeModuleInfo.stages.length;
+        setCurrentStageIndex((prev) => {
+          if (prev < total - 1) {
+            const next = prev + 1;
+            broadcastUpdate({ activeStageIndex: next });
+            return next;
+          }
+          return prev;
+        });
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        setCurrentStageIndex((prev) => {
+          if (prev > 0) {
+            const prevIndex = prev - 1;
+            broadcastUpdate({ activeStageIndex: prevIndex });
+            return prevIndex;
+          }
+          return prev;
+        });
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [teacherSession, activeModuleInfo.stages.length, broadcastUpdate]);
 
   if (!hasCheckedAuth) {
     return (
@@ -460,7 +503,52 @@ export default function InstructorControlRoom() {
       </header>
 
       {/* Main Command Surface */}
-      <main className="max-w-7xl mx-auto w-full px-4 py-6 sm:px-6 sm:py-8 space-y-8 flex-1">
+      <main className="max-w-7xl mx-auto w-full px-4 py-6 sm:px-6 sm:py-8 space-y-8 flex-1 pb-24">
+        {/* Real-Time Classroom Attention Alert Banner */}
+        {attentionAlerts.length > 0 && (
+          <aside
+            aria-live="assertive"
+            className="bg-gradient-to-r from-rose-950 via-rose-900 to-rose-950 border-2 border-rose-500 rounded-3xl p-5 sm:p-6 shadow-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-in fade-in slide-in-from-top-4"
+          >
+            <div className="flex items-center gap-3.5">
+              <div className="w-12 h-12 rounded-2xl bg-rose-500/20 border border-rose-400 flex items-center justify-center text-rose-300 text-2xl shrink-0 animate-pulse shadow-inner">
+                ⚠️
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-rose-300 bg-rose-950/80 px-2 py-0.5 rounded border border-rose-800">
+                    Classroom Attention Alert
+                  </span>
+                  <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping" />
+                </div>
+                <h3 className="text-base sm:text-lg font-black text-white mt-1">
+                  {attentionAlerts.length === 1
+                    ? '1 Student Left Lesson Screen'
+                    : `${attentionAlerts.length} Students Left Lesson Screen`}
+                </h3>
+                <div className="text-xs text-rose-200 mt-1 flex flex-wrap gap-2">
+                  {attentionAlerts.map((alert) => (
+                    <span
+                      key={alert.laptopId}
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-rose-900/60 border border-rose-700/60 text-white font-semibold"
+                    >
+                      <span>👤 {alert.studentName}</span>
+                      <span className="text-[10px] font-mono text-rose-300 bg-rose-950 px-1.5 py-0.5 rounded">
+                        Away: {alert.awayDurationSeconds}s
+                      </span>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="shrink-0 text-right">
+              <span className="text-[11px] text-rose-300/80 block">
+                Direct student attention back to the lesson
+              </span>
+            </div>
+          </aside>
+        )}
+
         {/* Slide Controller Deck */}
         <section className="bg-gradient-to-r from-zinc-900 via-zinc-900 to-zinc-950 border-2 border-amber-500/40 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-5">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-zinc-800 pb-4">
@@ -613,31 +701,47 @@ export default function InstructorControlRoom() {
                 badge = `🤝 Partner B`;
               }
 
+              const liveRecord = live || (partnerOf ? activeStudents[partnerOf] : null);
+              const isInattentive = Boolean(isConnected && liveRecord && liveRecord.isFocused === false);
+              const awaySecs = liveRecord?.awayDurationSeconds || 0;
+
               return (
                 <div
                   key={patron}
-                  className={`p-2.5 rounded-xl border transition-all flex flex-col justify-between ${isConnected
+                  className={`p-2.5 rounded-xl border transition-all flex flex-col justify-between ${
+                    isInattentive
+                      ? 'bg-rose-950/60 border-rose-500 text-rose-200 ring-2 ring-rose-500/50 animate-pulse shadow-md shadow-rose-950/40'
+                      : isConnected
                       ? 'bg-emerald-950/30 border-emerald-500/50 text-emerald-300 shadow-sm'
                       : 'bg-zinc-950/60 border-zinc-800/80 text-zinc-500'
-                    }`}
+                  }`}
                 >
                   <div className="flex items-center justify-between gap-1 mb-1">
                     <span className="font-mono text-xs font-bold tracking-wider">
                       {patron}
                     </span>
                     <span
-                      className={`w-2 h-2 rounded-full ${isConnected ? 'bg-emerald-400 animate-pulse' : 'bg-zinc-700'
-                        }`}
+                      className={`w-2 h-2 rounded-full ${
+                        isInattentive
+                          ? 'bg-rose-500 animate-ping'
+                          : isConnected
+                          ? 'bg-emerald-400 animate-pulse'
+                          : 'bg-zinc-700'
+                      }`}
                     />
                   </div>
                   <span className="text-[10px] font-medium truncate block">
                     {displayName}
                   </span>
-                  {badge && (
+                  {isInattentive ? (
+                    <span className="text-[9px] font-black text-rose-400 block mt-0.5 truncate">
+                      🔴 Away ({awaySecs}s)
+                    </span>
+                  ) : badge ? (
                     <span className="text-[9px] font-bold text-emerald-400/80 block mt-0.5">
                       {badge}
                     </span>
-                  )}
+                  ) : null}
                 </div>
               );
             })}
@@ -800,6 +904,60 @@ export default function InstructorControlRoom() {
           )}
         </section>
       </main>
+
+      {/* Persistent Floating Slide Navigation Dock (Always Accessible Without Scrolling) */}
+      <aside
+        aria-label="Floating Slide Navigation Dock"
+        className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 max-w-2xl w-[94%] sm:w-auto bg-zinc-950/95 backdrop-blur-md border-2 border-amber-500/70 rounded-2xl shadow-2xl px-4 py-2.5 flex items-center justify-between sm:justify-center gap-3 sm:gap-4 ring-2 ring-amber-500/20 animate-in fade-in slide-in-from-bottom-3"
+      >
+        {/* Previous Slide Button */}
+        <button
+          type="button"
+          onClick={() => handleStageChange(currentStageIndex - 1)}
+          disabled={currentStageIndex === 0}
+          className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl text-xs font-black transition-all ${
+            currentStageIndex === 0
+              ? 'bg-zinc-900/60 text-zinc-600 border border-zinc-800 cursor-not-allowed'
+              : 'bg-zinc-900 hover:bg-amber-500 hover:text-zinc-950 text-white border border-zinc-700 shadow-md'
+          }`}
+          title="Previous Slide (or Left Arrow)"
+        >
+          <ChevronLeft size={16} />
+          <span className="hidden sm:inline">Prev Slide</span>
+          <kbd className="hidden md:inline-block px-1.5 py-0.5 bg-zinc-800 text-[10px] text-zinc-400 rounded border border-zinc-700 font-mono">
+            ←
+          </kbd>
+        </button>
+
+        {/* Stage Progress & Title */}
+        <div className="flex flex-col items-center text-center px-1 min-w-[130px] sm:min-w-[220px]">
+          <span className="text-[10px] font-black uppercase tracking-wider text-amber-400">
+            Slide {currentStageIndex + 1} of {activeModuleInfo.stages.length}
+          </span>
+          <span className="text-xs font-bold text-white truncate max-w-[150px] sm:max-w-[260px]">
+            {currentStage.title}
+          </span>
+        </div>
+
+        {/* Next Slide Button */}
+        <button
+          type="button"
+          onClick={() => handleStageChange(currentStageIndex + 1)}
+          disabled={currentStageIndex === activeModuleInfo.stages.length - 1}
+          className={`flex items-center gap-1.5 px-4 sm:px-5 py-2 rounded-xl text-xs font-black transition-all ${
+            currentStageIndex === activeModuleInfo.stages.length - 1
+              ? 'bg-zinc-900/60 text-zinc-600 border border-zinc-800 cursor-not-allowed'
+              : 'bg-amber-500 hover:bg-amber-400 text-zinc-950 shadow-lg shadow-amber-500/25'
+          }`}
+          title="Next Slide (or Right Arrow)"
+        >
+          <span className="hidden sm:inline">Next Slide</span>
+          <kbd className="hidden md:inline-block px-1.5 py-0.5 bg-amber-600 text-[10px] text-zinc-950 rounded border border-amber-700 font-mono">
+            →
+          </kbd>
+          <ChevronRight size={16} />
+        </button>
+      </aside>
 
       {/* Submission Inspector Modal */}
       {selectedSubmission && (

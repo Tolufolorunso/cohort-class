@@ -58,7 +58,10 @@ export type ImageFallbackType =
   | 'memorycard'
   | 'touchscreen'
   | 'projector'
-  | 'disassembly';
+  | 'disassembly'
+  | 'cpu-cutaway'
+  | 'ram-cutaway'
+  | 'storage-platter';
 
 export interface ImageCard {
   id: string;

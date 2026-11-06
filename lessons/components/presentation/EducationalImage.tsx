@@ -559,6 +559,100 @@ export function EducationalImage({
           </svg>
         );
 
+      case 'cpu-cutaway':
+        return (
+          <svg viewBox="0 0 400 240" className="w-full h-full bg-zinc-900 select-none font-sans">
+            {/* Substrate base */}
+            <rect x="70" y="45" width="260" height="130" rx="6" fill="#065f46" stroke="#10b981" strokeWidth="2" />
+            {/* LGA gold contact pads bottom */}
+            <line x1="80" y1="180" x2="320" y2="180" stroke="#fbbf24" strokeWidth="4" strokeDasharray="3,2" />
+            {/* Integrated Heat Spreader (IHS) Metal Lid */}
+            <rect x="100" y="60" width="200" height="100" rx="8" fill="#27272a" stroke="#71717a" strokeWidth="2" />
+            {/* Silicon Die Cutaway inside */}
+            <rect x="140" y="80" width="120" height="60" rx="3" fill="#0f172a" stroke="#38bdf8" strokeWidth="1.5" />
+            {/* Core partitions */}
+            <rect x="148" y="86" width="22" height="22" rx="2" fill="#1e293b" stroke="#38bdf8" strokeWidth="1" />
+            <rect x="174" y="86" width="22" height="22" rx="2" fill="#1e293b" stroke="#38bdf8" strokeWidth="1" />
+            <rect x="148" y="112" width="22" height="22" rx="2" fill="#1e293b" stroke="#38bdf8" strokeWidth="1" />
+            <rect x="174" y="112" width="22" height="22" rx="2" fill="#1e293b" stroke="#38bdf8" strokeWidth="1" />
+            {/* Shared L3 Cache */}
+            <rect x="202" y="86" width="50" height="48" rx="2" fill="#064e3b" stroke="#10b981" strokeWidth="1" />
+            <text x="227" y="114" fill="#34d399" fontSize="9" textAnchor="middle" fontWeight="bold">L3 CACHE</text>
+            <text x="172" y="101" fill="#93c5fd" fontSize="8" textAnchor="middle" fontWeight="bold">CPU CORES</text>
+            {/* Labels */}
+            <text x="200" y="32" fill="#fbbf24" fontSize="12" textAnchor="middle" fontWeight="black">
+              CPU INTERNAL MICROARCHITECTURE CUTAWAY
+            </text>
+            <text x="200" y="210" fill="#a1a1aa" fontSize="11" textAnchor="middle" fontWeight="semibold">
+              Silicon Die • LGA Contact Array • Integrated Heat Spreader (IHS)
+            </text>
+          </svg>
+        );
+
+      case 'ram-cutaway':
+        return (
+          <svg viewBox="0 0 400 240" className="w-full h-full bg-zinc-900 select-none font-sans">
+            {/* RAM PCB Stick */}
+            <rect x="40" y="70" width="320" height="90" rx="4" fill="#064e3b" stroke="#10b981" strokeWidth="2" />
+            {/* Gold Pin Edge Contacts with Key Notch */}
+            <rect x="45" y="160" width="135" height="15" fill="#f59e0b" />
+            {/* Key Notch */}
+            <rect x="180" y="155" width="12" height="22" rx="2" fill="#18181b" />
+            <rect x="192" y="160" width="163" height="15" fill="#f59e0b" />
+            <line x1="45" y1="168" x2="355" y2="168" stroke="#18181b" strokeWidth="1" strokeDasharray="3,2" />
+            {/* 8 DRAM Chip Modules */}
+            {[55, 90, 125, 160, 205, 240, 275, 310].map((x, i) => (
+              <g key={i}>
+                <rect x={x} y="85" width="28" height="55" rx="2" fill="#18181b" stroke="#3f3f46" strokeWidth="1" />
+                <rect x={x + 4} y="92" width="20" height="8" rx="1" fill="#27272a" />
+                <text x={x + 14} y="125" fill="#71717a" fontSize="7" textAnchor="middle" fontWeight="bold">DRAM</text>
+              </g>
+            ))}
+            {/* SPD EEPROM */}
+            <rect x="46" y="80" width="6" height="8" fill="#d97706" />
+            {/* Title & Labels */}
+            <text x="200" y="45" fill="#34d399" fontSize="12" textAnchor="middle" fontWeight="black">
+              DDR RAM STICK ANATOMY & CONTACT KEY
+            </text>
+            <text x="186" y="195" fill="#f59e0b" fontSize="10" textAnchor="middle" fontWeight="bold">
+              ↑ Alignment Key Notch (Prevents Wrong Insertion)
+            </text>
+            <text x="200" y="222" fill="#a1a1aa" fontSize="11" textAnchor="middle" fontWeight="semibold">
+              8-Layer PCB Substrate • Gold Contact Fingers • High-Speed DRAM Chips
+            </text>
+          </svg>
+        );
+
+      case 'storage-platter':
+        return (
+          <svg viewBox="0 0 400 240" className="w-full h-full bg-zinc-900 select-none font-sans">
+            {/* HDD Metal Case */}
+            <rect x="60" y="25" width="280" height="180" rx="12" fill="#18181b" stroke="#71717a" strokeWidth="2" />
+            {/* Spinning Circular Platter */}
+            <circle cx="170" cy="115" r="70" fill="#3f3f46" stroke="#94a3b8" strokeWidth="2" />
+            <circle cx="170" cy="115" r="50" fill="#475569" stroke="#64748b" strokeWidth="1" strokeDasharray="4,2" />
+            <circle cx="170" cy="115" r="30" fill="#334155" stroke="#64748b" strokeWidth="1" strokeDasharray="3,2" />
+            <circle cx="170" cy="115" r="16" fill="#1e293b" stroke="#0ea5e9" strokeWidth="2" />
+            <circle cx="170" cy="115" r="6" fill="#0ea5e9" />
+            {/* Actuator Arm & Read/Write Head */}
+            <circle cx="285" cy="155" r="18" fill="#0f172a" stroke="#f59e0b" strokeWidth="2" />
+            <polygon points="285,155 190,95 186,98 280,160" fill="#cbd5e1" stroke="#475569" strokeWidth="1" />
+            {/* Head slider at tip */}
+            <rect x="182" y="92" width="7" height="6" rx="1" fill="#f59e0b" />
+            {/* Voice Coil Magnet */}
+            <path d="M270,140 Q290,130 310,145" fill="none" stroke="#ef4444" strokeWidth="4" />
+            {/* Labels */}
+            <text x="200" y="20" fill="#38bdf8" fontSize="12" textAnchor="middle" fontWeight="black">
+              HARD DISK DRIVE (HDD) MECHANICAL PLATTER CUTAWAY
+            </text>
+            <text x="170" y="119" fill="#e2e8f0" fontSize="8" textAnchor="middle" fontWeight="bold">SPINDLE</text>
+            <text x="285" y="185" fill="#f59e0b" fontSize="9" textAnchor="middle" fontWeight="bold">ACTUATOR ARM</text>
+            <text x="200" y="222" fill="#a1a1aa" fontSize="11" textAnchor="middle" fontWeight="semibold">
+              Magnetic Platter (5400-7200 RPM) • Read/Write Slider • Voice Coil Motor
+            </text>
+          </svg>
+        );
+
       default:
         return (
           <svg viewBox="0 0 400 240" className="w-full h-full bg-zinc-900 select-none">

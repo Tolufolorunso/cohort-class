@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { ActiveView, ZoomLevel, StudentSession, SyncMode } from '../../types/platform';
 import {
   BookOpen,
@@ -17,7 +18,7 @@ interface HeaderProps {
   currentModuleId: string;
   onSelectModule: (moduleId: string) => void;
   activeView: ActiveView;
-  onSelectView: (view: ActiveView) => void;
+  onSelectView?: (view: ActiveView) => void;
   zoomLevel: ZoomLevel;
   onChangeZoom: (level: ZoomLevel) => void;
   unlockedModuleIds: string[];
@@ -50,12 +51,37 @@ export function Header({
   isFullscreen = false,
   onToggleFullscreen,
 }: HeaderProps) {
+  const router = useRouter();
   const remainingMinutes = getRemainingSessionMinutes(session);
 
   const handleModuleClick = (moduleId: string) => {
     const isUnlocked = unlockedModuleIds.includes(moduleId);
     if (isUnlocked) {
       onSelectModule(moduleId);
+      const targetPath =
+        activeView === 'stage'
+          ? `/learn/${moduleId}`
+          : activeView === 'notes'
+          ? `/notes/${moduleId}`
+          : `/assignments/${moduleId}`;
+      if (typeof window !== 'undefined' && window.location.pathname !== targetPath) {
+        router.push(targetPath);
+      }
+    }
+  };
+
+  const handleViewClick = (view: ActiveView) => {
+    if (onSelectView) {
+      onSelectView(view);
+    }
+    const targetPath =
+      view === 'stage'
+        ? `/learn/${currentModuleId}`
+        : view === 'notes'
+        ? `/notes/${currentModuleId}`
+        : `/assignments/${currentModuleId}`;
+    if (typeof window !== 'undefined' && window.location.pathname !== targetPath) {
+      router.push(targetPath);
     }
   };
 
@@ -139,7 +165,7 @@ export function Header({
 
           <div className="flex items-center gap-1 bg-zinc-900/90 p-1 rounded-xl border border-zinc-800/80 shadow-inner">
             <button
-              onClick={() => onSelectView('stage')}
+              onClick={() => handleViewClick('stage')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                 activeView === 'stage'
                   ? 'bg-emerald-500 text-zinc-950 shadow-md'
@@ -151,7 +177,7 @@ export function Header({
             </button>
 
             <button
-              onClick={() => onSelectView('notes')}
+              onClick={() => handleViewClick('notes')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                 activeView === 'notes'
                   ? 'bg-emerald-500 text-zinc-950 shadow-md'
@@ -163,7 +189,7 @@ export function Header({
             </button>
 
             <button
-              onClick={() => onSelectView('assignment')}
+              onClick={() => handleViewClick('assignment')}
               className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                 activeView === 'assignment'
                   ? 'bg-emerald-500 text-zinc-950 shadow-md'
@@ -188,7 +214,7 @@ export function Header({
                   ? 'bg-emerald-500 text-zinc-950 shadow-sm'
                   : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
               }`}
-              title="Normal Text Size (100%)"
+              title="Normal Text Size (18px)"
             >
               A-
             </button>
@@ -199,7 +225,7 @@ export function Header({
                   ? 'bg-emerald-500 text-zinc-950 shadow-sm'
                   : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
               }`}
-              title="Large Text Size (115%)"
+              title="Large Text Size (21px)"
             >
               A
             </button>
@@ -210,16 +236,16 @@ export function Header({
                   ? 'bg-emerald-500 text-zinc-950 shadow-sm'
                   : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
               }`}
-              title="Extra Large (130%)"
+              title="Projector Distance (24px)"
             >
               A+
             </button>
           </div>
 
-          {/* Student Identity Pill with 1h Session Countdown */}
+          {/* Student Identity Pill with 3h Session Countdown */}
           <div
             className="flex items-center gap-2 px-3 py-1 rounded-xl bg-zinc-900 border border-zinc-700/80 text-xs shadow-sm"
-            title={`Session expires in ${remainingMinutes} minutes`}
+            title={`3-Hour Lab Session • ${remainingMinutes}m remaining`}
           >
             <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-[11px]">
               {session.mode === 'partner' ? '👥' : <GraduationCap size={14} />}

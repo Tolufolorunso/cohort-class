@@ -6,6 +6,7 @@ import { StageShell } from '../components/presentation/StageShell';
 import { StudentNotesView } from '../components/notes/StudentNotesView';
 import { AssignmentView } from '../components/assignments/AssignmentView';
 import { StudentLogin } from '../components/auth/StudentLogin';
+import { useClassroomAttention } from '../hooks/useClassroomAttention';
 
 import { StageDefinition } from '../components/stages/StageDefinition';
 import { StageIPOS } from '../components/stages/StageIPOS';
@@ -53,6 +54,9 @@ export default function StudentPortal() {
   const [liveKahootTally, setLiveKahootTally] = useState<[number, number, number, number]>([0, 0, 0, 0]);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
+  // Classroom attention tracking (inattention, tab switching, window blur)
+  const attention = useClassroomAttention();
+
   // Initialize student session on mount
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -65,7 +69,7 @@ export default function StudentPortal() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Check 1-hour session expiry every 30 seconds
+  // Check 3-hour session expiry every 30 seconds
   useEffect(() => {
     if (!studentSession) return;
     const interval = setInterval(() => {
@@ -77,20 +81,20 @@ export default function StudentPortal() {
     return () => clearInterval(interval);
   }, [studentSession]);
 
-  // Synchronize visual zoom scaling across document
+  // Synchronize visual zoom scaling across document (Normal: 18px, Large: 21px, X-Large: 24px)
   useEffect(() => {
     if (typeof document === 'undefined') return;
     const root = document.documentElement;
     if (zoomLevel === 'xlarge') {
-      root.style.fontSize = '20.5px';
+      root.style.fontSize = '24px';
     } else if (zoomLevel === 'large') {
-      root.style.fontSize = '18.5px';
+      root.style.fontSize = '21px';
     } else {
-      root.style.fontSize = '16px';
+      root.style.fontSize = '18px';
     }
   }, [zoomLevel]);
 
-  // Real-time live slide mirroring & heartbeat polling
+  // Real-time live slide mirroring & heartbeat polling with attention metrics
   useEffect(() => {
     if (!studentSession) return;
 
@@ -106,6 +110,12 @@ export default function StudentPortal() {
           params.set('patronB', studentSession.partnerB.patronNumber);
           params.set('nameB', studentSession.partnerB.studentName);
         }
+        // Attach attention status
+        params.set('isFocused', String(attention.isFocused));
+        if (!attention.isFocused && attention.leftScreenAt) {
+          params.set('leftScreenAt', String(attention.leftScreenAt));
+        }
+
         const url = `/api/live-session?${params.toString()}`;
         const res = await fetch(url);
         if (res.ok) {
@@ -139,7 +149,7 @@ export default function StudentPortal() {
     pollSession();
     const interval = setInterval(pollSession, 1500); // Poll every 1.5s
     return () => clearInterval(interval);
-  }, [studentSession, currentModuleId]);
+  }, [studentSession, currentModuleId, attention.isFocused, attention.leftScreenAt]);
 
   const handleStudentVote = async (_questionId: number, optionIndex: number) => {
     if (!studentSession) return;

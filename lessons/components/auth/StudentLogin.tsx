@@ -272,7 +272,7 @@ export function StudentLogin({ onLoginSuccess }: StudentLoginProps) {
           <div className="p-3 rounded-xl bg-zinc-950 border border-zinc-800 text-[11px] text-zinc-400 flex items-center gap-2">
             <span className="text-emerald-400 text-sm">⏱️</span>
             <span>
-              <strong>1-Hour Lab Session:</strong> Your laptop session remains active for 60 minutes while in class.
+              <strong>3-Hour Lab Session:</strong> Your laptop session remains active for 180 minutes while in class.
             </span>
           </div>
 
@@ -288,17 +288,6 @@ export function StudentLogin({ onLoginSuccess }: StudentLoginProps) {
             <span>→</span>
           </button>
         </form>
-
-        {/* Instructor Portal Link */}
-        <div className="text-center pt-2 border-t border-zinc-800/80">
-          <a
-            href="/instructor"
-            className="inline-flex items-center gap-1.5 text-[11px] text-zinc-500 hover:text-amber-400 font-semibold transition-colors"
-          >
-            <span>Instructor / Admin Access</span>
-            <span>🔐</span>
-          </a>
-        </div>
       </div>
     </div>
   );

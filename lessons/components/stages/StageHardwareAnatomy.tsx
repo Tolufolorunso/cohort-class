@@ -407,6 +407,59 @@ export function StageHardwareAnatomy() {
         </div>
       </section>
 
+      {/* Hardware Microarchitecture Cutaways Section */}
+      <section className="bg-zinc-900 border border-zinc-800 rounded-2xl p-5 sm:p-7 shadow-xl space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-800 pb-3">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-black uppercase tracking-wider text-amber-400 bg-amber-950/60 px-2 py-0.5 rounded border border-amber-800">
+                Visual Deep Dive
+              </span>
+              <span className="text-xs font-bold text-zinc-400">• Component Microarchitecture Cutaways</span>
+            </div>
+            <h3 className="text-lg sm:text-xl font-black text-white mt-1">
+              Inside the Chips: What Happens Beneath the Surface?
+            </h3>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+          {/* CPU Cutaway */}
+          <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-4 space-y-3">
+            <EducationalImage
+              src="https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=800&q=80"
+              alt="CPU Microarchitecture Cutaway"
+              fallbackType="cpu-cutaway"
+              badge="Processor Core Cutaway"
+              aspect="aspect-16/10"
+            />
+            <div>
+              <h4 className="text-sm font-black text-white">CPU Silicon Die & Heat Spreader</h4>
+              <p className="text-xs text-zinc-400 mt-1 leading-relaxed">
+                Beneath the metal heat spreader lid (IHS) lies the tiny silicon die containing billions of microscopic transistors arranged into processing cores and high-speed L3 memory cache.
+              </p>
+            </div>
+          </div>
+
+          {/* RAM Cutaway */}
+          <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-4 space-y-3">
+            <EducationalImage
+              src="https://images.unsplash.com/photo-1562976540-1502c2145186?auto=format&fit=crop&w=800&q=80"
+              alt="RAM Stick Anatomy Cutaway"
+              fallbackType="ram-cutaway"
+              badge="RAM Contact Alignment"
+              aspect="aspect-16/10"
+            />
+            <div>
+              <h4 className="text-sm font-black text-white">DDR RAM Stick & Key Alignment Notch</h4>
+              <p className="text-xs text-zinc-400 mt-1 leading-relaxed">
+                The golden contacts transfer millions of bytes every microsecond. The asymmetric notch in the center ensures a student or technician can never install the RAM stick backwards.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Classroom Partner Discussion Box */}
       <section className="bg-gradient-to-r from-emerald-950/40 via-zinc-900 to-zinc-900 border border-emerald-600/30 rounded-2xl p-5 sm:p-6 shadow-md">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
