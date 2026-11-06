@@ -4,19 +4,19 @@
 
 Traditional slide decks (PowerPoint, static PDFs) are passive and ineffective for teaching foundational digital literacy to secondary school students (ages 12–18) who have zero prior computer experience. Teachers need an interactive presentation and learning platform in the browser that replaces abstract slides with dynamic visual models, abundant labeled illustrations, real-world Nigerian analogies, and hands-on exercises to demystify computers and keep students engaged during classroom and laboratory sessions. 
 
-Additionally, because computer labs in Nigerian schools frequently assign **two students to share a single laptop**, the platform natively supports equal lab-partner pairing, private authenticated access with a 29-student whitelist roster, joint and individual assignment submissions, real-time slide mirroring, and gamified Kahoot-style quiz battles. 
+Additionally, because computer labs in Nigerian schools frequently assign **two students to share a single laptop**, the platform natively supports equal lab-partner pairing, private authenticated access with a 30-student whitelist roster, joint and individual assignment submissions, real-time slide mirroring, independent student slide navigation, and gamified Kahoot-style quiz battles. 
 
-To ensure laboratory discipline and learning focus, the platform must proactively alert instructors whenever students navigate away from the lesson screen (tab switching, window minimization, or app changing), provide extended 3-hour session stability for double laboratory periods, offer sticky floating presenter navigation so teachers never scroll to advance slides, and provide high-visibility classroom zoom scaling.
+To ensure laboratory discipline and learning focus, the platform must proactively alert instructors whenever students navigate away from the lesson screen (tab switching, window minimization, or app changing), provide extended 3-hour session stability for double laboratory periods, offer sticky floating presenter navigation so teachers never scroll to advance slides, provide high-visibility classroom zoom scaling, and synchronize official attendance records with the Dzuels Foundation Cohort API.
 
 ## 2. Users & Access Security - Who is this for?
 
 ### A. Students (Secondary School Learners, Ages 12–18)
 - **Portal URL:** Main platform route (`/`).
-- **Direct-to-Lesson Entry:** Upon login, students land directly into the active lesson stage in `follow-teacher` sync mode.
+- **Direct-to-Lesson Entry:** Upon login, students land directly into the active lesson stage with self-paced slide controls and teacher catch-up.
 - **Flexible Access Modes (Shared Laptops & Solo Use):**
   - **Solo Learner Mode:** For self-study or when a partner is absent. Logs in with 1 verified Patron Number and Name.
   - **Equal Lab Partners Mode:** For paired classroom sessions. Two equal cards (*Partner A* and *Partner B*—no primary/secondary hierarchy). Both students enter their verified Patron Numbers and Full Names.
-- **Roster Gatekeeper:** Only students matching the registered 29 lab Patron Numbers can log in (`20230165`, `20250523`, `20250464`, `20250509`, `20250571`, `20250520`, `20250562`, `20250527`, `20250643`, `20250409`, `20230338`, `20250461`, `20230204`, `20230374`, `20250609`, `20230169`, `20250652`, `20250650`, `20250549`, `20230187`, `20250545`, `20230344`, `20250647`, `20230063`, `20230122`, `20230330`, `20230313`, `20230272`, `20230123`).
+- **Roster Gatekeeper:** Only students matching the registered 30 lab Patron Numbers can log in (including `20250645` - Michael Olowookere).
 - **Complete Login Sanitization:**
   - The "View Class Patron List" dropdown is completely removed so student IDs remain private.
   - The "Instructor / Admin Access" link is completely removed from the student login page so students cannot access administrative gates.
@@ -25,7 +25,7 @@ To ensure laboratory discipline and learning focus, the platform must proactivel
   - Listens to browser `visibilitychange` and `blur` events.
   - When a student switches tabs or minimizes the window, their session reports `isFocused: false` and the time away to the instructor in real time.
 - **Dual Classroom Experience:**
-  - *Follow Teacher Mode:* Student laptop screen automatically mirrors the teacher's active slide and Kahoot questions in real time.
+  - *Follow Teacher Mode:* Student laptop screen automatically mirrors the teacher's active slide, while still allowing the student to navigate forward or backward independently.
   - *Self-Paced Mode:* When unlocked by teacher, students can freely browse "Copy Notes" at their own pace to write into exercise books or complete assignments.
 
 ### B. Instructors & Administrators
@@ -57,10 +57,17 @@ Every computer science topic, component, and stage must follow this rigorous tea
 - **Large:** 21px baseline.
 - **X-Large (Projector Mode):** 24px baseline (crystal clear when beamed across large classrooms).
 
-### D. Gamified Kahoot-Style Quiz Experience
-- **Pre-Generated Questions:** Curated ahead of time with zero mid-class generation lag.
-- **4 Vibrant Response Shapes:** 🔺 Red Triangle (A), 🔷 Blue Diamond (B), 🟡 Yellow Circle (C), 🟩 Green Square (D).
-- **Classroom Battle Flow:** 30s countdown timer, live response distribution tally, instructor-triggered reveal celebrations, and collaborative partner scoring.
+### D. Standalone Gamified Quiz Arena & Live Performance Table
+- **Dedicated Route (`/arena`):** Decoupled from lesson slides so quizzes can be launched as warm-ups, mid-class battles, or end-of-module exams.
+- **Multi-Scope Question Bank:**
+  - *Module 1 Pack:* 10 questions on Computers, IPOS cycle, History, Generations & Uses.
+  - *Module 2 Pack:* 10 questions on Hardware Anatomy, CPU, RAM, Storage, I/O & Lab Safety.
+  - *Neutral General Literacy Pack:* 10 pre-bundled questions on everyday computer literacy, keyboard shortcuts (`Ctrl+C`/`Ctrl+V`/`Ctrl+S`), mouse clicking/scrolling, and computer hygiene.
+- **Live Instructor Question Builder:** Form in instructor console to draft, save, and launch custom questions with category tags (`Module 1`, `Module 2`, `Module 3` or `Neutral`).
+- **Leaderboard Privacy:**
+  - *Student Screens:* Display interactive shape buttons (🔺 🔷 🟡 🟩), timer, personal points earned, personal rank (e.g., *"You are 3rd!"*), and streak count. Students **never** see the full class leaderboard on their laptops.
+  - *Instructor / Projector Screen:* Displays the live **Participant Performance Table** (Rank, Name, Score, Correct/Total, Accuracy %, Streak, Avg Speed), answer distribution bar chart, and final 3-tiered Podium celebration with CSV/JSON scorecard export.
+- **Scoring Formula:** 1,000 base points for correct answers + millisecond speed bonus (up to 500 pts). 0 points for incorrect answers.
 
 ### E. Official Cohort Attendance API Integration
 - **Direct Integration:** Synchronizes attendance records directly with the Dzuels Foundation Cohort API at `https://dzf-cohorts.vercel.app/api`.
@@ -71,23 +78,25 @@ Every computer science topic, component, and stage must follow this rigorous tea
   - **Quick Bulk Check-In:** Batch submission of barcodes (`Mark All Connected Present`, `Mark All Roster`).
   - **Detailed Records Sync:** Full roster sync with explicit `attended: true/false` status per student.
 - **Session Attendance Retrieval (GET):** Live query of cohort attendance for any date and curriculum week (`totalStudents`, `presentCount`, `absentCount`, `attendanceRate` %).
-- **Roster Alignment:** Expanded authorized patron whitelist to 30 students, including newly enrolled student `20250645`.
+- **Roster Alignment:** Expanded authorized patron whitelist to 30 students, including student `20250645`.
 
 ## 4. Multi-Page Architecture & Route Map
 
 - `/` — Student entry gate (with direct-to-lesson routing upon login).
 - `/learn/[moduleId]` — Fullscreen interactive classroom stage (Module 1, Module 2, etc.).
+- `/arena` — Dedicated Standalone Gamified Quiz Arena (interactive shapes, timer, streak, and personal score feedback).
 - `/notes` & `/notes/[moduleId]` — Dedicated student notebook transcription desk (with progress check-offs and print layout).
 - `/assignments` & `/assignments/[moduleId]` — Homework & practical submission center (Solo and Joint partner submissions).
-- `/instructor` — Instructor Control Room with live slide broadcast dock, official cohort attendance desk, screen-leave attention alerts, module locking, and grading ledger.
+- `/instructor` — Instructor Control Room with live slide broadcast dock, Quiz Arena Host Desk with live Leaderboard Table & Podium, official cohort attendance desk, screen-leave attention alerts, module locking, and grading ledger.
 
 ## 5. Features & Build Modules (Phases 1, 2 & 3)
 
 ### Phase 1: Foundational Digital Literacy & Core Platform
-- **Module 1 (Shipped):** Introduction to Computers (Data vs. Information, IPOS Cycle with Cooking & ATM, History & Generations, Computer Classification, Societal Applications, and Kahoot Arena).
-- **Module 2 (Shipped):** Parts of a Computer (Hardware Anatomy, Human Body Analogy, Peripheral Sorting, 7-Step PC Disassembly Simulator, Storage Drives & Byte Scale Ladder, and Kahoot Arena).
+- **Module 1 (Shipped):** Introduction to Computers (Data vs. Information, IPOS Cycle with Cooking & ATM, History & Generations, Computer Classification, Societal Applications).
+- **Module 2 (Shipped):** Parts of a Computer (Hardware Anatomy, Human Body Analogy, Peripheral Sorting, 7-Step PC Disassembly Simulator, Storage Drives & Byte Scale Ladder).
 - **Feature 7 (Shipped):** Inattention detection, 3-hour sessions, sticky instructor dock, enhanced zoom, clean login, multi-page routing, and expanded visual density.
-- **Feature 8 (Official Cohort Attendance Desk):** Official Cohort API integration (`dzf-cohorts.vercel.app`), multi-mode attendance marking (single, bulk, detailed sync), live stats (rate, present/absent), and roster expansion for `20250645`.
+- **Feature 8 (Shipped):** Official Cohort Attendance Desk (`dzf-cohorts.vercel.app`), multi-mode attendance marking, live stats, and roster expansion for `20250645`.
+- **Feature 9 (Next):** Standalone Gamified Quiz Arena (`/arena`), multi-scope question bank (Module 1, Module 2, Neutral shortcuts & trivia), live question builder, and projector-only Participant Performance Table & Podium.
 - **Modules 3–7:** Computer Usage & Booting, Operating Systems & Desktop Explorer, File Management & Organization, Internet Basics & Digital Citizenship, Microsoft Office Productivity Suite.
 
 ### Phase 2: Intermediate (Creative Logic & App Development)
