@@ -4,18 +4,26 @@
 
 Traditional slide decks (PowerPoint, static PDFs) are passive and ineffective for teaching foundational digital literacy to secondary school students (ages 12–18) who have zero prior computer experience. Teachers need an interactive presentation and learning platform in the browser that replaces abstract slides with dynamic visual models, abundant labeled illustrations, real-world Nigerian analogies, and hands-on exercises to demystify computers and keep students engaged during classroom and laboratory sessions. 
 
-Additionally, because computer labs in Nigerian schools frequently assign **two students to share a single laptop**, the platform must natively support equal lab-partner pairing, private authenticated access with a 29-student whitelist roster, joint and individual assignment submissions, real-time slide mirroring, and gamified Kahoot-style quiz battles.
+Additionally, because computer labs in Nigerian schools frequently assign **two students to share a single laptop**, the platform natively supports equal lab-partner pairing, private authenticated access with a 29-student whitelist roster, joint and individual assignment submissions, real-time slide mirroring, and gamified Kahoot-style quiz battles. 
+
+To ensure laboratory discipline and learning focus, the platform must proactively alert instructors whenever students navigate away from the lesson screen (tab switching, window minimization, or app changing), provide extended 3-hour session stability for double laboratory periods, offer sticky floating presenter navigation so teachers never scroll to advance slides, and provide high-visibility classroom zoom scaling.
 
 ## 2. Users & Access Security - Who is this for?
 
 ### A. Students (Secondary School Learners, Ages 12–18)
 - **Portal URL:** Main platform route (`/`).
+- **Direct-to-Lesson Entry:** Upon login, students land directly into the active lesson stage in `follow-teacher` sync mode.
 - **Flexible Access Modes (Shared Laptops & Solo Use):**
   - **Solo Learner Mode:** For self-study or when a partner is absent. Logs in with 1 verified Patron Number and Name.
   - **Equal Lab Partners Mode:** For paired classroom sessions. Two equal cards (*Partner A* and *Partner B*—no primary/secondary hierarchy). Both students enter their verified Patron Numbers and Full Names.
 - **Roster Gatekeeper:** Only students matching the registered 29 lab Patron Numbers can log in (`20230165`, `20250523`, `20250464`, `20250509`, `20250571`, `20250520`, `20250562`, `20250527`, `20250643`, `20250409`, `20230338`, `20250461`, `20230204`, `20230374`, `20250609`, `20230169`, `20250652`, `20250650`, `20250549`, `20230187`, `20250545`, `20230344`, `20250647`, `20230063`, `20230122`, `20230330`, `20230313`, `20230272`, `20230123`).
-- **Roster Privacy:** The "View Class Patron List" dropdown is completely removed from the login screen so registration numbers remain private.
-- **1-Hour Auto Session Expiry:** Enforces a 60-minute session timeout for laboratory security and orderly class turnover.
+- **Complete Login Sanitization:**
+  - The "View Class Patron List" dropdown is completely removed so student IDs remain private.
+  - The "Instructor / Admin Access" link is completely removed from the student login page so students cannot access administrative gates.
+- **3-Hour Extended Session Validity:** Enforces a 180-minute (3-hour) session timeout, allowing students to comfortably complete long practical sessions, notes transcriptions, and exams without mid-class disconnection.
+- **Screen Inattention & Visibility Tracking:**
+  - Listens to browser `visibilitychange` and `blur` events.
+  - When a student switches tabs or minimizes the window, their session reports `isFocused: false` and the time away to the instructor in real time.
 - **Dual Classroom Experience:**
   - *Follow Teacher Mode:* Student laptop screen automatically mirrors the teacher's active slide and Kahoot questions in real time.
   - *Self-Paced Mode:* When unlocked by teacher, students can freely browse "Copy Notes" at their own pace to write into exercise books or complete assignments.
@@ -25,7 +33,10 @@ Additionally, because computer labs in Nigerian schools frequently assign **two 
 - **Role Hierarchy & PIN Credentials:**
   - `adminTolu` (Super Admin): Full system power — manage student rosters, wipe/reset test data, override module locks, configure settings, and export school records.
   - `adminIsaac` (Instructor): Classroom teaching power — advance live slides, launch Kahoot quizzes, reveal answers, toggle module locks, and grade student submissions.
-- **Live Attendance Roster:** Tracks active laptops and shows both paired partners as active simultaneously.
+- **Sticky Floating Presenter Dock:** Fixed navigation controls (`[ ◀ Prev Slide ]`, `Stage X of Y`, `[ Next Slide ▶ ]`) anchored at the bottom of the screen, accessible without scrolling up and down.
+- **Live Inattention & Screen-Leave Alerts:**
+  - Real-time notification banner showing students who have navigated away from the lesson and for how long.
+  - Real-time focus badges in the attendance roster: 🟢 *Focused* vs. 🔴 *Left Screen (Away duration)*.
 
 ## 3. Pedagogical Principles & Curriculum Quality Standards
 
@@ -38,19 +49,33 @@ Every computer science topic, component, and stage must follow this rigorous tea
 
 ### B. Extensive Visuals & Cultural Authenticity Standard
 - **STRICT REPRESENTATION RULE:** Zero photos of white people. All human imagery exclusively depicts **Black / African secondary school students in uniforms, African ICT teachers, and African professionals** (doctors, bankers, engineers, mechanized farmers).
-- **Extensive Photography & Cutaways:** Abundant high-contrast educational photos directly tied to the lesson (real labeled motherboards, RAM sticks, CPU heat sinks, ports, classroom setups).
+- **Abundant Illustrations & Cutaways:** Text must never stand alone. Every concept features multi-image galleries, real labeled hardware photos, and component cutaways.
 - **Offline Vector Fallbacks:** High-quality inline SVG schematics ensure every diagram renders cleanly even in school labs with zero internet connectivity.
 
-### C. Gamified Kahoot-Style Quiz Experience
+### C. Classroom Zoom & Projector Scaling Ladder
+- **Normal:** 18px baseline (bolder and readable from laptop desks).
+- **Large:** 21px baseline.
+- **X-Large (Projector Mode):** 24px baseline (crystal clear when beamed across large classrooms).
+
+### D. Gamified Kahoot-Style Quiz Experience
 - **Pre-Generated Questions:** Curated ahead of time with zero mid-class generation lag.
 - **4 Vibrant Response Shapes:** 🔺 Red Triangle (A), 🔷 Blue Diamond (B), 🟡 Yellow Circle (C), 🟩 Green Square (D).
 - **Classroom Battle Flow:** 30s countdown timer, live response distribution tally, instructor-triggered reveal celebrations, and collaborative partner scoring.
 
-## 4. Features & Build Modules (Phases 1, 2 & 3)
+## 4. Multi-Page Architecture & Route Map
+
+- `/` — Student entry gate (with direct-to-lesson routing upon login).
+- `/learn/[moduleId]` — Fullscreen interactive classroom stage (Module 1, Module 2, etc.).
+- `/notes` & `/notes/[moduleId]` — Dedicated student notebook transcription desk (with progress check-offs and print layout).
+- `/assignments` & `/assignments/[moduleId]` — Homework & practical submission center (Solo and Joint partner submissions).
+- `/instructor` — Instructor Control Room with live slide broadcast dock, screen-leave attention alerts, module locking, and grading ledger.
+
+## 5. Features & Build Modules (Phases 1, 2 & 3)
 
 ### Phase 1: Foundational Digital Literacy & Core Platform
-- **Module 1 (Overhauled):** Introduction to Computers (Data vs. Information, IPOS Cycle with Cooking & ATM, Charles Babbage & 5 Generations, Computer Classification, Societal Applications, Lab Safety, and Kahoot Arena).
-- **Module 2:** Parts of a Computer (Hardware Anatomy, Human Body Analogy, Peripheral Sorting, System Unit & Dissection Lab, Storage & Safety, and Kahoot Arena).
+- **Module 1 (Shipped):** Introduction to Computers (Data vs. Information, IPOS Cycle with Cooking & ATM, History & Generations, Computer Classification, Societal Applications, and Kahoot Arena).
+- **Module 2 (Shipped):** Parts of a Computer (Hardware Anatomy, Human Body Analogy, Peripheral Sorting, 7-Step PC Disassembly Simulator, Storage Drives & Byte Scale Ladder, and Kahoot Arena).
+- **Feature 7 (Platform Perfection):** Inattention detection, 3-hour sessions, sticky instructor dock, enhanced zoom, clean login, multi-page routing, and expanded visual density.
 - **Modules 3–7:** Computer Usage & Booting, Operating Systems & Desktop Explorer, File Management & Organization, Internet Basics & Digital Citizenship, Microsoft Office Productivity Suite.
 
 ### Phase 2: Intermediate (Creative Logic & App Development)
@@ -58,15 +83,6 @@ Every computer science topic, component, and stage must follow this rigorous tea
 
 ### Phase 3: Advanced (Specialized Technologies & Futures)
 - **Modules 14–19:** Web Design (HTML/CSS), Git & GitHub, AI Prompting & Workflows, Robotics & Physical Computing (Arduino), Digital Design, Cybersecurity & Tech Career Pathways.
-
-## 5. Data - What are we storing?
-
-- **Authorized Student Roster:** 29 verified Patron Numbers and full student names.
-- **Shared Laptop Session State:** `{ patronNumberA, nameA, patronNumberB?, nameB?, isPair, loggedInAt, expiresAt }`.
-- **Active Live Session State (`/api/live-session`):** Active module ID, active lesson/stage index, mirror mode (`follow-teacher` | `self-paced`), active Kahoot question ID, reveal status, student vote distribution.
-- **Student Submissions & Progress:** `{ id, submissionType: 'joint' | 'individual', patronNumberA, nameA, patronNumberB?, nameB?, moduleId, answers, submittedAt, kahootScore }`.
-- **Instructor State:** Module locks, active PIN session (`adminTolu` or `adminIsaac`), and paired attendance ledger.
-- **Persistence:** Local storage caching for offline resilience + Next.js Vercel API state with JSON/CSV export.
 
 ## 6. Tech Stack
 
