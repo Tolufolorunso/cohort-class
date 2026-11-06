@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { kahootQuestions } from '../../data/module1';
-import { KahootShape } from '../../types/curriculum';
+import { KahootShape, KahootQuestion } from '../../types/curriculum';
 import { UserRole } from '../../types/platform';
 import {
   Sparkles,
@@ -20,6 +20,7 @@ import {
 
 export interface KahootArenaProps {
   userRole?: UserRole;
+  questions?: KahootQuestion[];
   syncedQuestionId?: number | null;
   syncedIsRevealed?: boolean;
   onBroadcastState?: (updates: { activeKahootQuestionId?: number | null; isKahootRevealed?: boolean }) => void;
@@ -98,6 +99,7 @@ const SHAPE_CONFIGS: {
 
 export function KahootArena({
   userRole = 'student',
+  questions,
   syncedQuestionId,
   syncedIsRevealed,
   onBroadcastState,
@@ -105,19 +107,21 @@ export function KahootArena({
   liveTally = [0, 0, 0, 0],
   patronNumber,
 }: KahootArenaProps) {
-  // Active question index (0 to 9)
+  const activeQuestions = questions && questions.length > 0 ? questions : kahootQuestions;
+
+  // Active question index (0 to N-1)
   const [internalQuestionIndex, setInternalQuestionIndex] = useState(0);
 
   // Derive active question based on sync or local selection
   const currentQuestionIndex = useMemo(() => {
     if (syncedQuestionId !== undefined && syncedQuestionId !== null) {
-      const idx = kahootQuestions.findIndex((q) => q.id === syncedQuestionId);
+      const idx = activeQuestions.findIndex((q) => q.id === syncedQuestionId);
       return idx >= 0 ? idx : 0;
     }
     return internalQuestionIndex;
-  }, [syncedQuestionId, internalQuestionIndex]);
+  }, [syncedQuestionId, internalQuestionIndex, activeQuestions]);
 
-  const currentQuestion = kahootQuestions[currentQuestionIndex];
+  const currentQuestion = activeQuestions[currentQuestionIndex] || activeQuestions[0];
 
   // Answer selections per question: questionId -> optionIndex (0, 1, 2, 3)
   const [studentAnswers, setStudentAnswers] = useState<Record<number, number>>({});
@@ -205,12 +209,12 @@ export function KahootArena({
   };
 
   const handleTeacherChangeQuestion = (newIndex: number) => {
-    if (newIndex >= 0 && newIndex < kahootQuestions.length) {
+    if (newIndex >= 0 && newIndex < activeQuestions.length) {
       setInternalQuestionIndex(newIndex);
       setSecondsRemaining(30);
       setTimerActive(true);
 
-      const targetQ = kahootQuestions[newIndex];
+      const targetQ = activeQuestions[newIndex];
       onBroadcastState?.({
         activeKahootQuestionId: targetQ.id,
         isKahootRevealed: false,
@@ -241,7 +245,7 @@ export function KahootArena({
               </span>
             </div>
             <h2 className="text-xl sm:text-2xl font-black text-white">
-              Question {currentQuestionIndex + 1} of {kahootQuestions.length}
+              Question {currentQuestionIndex + 1} of {activeQuestions.length}
             </h2>
           </div>
 
@@ -481,7 +485,7 @@ export function KahootArena({
                 <ChevronLeft size={16} /> Previous
               </button>
               <button
-                disabled={currentQuestionIndex === kahootQuestions.length - 1}
+                disabled={currentQuestionIndex === activeQuestions.length - 1}
                 onClick={() => handleTeacherChangeQuestion(currentQuestionIndex + 1)}
                 className="px-5 py-2.5 rounded-xl text-sm font-black bg-emerald-500 hover:bg-emerald-400 text-zinc-950 transition-all flex items-center gap-1.5 shadow-lg disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
               >
@@ -495,7 +499,7 @@ export function KahootArena({
 
       {/* Question Selector Dots for Quick Jumps */}
       <section className="flex items-center justify-center flex-wrap gap-2 pt-2">
-        {kahootQuestions.map((q, idx) => {
+        {activeQuestions.map((q, idx) => {
           const isCurrent = idx === currentQuestionIndex;
           const answered = studentAnswers[q.id] !== undefined;
           return (

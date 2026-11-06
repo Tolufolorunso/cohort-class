@@ -4,7 +4,10 @@ export type StageType =
   | 'timeline'
   | 'sorting'
   | 'applications'
-  | 'quiz';
+  | 'quiz'
+  | 'hardware'
+  | 'disassembly'
+  | 'storage';
 
 export interface StageMeta {
   id: string;
@@ -37,7 +40,25 @@ export type ImageFallbackType =
   | 'school'
   | 'hospital'
   | 'bank'
-  | 'farm';
+  | 'farm'
+  | 'motherboard'
+  | 'cpu'
+  | 'ram'
+  | 'psu'
+  | 'harddrive'
+  | 'ssd'
+  | 'keyboard'
+  | 'mouse'
+  | 'monitor'
+  | 'printer'
+  | 'scanner'
+  | 'webcam'
+  | 'speakers'
+  | 'flashdrive'
+  | 'memorycard'
+  | 'touchscreen'
+  | 'projector'
+  | 'disassembly';
 
 export interface ImageCard {
   id: string;

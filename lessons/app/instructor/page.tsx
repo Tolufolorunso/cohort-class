@@ -28,6 +28,7 @@ import {
   setZoomLevel,
 } from '../../lib/platformStorage';
 import { module1Info } from '../../data/module1';
+import { module2Info, module2KahootQuestions } from '../../data/module2';
 
 import {
   Shield,
@@ -48,6 +49,11 @@ import { StageDeviceSorting } from '../../components/stages/StageDeviceSorting';
 import { StageApplications } from '../../components/stages/StageApplications';
 import { StageQuiz } from '../../components/stages/StageQuiz';
 
+import { StageHardwareAnatomy } from '../../components/stages/StageHardwareAnatomy';
+import { StageInputOutputLab } from '../../components/stages/StageInputOutputLab';
+import { StageSystemUnitDisassembly } from '../../components/stages/StageSystemUnitDisassembly';
+import { StageStorageBytes } from '../../components/stages/StageStorageBytes';
+
 const ALL_MODULES = [
   { id: 'module-1', number: 1, title: 'Module 1: Introduction to Computers' },
   { id: 'module-2', number: 2, title: 'Module 2: Hardware & Components' },
@@ -64,6 +70,7 @@ export default function InstructorControlRoom() {
 
   // Live session state
   const [currentModuleId, setCurrentModuleId] = useState('module-1');
+  const activeModuleInfo = currentModuleId === 'module-2' ? module2Info : module1Info;
   const [currentStageIndex, setCurrentStageIndex] = useState(0);
   const [syncMode, setSyncModeState] = useState<SyncMode>('follow-teacher');
   const [activeStudents, setActiveStudents] = useState<
@@ -159,7 +166,7 @@ export default function InstructorControlRoom() {
   );
 
   const handleStageChange = (newIndex: number) => {
-    const total = module1Info.stages.length;
+    const total = activeModuleInfo.stages.length;
     if (newIndex >= 0 && newIndex < total) {
       setCurrentStageIndex(newIndex);
       broadcastUpdate({ activeStageIndex: newIndex });
@@ -334,7 +341,9 @@ export default function InstructorControlRoom() {
     }
     return false;
   }).length;
-  const currentStage = module1Info.stages[currentStageIndex];
+  const currentStage =
+    activeModuleInfo.stages[Math.min(currentStageIndex, activeModuleInfo.stages.length - 1)] ||
+    activeModuleInfo.stages[0];
   const isSuper = isSuperAdmin(teacherSession.role);
 
   return (
@@ -460,7 +469,7 @@ export default function InstructorControlRoom() {
                 Live Slide Controller • {syncMode === 'follow-teacher' ? 'Broadcasting Active' : 'Self-Paced Active'}
               </span>
               <h2 className="text-xl sm:text-2xl font-black text-white">
-                Stage {currentStageIndex + 1} of {module1Info.stages.length}: {currentStage.title}
+                Stage {currentStageIndex + 1} of {activeModuleInfo.stages.length}: {currentStage.title}
               </h2>
               <p className="text-xs text-zinc-400 mt-0.5">{currentStage.subtitle}</p>
             </div>
@@ -478,7 +487,7 @@ export default function InstructorControlRoom() {
 
               <button
                 onClick={() => handleStageChange(currentStageIndex + 1)}
-                disabled={currentStageIndex === module1Info.stages.length - 1}
+                disabled={currentStageIndex === activeModuleInfo.stages.length - 1}
                 className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-black bg-amber-500 hover:bg-amber-400 disabled:opacity-40 text-zinc-950 transition-all shadow-lg"
               >
                 <span>Next Slide</span>
@@ -489,7 +498,7 @@ export default function InstructorControlRoom() {
 
           {/* Stage Selector Pills */}
           <div className="flex items-center gap-2 overflow-x-auto pb-1">
-            {module1Info.stages.map((stg, idx) => {
+            {activeModuleInfo.stages.map((stg, idx) => {
               const isActive = idx === currentStageIndex;
               return (
                 <button
@@ -512,6 +521,7 @@ export default function InstructorControlRoom() {
               Projector / Live Student View:
             </span>
             <div className="p-4 sm:p-6 rounded-2xl bg-zinc-950 border border-zinc-800 shadow-inner">
+              {/* Module 1 Stages */}
               {currentStage.id === 'what-is-a-computer' && <StageDefinition />}
               {currentStage.id === 'ipos-cycle' && <StageIPOS />}
               {currentStage.id === 'history-timeline' && <StageTimeline />}
@@ -520,6 +530,22 @@ export default function InstructorControlRoom() {
               {currentStage.id === 'review-quiz' && (
                 <StageQuiz
                   userRole="teacher"
+                  syncedQuestionId={kahootQuestionId}
+                  syncedIsRevealed={isKahootRevealed}
+                  liveTally={liveTally}
+                  onBroadcastState={handleBroadcastKahoot}
+                />
+              )}
+
+              {/* Module 2 Stages */}
+              {currentStage.id === 'hardware-anatomy' && <StageHardwareAnatomy />}
+              {currentStage.id === 'input-output-lab' && <StageInputOutputLab />}
+              {currentStage.id === 'system-unit-disassembly' && <StageSystemUnitDisassembly />}
+              {currentStage.id === 'storage-and-bytes' && <StageStorageBytes />}
+              {currentStage.id === 'module2-quiz' && (
+                <StageQuiz
+                  userRole="teacher"
+                  questions={module2KahootQuestions}
                   syncedQuestionId={kahootQuestionId}
                   syncedIsRevealed={isKahootRevealed}
                   liveTally={liveTally}
@@ -651,7 +677,8 @@ export default function InstructorControlRoom() {
                       <button
                         onClick={() => {
                           setCurrentModuleId(m.id);
-                          broadcastUpdate({ activeModuleId: m.id });
+                          setCurrentStageIndex(0);
+                          broadcastUpdate({ activeModuleId: m.id, activeStageIndex: 0 });
                         }}
                         className="text-[10px] font-bold text-emerald-400 hover:text-emerald-300 transition-colors mt-0.5 block"
                       >

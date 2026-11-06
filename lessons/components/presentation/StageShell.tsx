@@ -4,10 +4,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { ProgressBar } from './ProgressBar';
 import { PresenterControls } from './PresenterControls';
 import { module1Info } from '../../data/module1';
+import { ModuleData } from '../../types/curriculum';
 
 interface StageShellProps {
   initialStageIndex?: number;
   currentStageIndex?: number;
+  moduleInfo?: ModuleData;
   onStageChange?: (index: number) => void;
   children: (currentStageIndex: number, currentStageId: string) => React.ReactNode;
 }
@@ -15,14 +17,17 @@ interface StageShellProps {
 export function StageShell({
   initialStageIndex = 0,
   currentStageIndex: propStageIndex,
+  moduleInfo = module1Info,
   onStageChange,
   children,
 }: StageShellProps) {
   const [internalStageIndex, setInternalStageIndex] = useState(initialStageIndex);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  const totalStages = module1Info.stages.length;
-  const currentStageIndex = propStageIndex !== undefined ? propStageIndex : internalStageIndex;
+  const activeModule = moduleInfo || module1Info;
+  const totalStages = activeModule.stages.length;
+  const rawStageIndex = propStageIndex !== undefined ? propStageIndex : internalStageIndex;
+  const currentStageIndex = Math.min(Math.max(0, rawStageIndex), totalStages - 1);
 
   const handleNext = useCallback(() => {
     const next = currentStageIndex < totalStages - 1 ? currentStageIndex + 1 : currentStageIndex;
@@ -94,17 +99,17 @@ export function StageShell({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleNext, handlePrev, handleToggleFullscreen, handleSelectStage]);
 
-  const currentStage = module1Info.stages[currentStageIndex];
+  const currentStage = activeModule.stages[currentStageIndex] || activeModule.stages[0];
 
   return (
     <div className="min-h-screen flex flex-col bg-zinc-950 text-zinc-100 selection:bg-emerald-500 selection:text-zinc-950">
       {/* Top Progress & Module Bar */}
       <ProgressBar
-        stages={module1Info.stages}
+        stages={activeModule.stages}
         currentStageIndex={currentStageIndex}
         onSelectStage={handleSelectStage}
-        moduleTitle={module1Info.title}
-        phaseName={module1Info.phaseName}
+        moduleTitle={activeModule.title}
+        phaseName={activeModule.phaseName}
       />
 
       {/* Main Presentation Surface */}

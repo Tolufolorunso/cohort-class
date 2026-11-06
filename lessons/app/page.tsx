@@ -14,7 +14,13 @@ import { StageDeviceSorting } from '../components/stages/StageDeviceSorting';
 import { StageApplications } from '../components/stages/StageApplications';
 import { StageQuiz } from '../components/stages/StageQuiz';
 
-import { module1Notes, module1Assignment } from '../data/module1';
+import { StageHardwareAnatomy } from '../components/stages/StageHardwareAnatomy';
+import { StageInputOutputLab } from '../components/stages/StageInputOutputLab';
+import { StageSystemUnitDisassembly } from '../components/stages/StageSystemUnitDisassembly';
+import { StageStorageBytes } from '../components/stages/StageStorageBytes';
+
+import { module1Info, module1Notes, module1Assignment, kahootQuestions as module1KahootQuestions } from '../data/module1';
+import { module2Info, module2Notes, module2Assignment, module2KahootQuestions } from '../data/module2';
 import {
   ActiveView,
   ZoomLevel,
@@ -199,6 +205,11 @@ export default function StudentPortal() {
     return <StudentLogin onLoginSuccess={handleLoginSuccess} />;
   }
 
+  const activeModuleInfo = currentModuleId === 'module-2' ? module2Info : module1Info;
+  const activeNotes = currentModuleId === 'module-2' ? module2Notes : module1Notes;
+  const activeAssignment = currentModuleId === 'module-2' ? module2Assignment : module1Assignment;
+  const activeKahootQuestions = currentModuleId === 'module-2' ? module2KahootQuestions : module1KahootQuestions;
+
   return (
     <div className="min-h-screen flex flex-col bg-zinc-950 text-zinc-100 selection:bg-emerald-500 selection:text-zinc-950">
       {/* Student Portal Navigation Header */}
@@ -220,9 +231,13 @@ export default function StudentPortal() {
       {/* Main View Router */}
       <div className="flex-1 flex flex-col">
         {activeView === 'stage' && (
-          <StageShell currentStageIndex={syncMode === 'follow-teacher' ? liveStageIndex : undefined}>
+          <StageShell
+            moduleInfo={activeModuleInfo}
+            currentStageIndex={syncMode === 'follow-teacher' ? liveStageIndex : undefined}
+          >
             {(_currentStageIndex, currentStageId) => {
               switch (currentStageId) {
+                // Module 1 Stages
                 case 'what-is-a-computer':
                   return <StageDefinition />;
                 case 'ipos-cycle':
@@ -237,6 +252,7 @@ export default function StudentPortal() {
                   return (
                     <StageQuiz
                       userRole="student"
+                      questions={activeKahootQuestions}
                       syncedQuestionId={liveKahootQuestionId}
                       syncedIsRevealed={liveIsKahootRevealed}
                       liveTally={liveKahootTally}
@@ -244,8 +260,31 @@ export default function StudentPortal() {
                       onStudentVote={handleStudentVote}
                     />
                   );
+
+                // Module 2 Stages
+                case 'hardware-anatomy':
+                  return <StageHardwareAnatomy />;
+                case 'input-output-lab':
+                  return <StageInputOutputLab />;
+                case 'system-unit-disassembly':
+                  return <StageSystemUnitDisassembly />;
+                case 'storage-and-bytes':
+                  return <StageStorageBytes />;
+                case 'module2-quiz':
+                  return (
+                    <StageQuiz
+                      userRole="student"
+                      questions={module2KahootQuestions}
+                      syncedQuestionId={liveKahootQuestionId}
+                      syncedIsRevealed={liveIsKahootRevealed}
+                      liveTally={liveKahootTally}
+                      patronNumber={studentSession?.patronNumber}
+                      onStudentVote={handleStudentVote}
+                    />
+                  );
+
                 default:
-                  return <StageDefinition />;
+                  return currentModuleId === 'module-2' ? <StageHardwareAnatomy /> : <StageDefinition />;
               }
             }}
           </StageShell>
@@ -253,13 +292,13 @@ export default function StudentPortal() {
 
         {activeView === 'notes' && (
           <main className="flex-1">
-            <StudentNotesView notes={module1Notes} />
+            <StudentNotesView notes={activeNotes} />
           </main>
         )}
 
         {activeView === 'assignment' && (
           <main className="flex-1">
-            <AssignmentView assignment={module1Assignment} />
+            <AssignmentView assignment={activeAssignment} />
           </main>
         )}
       </div>
