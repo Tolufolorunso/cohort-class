@@ -39,6 +39,8 @@ export function LearnView({ moduleId }: LearnViewProps) {
   const [unlockedModuleIds, setUnlockedModuleIds] = useState<string[]>(['module-1']);
   const [syncMode, setSyncMode] = useState<SyncMode>('follow-teacher');
   const [liveStageIndex, setLiveStageIndex] = useState<number>(0);
+  const [studentStageIndex, setStudentStageIndex] = useState<number>(0);
+  const [hasUserNavigated, setHasUserNavigated] = useState<boolean>(false);
   const [liveKahootQuestionId, setLiveKahootQuestionId] = useState<number | null>(null);
   const [liveIsKahootRevealed, setLiveIsKahootRevealed] = useState<boolean>(false);
   const [liveKahootTally, setLiveKahootTally] = useState<[number, number, number, number]>([0, 0, 0, 0]);
@@ -107,8 +109,12 @@ export function LearnView({ moduleId }: LearnViewProps) {
           const data = await res.json();
           setSyncMode(data.syncMode || 'follow-teacher');
 
-          if (data.syncMode === 'follow-teacher' && typeof data.activeStageIndex === 'number') {
+          if (typeof data.activeStageIndex === 'number') {
             setLiveStageIndex(data.activeStageIndex);
+            // If student has not manually navigated yet, follow teacher's slide
+            if (!hasUserNavigated && data.syncMode === 'follow-teacher') {
+              setStudentStageIndex(data.activeStageIndex);
+            }
           }
           if (data.activeModuleId && data.activeModuleId !== moduleId) {
             router.push(`/learn/${data.activeModuleId}`);
@@ -131,7 +137,7 @@ export function LearnView({ moduleId }: LearnViewProps) {
     pollSession();
     const interval = setInterval(pollSession, 1500);
     return () => clearInterval(interval);
-  }, [studentSession, moduleId, attention.isFocused, attention.leftScreenAt, router]);
+  }, [studentSession, moduleId, attention.isFocused, attention.leftScreenAt, router, hasUserNavigated]);
 
   const handleStudentVote = async (_questionId: number, optionIndex: number) => {
     if (!studentSession) return;
@@ -178,6 +184,11 @@ export function LearnView({ moduleId }: LearnViewProps) {
     router.push('/');
   }, [router]);
 
+  const handleStageChange = useCallback((newIndex: number) => {
+    setStudentStageIndex(newIndex);
+    setHasUserNavigated(true);
+  }, []);
+
   const handleZoomChange = (level: ZoomLevel) => {
     setZoomState(level);
     setZoomLevel(level);
@@ -214,10 +225,34 @@ export function LearnView({ moduleId }: LearnViewProps) {
         onToggleFullscreen={handleToggleFullscreen}
       />
 
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col relative">
+        {/* Real-time notification if teacher is on a different slide */}
+        {hasUserNavigated &&
+          syncMode === 'follow-teacher' &&
+          liveStageIndex !== studentStageIndex && (
+            <div className="sticky top-14 z-30 w-full bg-emerald-950/90 border-b border-emerald-500/30 px-4 py-2 flex items-center justify-between text-xs backdrop-blur-md shadow-md">
+              <div className="flex items-center gap-2 text-emerald-300">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span>
+                  <strong>Independent Reading:</strong> You are on Stage {studentStageIndex + 1}. Teacher is presenting Stage {liveStageIndex + 1}.
+                </span>
+              </div>
+              <button
+                onClick={() => {
+                  setStudentStageIndex(liveStageIndex);
+                  setHasUserNavigated(false);
+                }}
+                className="px-3 py-1 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-black text-xs transition-all cursor-pointer shadow-sm active:scale-95"
+              >
+                Jump to Teacher (Stage {liveStageIndex + 1}) →
+              </button>
+            </div>
+          )}
+
         <StageShell
           moduleInfo={activeModuleInfo}
-          currentStageIndex={syncMode === 'follow-teacher' ? liveStageIndex : undefined}
+          currentStageIndex={studentStageIndex}
+          onStageChange={handleStageChange}
         >
           {(_currentStageIndex, currentStageId) => {
             switch (currentStageId) {
