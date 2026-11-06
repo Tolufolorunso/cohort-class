@@ -54,6 +54,7 @@ import { StageHardwareAnatomy } from '../../components/stages/StageHardwareAnato
 import { StageInputOutputLab } from '../../components/stages/StageInputOutputLab';
 import { StageSystemUnitDisassembly } from '../../components/stages/StageSystemUnitDisassembly';
 import { StageStorageBytes } from '../../components/stages/StageStorageBytes';
+import { CohortAttendanceDesk } from '../../components/instructor/CohortAttendanceDesk';
 
 const ALL_MODULES = [
   { id: 'module-1', number: 1, title: 'Module 1: Introduction to Computers' },
@@ -426,7 +427,9 @@ export default function InstructorControlRoom() {
               title="Students actively connected to the live session"
             >
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-white font-mono">{activeConnectedCount} / 22 Active</span>
+              <span className="text-white font-mono">
+                {activeConnectedCount} / {AUTHORIZED_PATRONS.length} Active
+              </span>
             </div>
           </div>
 
@@ -644,109 +647,12 @@ export default function InstructorControlRoom() {
           </div>
         </section>
 
-        {/* Live Attendance Roster Grid (29 Students) */}
-        <section className="bg-zinc-900 border border-zinc-800 rounded-3xl p-5 sm:p-7 shadow-xl space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-800 pb-3">
-            <div>
-              <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                <span>👥</span> Class Attendance &amp; Laptop Connection Roster ({AUTHORIZED_PATRONS.length} Students)
-              </h3>
-              <p className="text-xs text-zinc-400 mt-0.5">
-                Real-time connection status of student laptops and equal lab partners in the laboratory.
-              </p>
-            </div>
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-xs font-bold px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                {activeConnectedCount} of {AUTHORIZED_PATRONS.length} Students Connected
-              </span>
-              {connectedLaptopsCount > 0 && (
-                <span className="text-xs font-bold px-3 py-1 rounded-full bg-zinc-800 text-zinc-300 border border-zinc-700">
-                  {connectedLaptopsCount} Laptop{connectedLaptopsCount === 1 ? '' : 's'} Active
-                </span>
-              )}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5 pt-1">
-            {AUTHORIZED_PATRONS.map((patron) => {
-              const live = activeStudents[patron];
-              let partnerOf: string | null = null;
-              let partnerName = '';
-              for (const [key, student] of Object.entries(activeStudents)) {
-                if (student.partnerB && student.partnerB.patronNumber === patron) {
-                  partnerOf = key;
-                  partnerName = student.partnerB.studentName;
-                  break;
-                }
-              }
-
-              const isDirectConnected = Boolean(live && currentTime - live.lastSeen <= 45000);
-              const isPartnerConnected = Boolean(
-                partnerOf && currentTime - activeStudents[partnerOf].lastSeen <= 45000
-              );
-              const isConnected = isDirectConnected || isPartnerConnected;
-
-              let displayName = 'Offline';
-              let badge = '';
-              if (isDirectConnected && live) {
-                if (live.mode === 'partner' && live.partnerB) {
-                  displayName = live.studentName.split('&')[0].trim();
-                  badge = `🤝 Partner A`;
-                } else {
-                  displayName = live.studentName;
-                  badge = `👤 Solo`;
-                }
-              } else if (isPartnerConnected) {
-                displayName = partnerName || 'Partner B';
-                badge = `🤝 Partner B`;
-              }
-
-              const liveRecord = live || (partnerOf ? activeStudents[partnerOf] : null);
-              const isInattentive = Boolean(isConnected && liveRecord && liveRecord.isFocused === false);
-              const awaySecs = liveRecord?.awayDurationSeconds || 0;
-
-              return (
-                <div
-                  key={patron}
-                  className={`p-2.5 rounded-xl border transition-all flex flex-col justify-between ${
-                    isInattentive
-                      ? 'bg-rose-950/60 border-rose-500 text-rose-200 ring-2 ring-rose-500/50 animate-pulse shadow-md shadow-rose-950/40'
-                      : isConnected
-                      ? 'bg-emerald-950/30 border-emerald-500/50 text-emerald-300 shadow-sm'
-                      : 'bg-zinc-950/60 border-zinc-800/80 text-zinc-500'
-                  }`}
-                >
-                  <div className="flex items-center justify-between gap-1 mb-1">
-                    <span className="font-mono text-xs font-bold tracking-wider">
-                      {patron}
-                    </span>
-                    <span
-                      className={`w-2 h-2 rounded-full ${
-                        isInattentive
-                          ? 'bg-rose-500 animate-ping'
-                          : isConnected
-                          ? 'bg-emerald-400 animate-pulse'
-                          : 'bg-zinc-700'
-                      }`}
-                    />
-                  </div>
-                  <span className="text-[10px] font-medium truncate block">
-                    {displayName}
-                  </span>
-                  {isInattentive ? (
-                    <span className="text-[9px] font-black text-rose-400 block mt-0.5 truncate">
-                      🔴 Away ({awaySecs}s)
-                    </span>
-                  ) : badge ? (
-                    <span className="text-[9px] font-bold text-emerald-400/80 block mt-0.5">
-                      {badge}
-                    </span>
-                  ) : null}
-                </div>
-              );
-            })}
-          </div>
-        </section>
+        {/* Official Cohort 8 Attendance Desk */}
+        <CohortAttendanceDesk
+          activeStudents={activeStudents}
+          currentTime={currentTime}
+          connectedLaptopsCount={connectedLaptopsCount}
+        />
 
         {/* Curriculum Module Lock Manager */}
         <section className="bg-zinc-900 border border-zinc-800 rounded-3xl p-5 sm:p-7 shadow-xl space-y-4">

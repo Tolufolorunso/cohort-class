@@ -6,10 +6,48 @@ export const AUTHORIZED_PATRONS: string[] = [
   "20230338", "20250461", "20230204", "20230374", "20250609",
   "20230169", "20250652", "20250650", "20250549", "20230187",
   "20250545", "20230344", "20250647", "20230063", "20230122",
-  "20230330", "20230313", "20230272", "20230123"
+  "20230330", "20230313", "20230272", "20230123", "20250645"
 ];
 
 export const SESSION_DURATION_MS = 3 * 60 * 60 * 1000; // 3 hours (10,800,000 ms)
+
+export const PATRON_DIRECTORY: Record<string, string> = {
+  "20230165": "ADEYEMI, Oluwaseun",
+  "20250523": "EZE, Chioma",
+  "20250464": "OGUNLEYE, David",
+  "20250509": "BELLO, Ibrahim",
+  "20250571": "ADEKUNLE, Blessing",
+  "20250520": "BABAJIDE, Kemi",
+  "20250562": "OKONKWO, Chinedu",
+  "20250527": "FOLORUNSO, Toluwalase",
+  "20250643": "OLADIPO, Samuel",
+  "20250409": "AFOLABI, Grace",
+  "20230338": "BALOGUN, Ayomide",
+  "20250461": "OYEBAMIJI, Victoria",
+  "20230204": "FASHOLA, Emmanuel",
+  "20230374": "GBADAMOSI, Aisha",
+  "20250609": "AJAYI, Femi",
+  "20230169": "ALABI, Titilayo",
+  "20250652": "IDOWU, Peter",
+  "20250650": "DARE, Esther",
+  "20250549": "SULAIMAN, Zainab",
+  "20230187": "KOLAWOLE, Joshua",
+  "20250545": "MUSTAPHA, Maryam",
+  "20230344": "OLANREWAJU, Kehinde",
+  "20250647": "YAKUBU, Daniel",
+  "20230063": "OMOTAYO, Joy",
+  "20230122": "ADELEKE, Timothy",
+  "20230330": "ADEDAPO, Ruth",
+  "20230313": "BEJIDE, Daniel",
+  "20230272": "OSUNKOYA, Praise",
+  "20230123": "SANUSI, Faruq",
+  "20250645": "OLOWOOKERE, Michael",
+};
+
+export function getStudentNameByBarcode(barcode: string): string {
+  const normalized = barcode.trim().toUpperCase();
+  return PATRON_DIRECTORY[normalized] || `Student (${normalized})`;
+}
 
 const STUDENT_SESSION_KEY = 'dzuels_student_session';
 

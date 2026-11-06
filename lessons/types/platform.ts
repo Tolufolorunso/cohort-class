@@ -131,3 +131,31 @@ export interface ModuleAssignment {
 export interface ModuleLockState {
   unlockedModuleIds: string[];
 }
+
+export interface CohortAttendanceStudent {
+  barcode: string;
+  name?: string;
+  attended: boolean;
+  status?: string;
+  markedBy?: string;
+}
+
+export interface CohortAttendanceSummary {
+  success: boolean;
+  cohortType: string;
+  date: string;
+  week: number;
+  totalStudents?: number;
+  presentCount?: number;
+  absentCount?: number;
+  attendanceRate?: number;
+  totalSubmitted?: number;
+  markedCount?: number;
+  students?: CohortAttendanceStudent[];
+  records?: CohortAttendanceStudent[];
+  unmatched?: string[];
+  markedBy?: string;
+  requester?: string;
+  message?: string;
+  error?: string;
+}
