@@ -55,10 +55,10 @@ export const module1Info: ModuleData = {
       type: 'applications',
     },
     {
-      id: 'review-quiz',
-      title: '6. Gamified Kahoot Quiz Arena',
-      subtitle: '10-Question Live Shape Battle: 🔺 Red, 🔷 Blue, 🟡 Yellow, 🟩 Green',
-      type: 'quiz',
+      id: 'module1-complete',
+      title: '6. Module 1 Complete!',
+      subtitle: 'Review Takeaways & Enter Live Quiz Arena Battle',
+      type: 'milestone',
     },
   ],
 };

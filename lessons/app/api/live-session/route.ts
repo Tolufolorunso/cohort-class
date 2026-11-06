@@ -1,5 +1,22 @@
 import { NextResponse } from 'next/server';
-import { LiveSessionState, LiveConnectedLaptop, ClassroomAttentionAlert } from '../../../types/platform';
+import {
+  LiveSessionState,
+  LiveConnectedLaptop,
+  ClassroomAttentionAlert,
+  LiveQuizState,
+} from '../../../types/platform';
+
+const initialQuizState: LiveQuizState = {
+  quizActive: false,
+  quizTitle: 'Everyday Computer Literacy Arena',
+  scope: 'neutral',
+  activeQuestionIndex: 0,
+  activeQuestion: null,
+  isRevealed: false,
+  questionStartTime: Date.now(),
+  participants: {},
+  tally: [0, 0, 0, 0],
+};
 
 // In-memory live session state for classroom mirroring
 const liveSession: LiveSessionState = {
@@ -11,6 +28,7 @@ const liveSession: LiveSessionState = {
   isKahootRevealed: false,
   kahootVotes: {},
   kahootTally: [0, 0, 0, 0],
+  quizState: initialQuizState,
   activeStudents: {},
   activeLaptops: {},
   updatedAt: Date.now(),
@@ -27,6 +45,20 @@ function computeTally(): [number, number, number, number] {
     }
   }
   return tally;
+}
+
+// Compute participant ranks dynamically based on score, accuracy, and speed
+function computeRanks() {
+  if (!liveSession.quizState || !liveSession.quizState.participants) return;
+  const list = Object.values(liveSession.quizState.participants);
+  list.sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    if (b.accuracyRate !== a.accuracyRate) return b.accuracyRate - a.accuracyRate;
+    return (a.responseTimeMs || 0) - (b.responseTimeMs || 0);
+  });
+  list.forEach((p, idx) => {
+    p.rank = idx + 1;
+  });
 }
 
 // Clean up students and laptops who have been inactive for more than 45 seconds
@@ -92,8 +124,9 @@ export async function GET(request: Request) {
   const rawLeftScreenAt = leftScreenAtParam ? Number(leftScreenAtParam) : null;
 
   const now = Date.now();
-  const leftScreenAt = !isFocused ? (rawLeftScreenAt || now) : null;
-  const awayDurationSeconds = !isFocused && leftScreenAt ? Math.max(0, Math.round((now - leftScreenAt) / 1000)) : 0;
+  const leftScreenAt = !isFocused ? rawLeftScreenAt || now : null;
+  const awayDurationSeconds =
+    !isFocused && leftScreenAt ? Math.max(0, Math.round((now - leftScreenAt) / 1000)) : 0;
 
   if (mode === 'partner' && patronA && patronB) {
     const laptopId = `${patronA}_${patronB}`;
@@ -152,9 +185,10 @@ export async function GET(request: Request) {
   if (liveSession.activeLaptops) {
     for (const [lapId, lap] of Object.entries(liveSession.activeLaptops)) {
       if (lap.isFocused === false && lap.leftScreenAt) {
-        const studentDisplayName = lap.mode === 'partner' && lap.partnerB
-          ? `${lap.partnerA.studentName} & ${lap.partnerB.studentName} (Shared Laptop)`
-          : lap.partnerA.studentName;
+        const studentDisplayName =
+          lap.mode === 'partner' && lap.partnerB
+            ? `${lap.partnerA.studentName} & ${lap.partnerB.studentName} (Shared Laptop)`
+            : lap.partnerA.studentName;
         attentionAlerts.push({
           laptopId: lapId,
           studentName: studentDisplayName,
@@ -167,6 +201,10 @@ export async function GET(request: Request) {
 
   const currentTally = computeTally();
   liveSession.kahootTally = currentTally;
+  if (liveSession.quizState) {
+    liveSession.quizState.tally = currentTally;
+    computeRanks();
+  }
 
   const counts = countActiveStudents();
 
@@ -196,23 +234,171 @@ export async function POST(request: Request) {
     if (body.syncMode === 'follow-teacher' || body.syncMode === 'self-paced') {
       liveSession.syncMode = body.syncMode;
     }
+
+    // -------------------------------------------------------------
+    // Quiz Host Management Actions
+    // -------------------------------------------------------------
+    if (body.action === 'start-quiz') {
+      if (!liveSession.quizState) {
+        liveSession.quizState = { ...initialQuizState };
+      }
+      liveSession.quizState.quizActive = true;
+      liveSession.quizState.scope = body.scope || 'neutral';
+      liveSession.quizState.quizTitle = body.quizTitle || 'Classroom Quiz Arena';
+      liveSession.quizState.activeQuestionIndex = Number(body.activeQuestionIndex ?? 0);
+      liveSession.quizState.activeQuestion = body.activeQuestion || null;
+      liveSession.quizState.isRevealed = false;
+      liveSession.quizState.questionStartTime = Date.now();
+      liveSession.kahootVotes = {};
+      liveSession.quizState.tally = [0, 0, 0, 0];
+      for (const p of Object.values(liveSession.quizState.participants)) {
+        p.lastOptionIndex = undefined;
+        p.lastIsCorrect = undefined;
+      }
+      if (body.activeQuestion?.id) {
+        liveSession.activeKahootQuestionId = body.activeQuestion.id;
+        liveSession.isKahootRevealed = false;
+      }
+    } else if (body.action === 'change-question') {
+      if (!liveSession.quizState) {
+        liveSession.quizState = { ...initialQuizState };
+      }
+      liveSession.quizState.activeQuestionIndex = Number(body.activeQuestionIndex ?? 0);
+      liveSession.quizState.activeQuestion = body.activeQuestion || null;
+      liveSession.quizState.isRevealed = false;
+      liveSession.quizState.questionStartTime = Date.now();
+      liveSession.kahootVotes = {};
+      liveSession.quizState.tally = [0, 0, 0, 0];
+      for (const p of Object.values(liveSession.quizState.participants)) {
+        p.lastOptionIndex = undefined;
+        p.lastIsCorrect = undefined;
+      }
+      if (body.activeQuestion?.id) {
+        liveSession.activeKahootQuestionId = body.activeQuestion.id;
+        liveSession.isKahootRevealed = false;
+      }
+    } else if (body.action === 'reveal-quiz-answer') {
+      if (liveSession.quizState) {
+        liveSession.quizState.isRevealed = true;
+      }
+      liveSession.isKahootRevealed = true;
+    } else if (body.action === 'reset-quiz-scores') {
+      if (liveSession.quizState) {
+        liveSession.quizState.participants = {};
+        liveSession.quizState.tally = [0, 0, 0, 0];
+        liveSession.quizState.activeQuestionIndex = 0;
+        liveSession.quizState.isRevealed = false;
+        liveSession.quizState.quizActive = false;
+      }
+      liveSession.kahootVotes = {};
+      liveSession.activeKahootQuestionId = null;
+      liveSession.isKahootRevealed = false;
+    }
+
+    // Legacy compatibility for direct question broadcasts
     if (body.activeKahootQuestionId !== undefined) {
       if (liveSession.activeKahootQuestionId !== body.activeKahootQuestionId) {
         liveSession.activeKahootQuestionId = body.activeKahootQuestionId;
         liveSession.kahootVotes = {}; // Reset votes for new question
         liveSession.isKahootRevealed = false;
+        if (liveSession.quizState) {
+          liveSession.quizState.isRevealed = false;
+          liveSession.quizState.questionStartTime = Date.now();
+          liveSession.quizState.tally = [0, 0, 0, 0];
+          for (const p of Object.values(liveSession.quizState.participants)) {
+            p.lastOptionIndex = undefined;
+            p.lastIsCorrect = undefined;
+          }
+        }
       }
     }
     if (body.isKahootRevealed !== undefined) {
       liveSession.isKahootRevealed = Boolean(body.isKahootRevealed);
+      if (liveSession.quizState) {
+        liveSession.quizState.isRevealed = Boolean(body.isKahootRevealed);
+      }
     }
 
-    // Handle student live vote submission
-    if (body.patronNumber && typeof body.kahootOptionIndex === 'number') {
-      if (!liveSession.kahootVotes) {
-        liveSession.kahootVotes = {};
+    // -------------------------------------------------------------
+    // Student Live Quiz Vote Submission
+    // -------------------------------------------------------------
+    const isStudentVote =
+      body.action === 'submit-quiz-vote' ||
+      (body.patronNumber &&
+        (typeof body.quizOptionIndex === 'number' || typeof body.kahootOptionIndex === 'number'));
+
+    if (isStudentVote && body.patronNumber) {
+      const patron = String(body.patronNumber);
+      const optIdx = Number(
+        body.quizOptionIndex !== undefined ? body.quizOptionIndex : body.kahootOptionIndex
+      );
+
+      if (optIdx >= 0 && optIdx <= 3) {
+        if (!liveSession.kahootVotes) {
+          liveSession.kahootVotes = {};
+        }
+        liveSession.kahootVotes[patron] = optIdx;
+
+        if (!liveSession.quizState) {
+          liveSession.quizState = { ...initialQuizState };
+        }
+
+        const now = Date.now();
+        const activeQ = body.question || liveSession.quizState.activeQuestion;
+        const timeLimitMs = (activeQ?.timeLimitSeconds || 30) * 1000;
+        const startTime = liveSession.quizState.questionStartTime || now;
+        const elapsedMs = Math.max(0, now - startTime);
+        const remainingRatio = Math.max(0, (timeLimitMs - elapsedMs) / timeLimitMs);
+        const speedBonus = Math.round(500 * remainingRatio);
+
+        const isCorrect = activeQ ? optIdx === activeQ.correctIndex : true;
+        const pointsAwarded = isCorrect ? 1000 + speedBonus : 0;
+
+        const studentName =
+          body.studentName || liveSession.activeStudents[patron]?.studentName || patron;
+        const mode = body.mode || 'solo';
+        const partnerB = body.partnerB || liveSession.activeStudents[patron]?.partnerB;
+
+        // Ensure participant record exists
+        if (!liveSession.quizState.participants[patron]) {
+          liveSession.quizState.participants[patron] = {
+            patronNumber: patron,
+            studentName,
+            mode,
+            partnerB,
+            score: 0,
+            correctCount: 0,
+            totalAnswered: 0,
+            accuracyRate: 0,
+            currentStreak: 0,
+          };
+        }
+
+        const participant = liveSession.quizState.participants[patron];
+
+        // Only score once per question
+        if (participant.lastOptionIndex === undefined) {
+          participant.studentName = studentName;
+          participant.mode = mode;
+          if (partnerB) participant.partnerB = partnerB;
+          participant.score += pointsAwarded;
+          participant.totalAnswered += 1;
+          if (isCorrect) {
+            participant.correctCount += 1;
+            participant.currentStreak += 1;
+          } else {
+            participant.currentStreak = 0;
+          }
+          participant.accuracyRate = Math.round(
+            (participant.correctCount / participant.totalAnswered) * 100
+          );
+          participant.lastOptionIndex = optIdx;
+          participant.lastIsCorrect = isCorrect;
+          participant.responseTimeMs = elapsedMs;
+        }
+
+        computeRanks();
       }
-      liveSession.kahootVotes[body.patronNumber] = Number(body.kahootOptionIndex);
     }
 
     liveSession.updatedAt = Date.now();
@@ -220,6 +406,9 @@ export async function POST(request: Request) {
 
     const currentTally = computeTally();
     liveSession.kahootTally = currentTally;
+    if (liveSession.quizState) {
+      liveSession.quizState.tally = currentTally;
+    }
     const counts = countActiveStudents();
 
     return NextResponse.json({
@@ -233,9 +422,6 @@ export async function POST(request: Request) {
       },
     });
   } catch {
-    return NextResponse.json(
-      { success: false, error: 'Invalid payload' },
-      { status: 400 }
-    );
+    return NextResponse.json({ success: false, error: 'Invalid payload' }, { status: 400 });
   }
 }

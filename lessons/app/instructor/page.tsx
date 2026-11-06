@@ -29,7 +29,7 @@ import {
   setZoomLevel,
 } from '../../lib/platformStorage';
 import { module1Info } from '../../data/module1';
-import { module2Info, module2KahootQuestions } from '../../data/module2';
+import { module2Info } from '../../data/module2';
 
 import {
   Shield,
@@ -48,13 +48,14 @@ import { StageIPOS } from '../../components/stages/StageIPOS';
 import { StageTimeline } from '../../components/stages/StageTimeline';
 import { StageDeviceSorting } from '../../components/stages/StageDeviceSorting';
 import { StageApplications } from '../../components/stages/StageApplications';
-import { StageQuiz } from '../../components/stages/StageQuiz';
 
 import { StageHardwareAnatomy } from '../../components/stages/StageHardwareAnatomy';
 import { StageInputOutputLab } from '../../components/stages/StageInputOutputLab';
 import { StageSystemUnitDisassembly } from '../../components/stages/StageSystemUnitDisassembly';
 import { StageStorageBytes } from '../../components/stages/StageStorageBytes';
+import { StageModuleComplete } from '../../components/stages/StageModuleComplete';
 import { CohortAttendanceDesk } from '../../components/instructor/CohortAttendanceDesk';
+import { HostQuizDesk } from '../../components/arena/HostQuizDesk';
 
 const ALL_MODULES = [
   { id: 'module-1', number: 1, title: 'Module 1: Introduction to Computers' },
@@ -96,9 +97,6 @@ export default function InstructorControlRoom() {
   const [zoomLevel, setZoomState] = useState<ZoomLevel>('normal');
   const [submissions, setSubmissions] = useState<StudentSubmission[]>([]);
   const [selectedSubmission, setSelectedSubmission] = useState<StudentSubmission | null>(null);
-  const [kahootQuestionId, setKahootQuestionId] = useState<number | null>(null);
-  const [isKahootRevealed, setIsKahootRevealed] = useState<boolean>(false);
-  const [liveTally, setLiveTally] = useState<[number, number, number, number]>([0, 0, 0, 0]);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Check existing session on mount
@@ -130,9 +128,6 @@ export default function InstructorControlRoom() {
           if (typeof data.connectedLaptops === 'number') {
             setConnectedLaptopsCount(data.connectedLaptops);
           }
-          if (data.kahootTally) setLiveTally(data.kahootTally);
-          if (data.activeKahootQuestionId !== undefined) setKahootQuestionId(data.activeKahootQuestionId);
-          if (data.isKahootRevealed !== undefined) setIsKahootRevealed(data.isKahootRevealed);
           setCurrentTime(Date.now());
         }
       } catch {
@@ -186,19 +181,6 @@ export default function InstructorControlRoom() {
     setSyncModeState(mode);
     broadcastUpdate({ syncMode: mode });
   };
-
-  const handleBroadcastKahoot = useCallback(
-    (updates: { activeKahootQuestionId?: number | null; isKahootRevealed?: boolean }) => {
-      if (updates.activeKahootQuestionId !== undefined) {
-        setKahootQuestionId(updates.activeKahootQuestionId);
-      }
-      if (updates.isKahootRevealed !== undefined) {
-        setIsKahootRevealed(updates.isKahootRevealed);
-      }
-      broadcastUpdate(updates);
-    },
-    [broadcastUpdate]
-  );
 
   const handleToggleModuleLock = (moduleId: string) => {
     let next: string[];
@@ -618,14 +600,8 @@ export default function InstructorControlRoom() {
               {currentStage.id === 'history-timeline' && <StageTimeline />}
               {currentStage.id === 'device-sorting' && <StageDeviceSorting />}
               {currentStage.id === 'applications' && <StageApplications />}
-              {currentStage.id === 'review-quiz' && (
-                <StageQuiz
-                  userRole="teacher"
-                  syncedQuestionId={kahootQuestionId}
-                  syncedIsRevealed={isKahootRevealed}
-                  liveTally={liveTally}
-                  onBroadcastState={handleBroadcastKahoot}
-                />
+              {(currentStage.id === 'module1-complete' || currentStage.id === 'review-quiz') && (
+                <StageModuleComplete moduleId="module-1" />
               )}
 
               {/* Module 2 Stages */}
@@ -633,19 +609,15 @@ export default function InstructorControlRoom() {
               {currentStage.id === 'input-output-lab' && <StageInputOutputLab />}
               {currentStage.id === 'system-unit-disassembly' && <StageSystemUnitDisassembly />}
               {currentStage.id === 'storage-and-bytes' && <StageStorageBytes />}
-              {currentStage.id === 'module2-quiz' && (
-                <StageQuiz
-                  userRole="teacher"
-                  questions={module2KahootQuestions}
-                  syncedQuestionId={kahootQuestionId}
-                  syncedIsRevealed={isKahootRevealed}
-                  liveTally={liveTally}
-                  onBroadcastState={handleBroadcastKahoot}
-                />
+              {(currentStage.id === 'module2-complete' || currentStage.id === 'module2-quiz') && (
+                <StageModuleComplete moduleId="module-2" />
               )}
             </div>
           </div>
         </section>
+
+        {/* Gamified Quiz Arena & Projector Leaderboard Desk */}
+        <HostQuizDesk />
 
         {/* Official Cohort 8 Attendance Desk */}
         <CohortAttendanceDesk

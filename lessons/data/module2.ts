@@ -44,10 +44,10 @@ export const module2Info: ModuleData = {
       type: 'storage',
     },
     {
-      id: 'module2-quiz',
-      title: 'Module 2 Kahoot Review Arena',
-      subtitle: 'Classroom Game · 15 Rapid Shape Questions from Section A with Live Sync',
-      type: 'quiz',
+      id: 'module2-complete',
+      title: 'Module 2 Complete!',
+      subtitle: 'Hardware Mastery & Enter Live Quiz Arena Battle',
+      type: 'milestone',
     },
   ],
 };

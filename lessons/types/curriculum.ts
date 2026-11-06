@@ -7,7 +7,8 @@ export type StageType =
   | 'quiz'
   | 'hardware'
   | 'disassembly'
-  | 'storage';
+  | 'storage'
+  | 'milestone';
 
 export interface StageMeta {
   id: string;
@@ -85,6 +86,8 @@ export interface KahootOptionConfig {
   textColor: string;
 }
 
+export type QuizScope = 'module-1' | 'module-2' | 'neutral' | 'custom';
+
 export interface KahootQuestion {
   id: number;
   question: string;
@@ -93,6 +96,7 @@ export interface KahootQuestion {
   explanation: string;
   topic: string;
   timeLimitSeconds?: number;
+  scope?: QuizScope;
 }
 
 export interface ComputerCharacteristic {

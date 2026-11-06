@@ -1,10 +1,12 @@
+import { QuizScope, KahootQuestion } from './curriculum';
+
 export type UserRole = 'teacher' | 'student';
 
 export type TeacherRole = 'adminTolu' | 'adminIsaac';
 
 export type ZoomLevel = 'normal' | 'large' | 'xlarge';
 
-export type ActiveView = 'stage' | 'notes' | 'assignment' | 'dashboard';
+export type ActiveView = 'stage' | 'notes' | 'assignment' | 'dashboard' | 'arena';
 
 export type SyncMode = 'follow-teacher' | 'self-paced';
 
@@ -55,6 +57,34 @@ export interface ClassroomAttentionAlert {
   awayDurationSeconds: number;
 }
 
+export interface QuizParticipantScore {
+  patronNumber: string;
+  studentName: string;
+  mode: LoginMode;
+  partnerB?: StudentPartner;
+  score: number;
+  correctCount: number;
+  totalAnswered: number;
+  accuracyRate: number; // percentage 0 - 100
+  currentStreak: number;
+  lastOptionIndex?: number;
+  lastIsCorrect?: boolean;
+  responseTimeMs?: number;
+  rank?: number;
+}
+
+export interface LiveQuizState {
+  quizActive: boolean;
+  quizTitle: string;
+  scope: QuizScope;
+  activeQuestionIndex: number;
+  activeQuestion: KahootQuestion | null;
+  isRevealed: boolean;
+  questionStartTime: number;
+  participants: Record<string, QuizParticipantScore>;
+  tally: [number, number, number, number];
+}
+
 export interface LiveSessionState {
   activeModuleId: string;
   activeLessonIndex: number;
@@ -64,6 +94,7 @@ export interface LiveSessionState {
   isKahootRevealed: boolean;
   kahootVotes?: Record<string, number>; // patronNumber or laptopId -> optionIndex (0, 1, 2, 3)
   kahootTally?: [number, number, number, number]; // counts for Red Triangle, Blue Diamond, Yellow Circle, Green Square
+  quizState?: LiveQuizState;
   activeStudents: Record<
     string,
     {

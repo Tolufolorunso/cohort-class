@@ -13,15 +13,15 @@ import { StageIPOS } from '../components/stages/StageIPOS';
 import { StageTimeline } from '../components/stages/StageTimeline';
 import { StageDeviceSorting } from '../components/stages/StageDeviceSorting';
 import { StageApplications } from '../components/stages/StageApplications';
-import { StageQuiz } from '../components/stages/StageQuiz';
 
 import { StageHardwareAnatomy } from '../components/stages/StageHardwareAnatomy';
 import { StageInputOutputLab } from '../components/stages/StageInputOutputLab';
 import { StageSystemUnitDisassembly } from '../components/stages/StageSystemUnitDisassembly';
 import { StageStorageBytes } from '../components/stages/StageStorageBytes';
+import { StageModuleComplete } from '../components/stages/StageModuleComplete';
 
-import { module1Info, module1Notes, module1Assignment, kahootQuestions as module1KahootQuestions } from '../data/module1';
-import { module2Info, module2Notes, module2Assignment, module2KahootQuestions } from '../data/module2';
+import { module1Info, module1Notes, module1Assignment } from '../data/module1';
+import { module2Info, module2Notes, module2Assignment } from '../data/module2';
 import {
   ActiveView,
   ZoomLevel,
@@ -51,9 +51,6 @@ export default function StudentPortal() {
   const [liveStageIndex, setLiveStageIndex] = useState<number>(0);
   const [studentStageIndex, setStudentStageIndex] = useState<number>(0);
   const [hasUserNavigated, setHasUserNavigated] = useState<boolean>(false);
-  const [liveKahootQuestionId, setLiveKahootQuestionId] = useState<number | null>(null);
-  const [liveIsKahootRevealed, setLiveIsKahootRevealed] = useState<boolean>(false);
-  const [liveKahootTally, setLiveKahootTally] = useState<[number, number, number, number]>([0, 0, 0, 0]);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
   // Classroom attention tracking (inattention, tab switching, window blur)
@@ -134,17 +131,6 @@ export default function StudentPortal() {
           if (data.activeModuleId && data.activeModuleId !== currentModuleId) {
             setCurrentModuleId(data.activeModuleId);
           }
-
-          // Mirror active Kahoot question & reveal state
-          if (data.activeKahootQuestionId !== undefined) {
-            setLiveKahootQuestionId(data.activeKahootQuestionId);
-          }
-          if (data.isKahootRevealed !== undefined) {
-            setLiveIsKahootRevealed(data.isKahootRevealed);
-          }
-          if (data.kahootTally) {
-            setLiveKahootTally(data.kahootTally);
-          }
         }
       } catch {
         // Fallback silently if offline in local computer lab
@@ -155,22 +141,6 @@ export default function StudentPortal() {
     const interval = setInterval(pollSession, 1500); // Poll every 1.5s
     return () => clearInterval(interval);
   }, [studentSession, currentModuleId, attention.isFocused, attention.leftScreenAt, hasUserNavigated]);
-
-  const handleStudentVote = async (_questionId: number, optionIndex: number) => {
-    if (!studentSession) return;
-    try {
-      await fetch('/api/live-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          patronNumber: studentSession.patronNumber,
-          kahootOptionIndex: optionIndex,
-        }),
-      });
-    } catch {
-      // Offline laboratory fallback
-    }
-  };
 
   // Fullscreen state listener
   useEffect(() => {
@@ -228,7 +198,6 @@ export default function StudentPortal() {
   const activeModuleInfo = currentModuleId === 'module-2' ? module2Info : module1Info;
   const activeNotes = currentModuleId === 'module-2' ? module2Notes : module1Notes;
   const activeAssignment = currentModuleId === 'module-2' ? module2Assignment : module1Assignment;
-  const activeKahootQuestions = currentModuleId === 'module-2' ? module2KahootQuestions : module1KahootQuestions;
 
   return (
     <div className="min-h-screen flex flex-col bg-zinc-950 text-zinc-100 selection:bg-emerald-500 selection:text-zinc-950">
@@ -293,18 +262,9 @@ export default function StudentPortal() {
                   return <StageDeviceSorting />;
                 case 'applications':
                   return <StageApplications />;
+                case 'module1-complete':
                 case 'review-quiz':
-                  return (
-                    <StageQuiz
-                      userRole="student"
-                      questions={activeKahootQuestions}
-                      syncedQuestionId={liveKahootQuestionId}
-                      syncedIsRevealed={liveIsKahootRevealed}
-                      liveTally={liveKahootTally}
-                      patronNumber={studentSession?.patronNumber}
-                      onStudentVote={handleStudentVote}
-                    />
-                  );
+                  return <StageModuleComplete moduleId={currentModuleId} />;
 
                 // Module 2 Stages
                 case 'hardware-anatomy':
@@ -315,18 +275,9 @@ export default function StudentPortal() {
                   return <StageSystemUnitDisassembly />;
                 case 'storage-and-bytes':
                   return <StageStorageBytes />;
+                case 'module2-complete':
                 case 'module2-quiz':
-                  return (
-                    <StageQuiz
-                      userRole="student"
-                      questions={module2KahootQuestions}
-                      syncedQuestionId={liveKahootQuestionId}
-                      syncedIsRevealed={liveIsKahootRevealed}
-                      liveTally={liveKahootTally}
-                      patronNumber={studentSession?.patronNumber}
-                      onStudentVote={handleStudentVote}
-                    />
-                  );
+                  return <StageModuleComplete moduleId={currentModuleId} />;
 
                 default:
                   return currentModuleId === 'module-2' ? <StageHardwareAnatomy /> : <StageDefinition />;

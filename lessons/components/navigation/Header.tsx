@@ -63,7 +63,9 @@ export function Header({
           ? `/learn/${moduleId}`
           : activeView === 'notes'
           ? `/notes/${moduleId}`
-          : `/assignments/${moduleId}`;
+          : activeView === 'assignment'
+          ? `/assignments/${moduleId}`
+          : `/learn/${moduleId}`;
       if (typeof window !== 'undefined' && window.location.pathname !== targetPath) {
         router.push(targetPath);
       }
@@ -75,7 +77,9 @@ export function Header({
       onSelectView(view);
     }
     const targetPath =
-      view === 'stage'
+      view === 'arena'
+        ? '/arena'
+        : view === 'stage'
         ? `/learn/${currentModuleId}`
         : view === 'notes'
         ? `/notes/${currentModuleId}`
@@ -198,6 +202,19 @@ export function Header({
             >
               <FileText size={14} className={activeView === 'assignment' ? 'text-zinc-950' : 'text-emerald-400'} />
               <span>Homework</span>
+            </button>
+
+            <button
+              onClick={() => handleViewClick('arena')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                activeView === 'arena'
+                  ? 'bg-amber-400 text-zinc-950 shadow-md ring-2 ring-amber-300 font-extrabold'
+                  : 'text-amber-400 hover:text-amber-300 hover:bg-amber-500/10'
+              }`}
+              title="Enter Live Quiz Arena"
+            >
+              <span className="text-sm">🎮</span>
+              <span>Quiz Arena</span>
             </button>
           </div>
         </div>
