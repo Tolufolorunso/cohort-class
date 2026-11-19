@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { BookOpen, FileText, ChevronRight } from '../icons/Icons';
 import { module1Info } from '../../data/module1';
+import { module2Info } from '../../data/module2';
 import { TeacherGuideDrawer } from '../presentation/TeacherGuideDrawer';
 
 interface StageModuleCompleteProps {
@@ -131,13 +132,15 @@ export function StageModuleComplete({ moduleId, moduleTitle }: StageModuleComple
         </Link>
       </div>
 
-      {!isM2 && (
-        <div className="w-full max-w-xl text-left mt-4">
-          <TeacherGuideDrawer
-            teacherNotes={module1Info.stages.find((s) => s.id === 'module1-complete')?.teacherNotes}
-          />
-        </div>
-      )}
+      <div className="w-full max-w-xl text-left mt-4">
+        <TeacherGuideDrawer
+          teacherNotes={
+            isM2
+              ? module2Info.stages.find((s) => s.id === 'module2-complete')?.teacherNotes
+              : module1Info.stages.find((s) => s.id === 'module1-complete')?.teacherNotes
+          }
+        />
+      </div>
     </div>
   );
 }

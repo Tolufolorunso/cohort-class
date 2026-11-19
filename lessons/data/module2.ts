@@ -24,30 +24,90 @@ export const module2Info: ModuleData = {
       title: 'Hardware Anatomy & Body Analogy',
       subtitle: 'Lesson 1 · Physical Components vs Software & The Human Body Analogy',
       type: 'hardware',
+      teacherNotes: {
+        promptQuestion:
+          'Look at your desktop computer right now. If a computer were a living human being, which part would be the brain, which would be the eyes, and which would be the hands?',
+        talkingPoint:
+          'Hardware means any physical part of the computer that you can see, touch, and pick up. Software is the intangible instructions inside that tell the hardware what to do—like a song stored in your mind versus the plastic headphones on your ears.',
+        watchOutFor:
+          'Crucial pitfall: Almost every beginner calls the big metal box the "CPU". Teach them immediately that the box is the System Unit (or Case); the CPU is just the small square microchip hidden inside on the motherboard!',
+        formalExamTerm:
+          'Hardware Components (WAEC / NECO Senior Secondary Computer Studies)',
+        analogyStory:
+          'Think of a human body: the skull and body is the System Unit, the brain is the CPU, your eyes are the Monitor, your hands are the Keyboard and Mouse, and your long-term memory is the Hard Drive.',
+      },
     },
     {
       id: 'input-output-lab',
       title: 'Input & Output Devices Lab',
       subtitle: 'Lesson 2 · Peripheral Classifications, Interactive Sorting & Port Anatomy',
       type: 'sorting',
+      teacherNotes: {
+        promptQuestion:
+          'When you type on WhatsApp, is your keyboard giving instructions to the phone or receiving instructions from the phone? What about when the screen lights up with a message?',
+        talkingPoint:
+          'Input devices take data and commands from the outside world and push them INTO the computer (Keyboard, Mouse, Scanner, Mic). Output devices take processed results from inside the computer and present them OUT to humans (Monitor, Speakers, Printer).',
+        watchOutFor:
+          'Watch out for dual-function devices! Students often get confused by Touchscreens and Multi-function printers. A touchscreen is BOTH input (when your finger taps) and output (when the glass displays pixels).',
+        formalExamTerm:
+          'Peripheral Devices Classification (Input, Output, Storage & Dual-Function)',
+        analogyStory:
+          'Think of ordering food at a restaurant: Your mouth giving the order to the waiter is Input. The waiter bringing you a plate of hot jollof rice is Output!',
+      },
     },
     {
       id: 'system-unit-disassembly',
       title: 'System Unit PC Disassembly',
       subtitle: 'Lesson 3 · Motherboard, CPU, RAM, PSU & 7-Step Interactive Teardown',
       type: 'disassembly',
+      teacherNotes: {
+        promptQuestion:
+          'If we opened the metal side panel of that desktop workstation right now, what do you think we would find inside? Is it empty like a bucket or packed like an engine?',
+        talkingPoint:
+          'The System Unit contains 4 vital organs: The Motherboard (the nervous system / highway), the CPU (the thinking engine), RAM (the fast temporary desk space), and the Power Supply Unit (the heart pumping controlled electricity).',
+        watchOutFor:
+          'Safety first! Remind students never to open a computer plugged into the wall, and always discharge static electricity (ESD) by touching unpainted metal first. Static electricity from your body can instantly fry a sensitive microchip without you even feeling a shock!',
+        formalExamTerm:
+          'Internal System Architecture & Electrostatic Discharge (ESD) Safety Precautions',
+        analogyStory:
+          'The Motherboard is like a busy Nigerian market square with paved walkways connecting every shop. The CPU is the chief market manager making calculations, and the PSU is the generator providing power to every stall.',
+      },
     },
     {
       id: 'storage-and-bytes',
       title: 'Storage Drives & Byte Scale',
       subtitle: 'Lesson 4 · Primary vs Secondary, HDD vs SSD, Byte Ladder & Lab Safety',
       type: 'storage',
+      teacherNotes: {
+        promptQuestion:
+          'If NEPA suddenly takes light while you are typing an essay, why does unsaved work disappear, but your saved photos from last year remain intact?',
+        talkingPoint:
+          'Primary Memory (RAM) is volatile—it works at lightning speed, but everything vanishes the second power drops. Secondary Storage (Hard Drives, SSDs, Flash Drives) is non-volatile—it keeps your files permanently safe even without electricity.',
+        watchOutFor:
+          'Byte scale confusion: Students often mix up Bits and Bytes, or think 1 GB is 1,000,000 Bytes. Clarify the ladder: 8 Bits make 1 Byte (one letter), 1,024 Bytes make a Kilobyte, 1,024 KB makes a Megabyte, and 1,024 MB makes a Gigabyte.',
+        formalExamTerm:
+          'Units of Storage (Bits, Bytes, KB, MB, GB, TB) & Volatile vs. Non-Volatile Memory',
+        analogyStory:
+          'RAM is like the top of your school study desk: you can spread out your notebooks quickly, but at closing time the desk must be cleared. The Hard Drive is your locked metal locker: you pack your books inside and lock it; when you return next term, everything is right where you left it!',
+      },
     },
     {
       id: 'module2-complete',
       title: 'Module 2 Complete!',
       subtitle: 'Hardware Mastery & Enter Live Quiz Arena Battle',
       type: 'milestone',
+      teacherNotes: {
+        promptQuestion:
+          'Who can name the 4 main internal organs inside the System Unit from memory without looking at the slides?',
+        talkingPoint:
+          'Great job completing Module 2! Hardware is no longer a mystery. You understand what every wire, port, chip, and drive does. Now it\'s time to test your speed and accuracy in the Quiz Arena!',
+        watchOutFor:
+          'Make sure all students have their laptops ready and connected to /arena before launching the Module 2 Question Pack on the projector.',
+        formalExamTerm:
+          'Hardware Diagnostics & Module Mastery Evaluation',
+        analogyStory:
+          'You went from merely pressing buttons on a computer to knowing the exact anatomy of the machine—just like a medical doctor understanding the human body!',
+      },
     },
   ],
 };
@@ -927,4 +987,178 @@ export const module2Assignment: ModuleAssignment = {
     },
   ],
 };
+
+// -------------------------------------------------------------
+// Module 2 Pre-Class Instructor Master Briefing
+// -------------------------------------------------------------
+export const module2MasterBriefing = {
+  moduleId: 'module-2',
+  moduleTitle: 'Module 2: Parts of a Computer (Hardware Lab)',
+  duration: '40 Minutes Lab Session Pacing',
+  targetAudience: 'Secondary School Students (Ages 12–18, First-Time Computer Learners)',
+  labPacing: [
+    {
+      time: '00:00 – 05:00 (5 mins)',
+      stage: 'Recap & Class Opener',
+      action:
+        'Ask students to look around the lab. Have 2 students name one physical computer component they can see and touch. Emphasize: Hardware is physical; Software is intangible instructions.',
+    },
+    {
+      time: '05:00 – 15:00 (10 mins)',
+      stage: 'Core Concept Presentation',
+      action:
+        'Teach the Human Body Analogy (CPU = Brain, Monitor = Eyes, Keyboard/Mouse = Hands). Crucial emphasis: The big metal box is the SYSTEM UNIT, NOT the CPU. Show the CPU chip photo.',
+    },
+    {
+      time: '15:00 – 28:00 (13 mins)',
+      stage: 'Hands-on Interactive Lab',
+      action:
+        'Have student lab pairs explore Stage 2 (Peripheral Sorting: Input vs Output), Stage 3 (7-Step Virtual System Unit Disassembly), and Stage 4 (Byte Ladder and Flash Drive Capacity Calculator).',
+    },
+    {
+      time: '28:00 – 35:00 (7 mins)',
+      stage: 'Oral Check & Safety Drill',
+      action:
+        'Conduct a rapid verbal check. Ask the class: "What happens to files on RAM when NEPA takes light?" and "What is the very first step before touching inside a computer?"',
+    },
+    {
+      time: '35:00 – 40:00 (5 mins)',
+      stage: 'Wrap-Up & Arena Battle',
+      action:
+        'Summarize the key takeaways. Direct students to copy notes in /notes/module-2, then project /arena for the Module 2 Kahoot-style hardware showdown.',
+    },
+  ],
+  formalDefinitions: [
+    {
+      term: 'Computer Hardware',
+      definition:
+        'The physical, tangible, and electronic machinery or equipment of a computer system that can be seen, touched, and manipulated by human hands.',
+      examContext: 'WAEC / NECO Senior Secondary Computer Studies standard question.',
+    },
+    {
+      term: 'System Unit vs. CPU',
+      definition:
+        'The System Unit is the main metal or plastic chassis containing the motherboard, power supply, and drives. The CPU (Central Processing Unit) is the single microprocessor chip seated on the motherboard that executes calculations.',
+      examContext: 'One of the most frequently failed distinction questions in WAEC Section A.',
+    },
+    {
+      term: 'Peripheral Devices',
+      definition:
+        'Any auxiliary input, output, or storage device that connects externally to the computer system unit via cables, ports (USB, HDMI), or wireless signals.',
+      examContext: 'Standard peripheral classification in BECE and SSCE.',
+    },
+    {
+      term: 'Volatile vs. Non-Volatile Memory',
+      definition:
+        'Volatile memory (RAM) requires electric power to hold data; when power cuts, its contents are instantly wiped. Non-volatile storage (HDD, SSD, Flash) retains information permanently without electric power.',
+      examContext: 'Crucial distinction tested in both theory and multiple-choice exams.',
+    },
+    {
+      term: 'Byte Scale Hierarchy',
+      definition:
+        '1 Byte = 8 Bits (1 character); 1 Kilobyte (KB) = 1,024 Bytes; 1 Megabyte (MB) = 1,024 KB; 1 Gigabyte (GB) = 1,024 MB; 1 Terabyte (TB) = 1,024 GB.',
+      examContext: 'Fundamental data representation and conversion questions in exams.',
+    },
+  ],
+  analogies: [
+    {
+      title: 'Human Body Hardware Analogy',
+      story:
+        'A desktop workstation is designed exactly like the human body: The System Unit chassis is the protective skull and torso. The CPU chip inside is the Brain making calculations. The Monitor is the Eyes displaying expressions. The Keyboard and Mouse are Hands giving instructions. The Microphone is the Ears. And the Hard Drive is long-term memory holding childhood memories!',
+      takeaway: 'Hardware mirrors human anatomy: Sensory input, brain calculation, and visual output.',
+    },
+    {
+      title: 'Study Desk vs. Locked Metal Locker (RAM vs. Hard Drive)',
+      story:
+        'Imagine studying in your classroom. The top of your wooden desk is RAM: you lay out your notebook, textbook, and pencil to do quick homework. But if rain storms blow into the room and everyone runs away (NEPA takes power), anything left loose on the desk gets blown away. Your locked metal locker in the corner is the Hard Drive: you pack your books inside and turn the key. Even if the school is closed for holidays, your books remain completely safe!',
+      takeaway: 'RAM is fast temporary desk space; Hard Drive is secure permanent storage.',
+    },
+    {
+      title: 'Market Square & The Generator (Motherboard & PSU)',
+      story:
+        'The Motherboard is the bustling marketplace of Ado-Ekiti. Paved walkways (circuits/buses) connect every merchant. The Power Supply Unit (PSU) is the heavy-duty generator humming outside, taking high-voltage NEPA power and distributing safe, steady electricity to every shop.',
+      takeaway: 'Motherboard connects all parts; PSU feeds them safe electricity.',
+    },
+  ],
+  hardwareSafetyChecklist: [
+    'Always unplug the AC power cord from the wall socket before touching internal components.',
+    'Discharge Electrostatic Discharge (ESD): Touch an unpainted metal surface on the chassis before touching circuit boards.',
+    'Hold RAM sticks and expansion cards strictly by the green PCB edges; never touch the golden contact pins.',
+    'Never force a connector into a socket: USB, HDMI, and RAM sticks only fit in one specific direction.',
+    'Keep all water bottles, sachet pure water, and snacks completely off the computer work desks.',
+    'Always use "Safely Remove Hardware and Eject Media" before disconnecting USB flash drives to prevent file corruption.',
+  ],
+  disassemblyProcedure: [
+    {
+      step: 1,
+      title: 'Power Off & Disconnect Mains',
+      action: 'Shut down operating system completely and unplug the AC power cable from the wall.',
+      caution: 'Never open a PC that is connected to mains electricity.',
+    },
+    {
+      step: 2,
+      title: 'Ground Yourself (Discharge ESD)',
+      action: 'Touch an unpainted metal part of the PC chassis with your bare fingers for 5 seconds.',
+      caution: 'Invisible static electricity from your body can instantly fry sensitive microchips.',
+    },
+    {
+      step: 3,
+      title: 'Remove the Side Panel',
+      action: 'Unscrew the 2 thumbscrews on the rear edge and slide the side panel backward.',
+      caution: 'Place the side panel flat on the floor so it does not fall and bend.',
+    },
+    {
+      step: 4,
+      title: 'Disconnect Power Supply Cables',
+      action: 'Gently squeeze the plastic release clips and pull power cables from the motherboard.',
+      caution: 'Never yank power cables by the wires; always grip the plastic molex connector.',
+    },
+    {
+      step: 5,
+      title: 'Unclip & Remove RAM Sticks',
+      action: 'Press down simultaneously on the plastic latches at both ends of the RAM slot.',
+      caution: 'The RAM stick will pop up automatically. Handle only by the plastic/PCB edges.',
+    },
+    {
+      step: 6,
+      title: 'Disconnect Storage Drive Cables',
+      action: 'Unplug the thin SATA data cable and power cable from the Hard Drive or SSD.',
+      caution: 'SATA clips have metal lock latches; press the latch before pulling.',
+    },
+    {
+      step: 7,
+      title: 'Inspect CPU & Heatsink Fan',
+      action: 'Observe the heavy aluminum heatsink and cooling fan directly over the CPU socket.',
+      caution: 'Do not unseat the CPU heatsink without thermal paste; never touch CPU socket pins.',
+    },
+  ],
+  verbalCheckQuestions: [
+    {
+      question: 'Is the big metal box sitting on your desk called the CPU?',
+      answer:
+        'No! It is called the System Unit (or Computer Case). The CPU is just the small square chip inside on the motherboard.',
+    },
+    {
+      question: 'Which device is BOTH an input and an output device?',
+      answer:
+        'A Touchscreen (e.g. on a smartphone, tablet, or ATM). You touch it to enter commands (Input) and it shows visual pictures (Output).',
+    },
+    {
+      question: 'Why does unsaved work disappear from RAM when power cuts?',
+      answer:
+        'Because RAM is volatile memory—it requires a constant electric current to hold data.',
+    },
+    {
+      question: 'How many bits make up one single byte?',
+      answer:
+        '8 bits = 1 byte (enough to store 1 text character like the letter "A").',
+    },
+    {
+      question: 'What is the very first rule of safety before opening a computer case?',
+      answer:
+        'Unplug the power cable from the wall socket and discharge static electricity.',
+    },
+  ],
+};
+
 

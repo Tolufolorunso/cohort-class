@@ -57,6 +57,7 @@ import { StageModuleComplete } from '../../components/stages/StageModuleComplete
 import { CohortAttendanceDesk } from '../../components/instructor/CohortAttendanceDesk';
 import { HostQuizDesk } from '../../components/arena/HostQuizDesk';
 import { Module1MasterBriefingModal } from '../../components/instructor/Module1MasterBriefingModal';
+import { Module2MasterBriefingModal } from '../../components/instructor/Module2MasterBriefingModal';
 
 const ALL_MODULES = [
   { id: 'module-1', number: 1, title: 'Module 1: Introduction to Computers' },
@@ -100,6 +101,7 @@ export default function InstructorControlRoom() {
   const [selectedSubmission, setSelectedSubmission] = useState<StudentSubmission | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showModule1Briefing, setShowModule1Briefing] = useState(false);
+  const [showModule2Briefing, setShowModule2Briefing] = useState(false);
 
   // Check existing session on mount
   useEffect(() => {
@@ -507,10 +509,19 @@ export default function InstructorControlRoom() {
           <div className="flex items-center gap-2 flex-wrap">
             <button
               onClick={() => setShowModule1Briefing(true)}
-              className="px-4 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-black text-xs transition-all active:scale-95 flex items-center gap-1.5 cursor-pointer shadow-sm"
+              className="px-3.5 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-black text-xs transition-all active:scale-95 flex items-center gap-1.5 cursor-pointer shadow-sm"
+              title="Module 1 Lesson Plan, WAEC definitions and analogies"
             >
               <span>📖</span>
-              <span>Module 1 Master Brief (WAEC &amp; Lesson Plan)</span>
+              <span>Mod 1 Brief</span>
+            </button>
+            <button
+              onClick={() => setShowModule2Briefing(true)}
+              className="px-3.5 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-black text-xs transition-all active:scale-95 flex items-center gap-1.5 cursor-pointer shadow-sm"
+              title="Module 2 Hardware Lab Brief, teardown checklist and safety plan"
+            >
+              <span>🛠️</span>
+              <span>Mod 2 Hardware Brief</span>
             </button>
             <Link
               href="/today"
@@ -913,6 +924,12 @@ export default function InstructorControlRoom() {
       <Module1MasterBriefingModal
         isOpen={showModule1Briefing}
         onClose={() => setShowModule1Briefing(false)}
+      />
+
+      {/* Module 2 Pre-Class Master Briefing Modal */}
+      <Module2MasterBriefingModal
+        isOpen={showModule2Briefing}
+        onClose={() => setShowModule2Briefing(false)}
       />
     </div>
   );
