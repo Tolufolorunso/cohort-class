@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { InteractiveMouseTrainer } from './InteractiveMouseTrainer';
 import { InteractiveFolderLab } from './InteractiveFolderLab';
 import { InteractiveRapidTyping } from './InteractiveRapidTyping';
+import { useIsInstructor } from '../../hooks/useIsInstructor';
 
 interface Slide {
   id: number;
@@ -317,6 +318,7 @@ const SLIDES: Slide[] = [
 ];
 
 export function TodayClassDeck() {
+  const isInstructor = useIsInstructor();
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [isTeacherMode, setIsTeacherMode] = useState(false);
   const [showNotesModal, setShowNotesModal] = useState(false);
@@ -378,14 +380,16 @@ export function TodayClassDeck() {
         e.preventDefault();
         toggleFullscreen();
       } else if (e.key.toLowerCase() === 't') {
-        e.preventDefault();
-        setIsTeacherMode((prev) => !prev);
+        if (isInstructor) {
+          e.preventDefault();
+          setIsTeacherMode((prev) => !prev);
+        }
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleNext, handlePrev]);
+  }, [handleNext, handlePrev, isInstructor]);
 
   return (
     <div className="w-full flex-1 flex flex-col bg-zinc-950 text-zinc-100 min-h-screen">
@@ -432,20 +436,22 @@ export function TodayClassDeck() {
 
         {/* Right: Tools & Mode Toggles */}
         <div className="flex items-center gap-2">
-          {/* Teacher Guide Toggle */}
-          <button
-            onClick={() => setIsTeacherMode((prev) => !prev)}
-            className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer border ${
-              isTeacherMode
-                ? 'bg-amber-500 text-zinc-950 border-amber-400 shadow-md'
-                : 'bg-zinc-800 text-zinc-300 hover:text-white border-zinc-700'
-            }`}
-            title="Toggle Teacher Talking Points & Classroom Notes (Press 'T')"
-          >
-            <span>🧑‍🏫</span>
-            <span className="hidden sm:inline">Teacher Guide</span>
-            <span className="text-[10px] opacity-70">({isTeacherMode ? 'ON' : 'OFF'})</span>
-          </button>
+          {/* Teacher Guide Toggle - Only visible to authenticated instructors */}
+          {isInstructor && (
+            <button
+              onClick={() => setIsTeacherMode((prev) => !prev)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer border ${
+                isTeacherMode
+                  ? 'bg-amber-500 text-zinc-950 border-amber-400 shadow-md'
+                  : 'bg-zinc-800 text-zinc-300 hover:text-white border-zinc-700'
+              }`}
+              title="Toggle Teacher Talking Points & Classroom Notes (Press 'T')"
+            >
+              <span>🧑‍🏫</span>
+              <span className="hidden sm:inline">Teacher Guide</span>
+              <span className="text-[10px] opacity-70">({isTeacherMode ? 'ON' : 'OFF'})</span>
+            </button>
+          )}
 
           {/* Copy Notes Modal Trigger */}
           <button
@@ -542,8 +548,8 @@ export function TodayClassDeck() {
             )}
           </div>
 
-          {/* Teacher Guide Drawer (if toggled on) */}
-          {isTeacherMode && (
+          {/* Teacher Guide Drawer - Only visible to authenticated instructors */}
+          {isInstructor && isTeacherMode && (
             <div className="mt-6 p-4 rounded-2xl bg-amber-950/50 border border-amber-500/50 text-xs text-amber-200 animate-fadeIn">
               <div className="flex items-center gap-2 font-black uppercase tracking-wider text-amber-400 mb-2">
                 <span>🧑‍🏫 Instructor Talking Points & Classroom Notes:</span>

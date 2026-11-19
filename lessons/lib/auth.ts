@@ -18,7 +18,17 @@ const TEACHER_CREDENTIALS: Record<string, TeacherCredential> = {
     displayName: 'Instructor Tolu (Super Admin)',
     isSuperAdmin: true,
   },
+  '2026': {
+    role: 'adminTolu',
+    displayName: 'Instructor Tolu (Super Admin)',
+    isSuperAdmin: true,
+  },
   adminIsaac: {
+    role: 'adminIsaac',
+    displayName: 'Instructor Isaac (Classroom Instructor)',
+    isSuperAdmin: false,
+  },
+  '2025': {
     role: 'adminIsaac',
     displayName: 'Instructor Isaac (Classroom Instructor)',
     isSuperAdmin: false,
@@ -54,6 +64,7 @@ export function validateTeacherPin(
 export function saveTeacherSession(session: TeacherSession): void {
   if (!isBrowser()) return;
   localStorage.setItem(TEACHER_SESSION_KEY, JSON.stringify(session));
+  window.dispatchEvent(new Event('dzuels:teacher-auth'));
 }
 
 export function getTeacherSession(): TeacherSession | null {
@@ -71,6 +82,7 @@ export function getTeacherSession(): TeacherSession | null {
 export function clearTeacherSession(): void {
   if (!isBrowser()) return;
   localStorage.removeItem(TEACHER_SESSION_KEY);
+  window.dispatchEvent(new Event('dzuels:teacher-auth'));
 }
 
 export function isSuperAdmin(role: TeacherRole): boolean {

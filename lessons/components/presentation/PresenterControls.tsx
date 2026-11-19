@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { ChevronLeft, ChevronRight, Maximize, Minimize } from '../icons/Icons';
+import { useIsInstructor } from '../../hooks/useIsInstructor';
 
 interface PresenterControlsProps {
   currentStageIndex: number;
@@ -22,6 +23,7 @@ export function PresenterControls({
 }: PresenterControlsProps) {
   const isFirst = currentStageIndex === 0;
   const isLast = currentStageIndex === totalStages - 1;
+  const isInstructor = useIsInstructor();
 
   return (
     <footer className="w-full bg-zinc-900 border-t border-zinc-800 text-white select-none sticky bottom-0 z-40 px-4 py-3 sm:px-6 shadow-lg">
@@ -43,11 +45,15 @@ export function PresenterControls({
             <kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-200 border border-zinc-700">F</kbd>
             <span className="ml-1">Fullscreen</span>
           </span>
-          <span className="text-zinc-600">•</span>
-          <span className="flex items-center gap-1">
-            <kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-200 border border-zinc-700">T</kbd>
-            <span className="ml-1">Teacher Guide</span>
-          </span>
+          {isInstructor && (
+            <>
+              <span className="text-zinc-600">•</span>
+              <span className="flex items-center gap-1">
+                <kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-200 border border-zinc-700">T</kbd>
+                <span className="ml-1">Teacher Guide</span>
+              </span>
+            </>
+          )}
           <span className="text-zinc-600">•</span>
           <span className="flex items-center gap-1">
             <kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-200 border border-zinc-700">1-6</kbd>
