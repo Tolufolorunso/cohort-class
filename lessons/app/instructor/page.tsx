@@ -56,6 +56,7 @@ import { StageStorageBytes } from '../../components/stages/StageStorageBytes';
 import { StageModuleComplete } from '../../components/stages/StageModuleComplete';
 import { CohortAttendanceDesk } from '../../components/instructor/CohortAttendanceDesk';
 import { HostQuizDesk } from '../../components/arena/HostQuizDesk';
+import { Module1MasterBriefingModal } from '../../components/instructor/Module1MasterBriefingModal';
 
 const ALL_MODULES = [
   { id: 'module-1', number: 1, title: 'Module 1: Introduction to Computers' },
@@ -98,6 +99,7 @@ export default function InstructorControlRoom() {
   const [submissions, setSubmissions] = useState<StudentSubmission[]>([]);
   const [selectedSubmission, setSelectedSubmission] = useState<StudentSubmission | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [showModule1Briefing, setShowModule1Briefing] = useState(false);
 
   // Check existing session on mount
   useEffect(() => {
@@ -502,7 +504,14 @@ export default function InstructorControlRoom() {
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
+            <button
+              onClick={() => setShowModule1Briefing(true)}
+              className="px-4 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-black text-xs transition-all active:scale-95 flex items-center gap-1.5 cursor-pointer shadow-sm"
+            >
+              <span>📖</span>
+              <span>Module 1 Master Brief (WAEC &amp; Lesson Plan)</span>
+            </button>
             <Link
               href="/today"
               className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-emerald-400 hover:from-amber-400 hover:to-emerald-300 text-zinc-950 font-black text-xs shadow-md transition-all active:scale-95 flex items-center gap-1.5"
@@ -899,6 +908,12 @@ export default function InstructorControlRoom() {
           </div>
         </div>
       )}
+
+      {/* Module 1 Pre-Class Master Briefing Modal */}
+      <Module1MasterBriefingModal
+        isOpen={showModule1Briefing}
+        onClose={() => setShowModule1Briefing(false)}
+      />
     </div>
   );
 }

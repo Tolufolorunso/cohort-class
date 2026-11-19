@@ -3,6 +3,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { BookOpen, FileText, ChevronRight } from '../icons/Icons';
+import { module1Info } from '../../data/module1';
+import { TeacherGuideDrawer } from '../presentation/TeacherGuideDrawer';
 
 interface StageModuleCompleteProps {
   moduleId: string;
@@ -128,6 +130,14 @@ export function StageModuleComplete({ moduleId, moduleTitle }: StageModuleComple
           </div>
         </Link>
       </div>
+
+      {!isM2 && (
+        <div className="w-full max-w-xl text-left mt-4">
+          <TeacherGuideDrawer
+            teacherNotes={module1Info.stages.find((s) => s.id === 'module1-complete')?.teacherNotes}
+          />
+        </div>
+      )}
     </div>
   );
 }

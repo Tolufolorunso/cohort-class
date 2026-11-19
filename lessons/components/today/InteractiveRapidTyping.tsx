@@ -38,15 +38,25 @@ export function InteractiveRapidTyping() {
   const [userInput, setUserInput] = useState<string>('');
   const [startTime, setStartTime] = useState<number | null>(null);
   const [endTime, setEndTime] = useState<number | null>(null);
+  const [currentTime, setCurrentTime] = useState<number | null>(null);
   const [errorsCount, setErrorsCount] = useState<number>(0);
   const [isCompleted, setIsCompleted] = useState<boolean>(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    if (!startTime || endTime) return;
+    const interval = setInterval(() => {
+      setCurrentTime(Date.now());
+    }, 500);
+    return () => clearInterval(interval);
+  }, [startTime, endTime]);
+
   const handleReset = useCallback((levelId?: number) => {
     setUserInput('');
     setStartTime(null);
     setEndTime(null);
+    setCurrentTime(null);
     setErrorsCount(0);
     setIsCompleted(false);
     if (levelId) {
@@ -61,8 +71,10 @@ export function InteractiveRapidTyping() {
     const value = e.target.value;
     if (isCompleted) return;
 
+    const now = Date.now();
     if (!startTime && value.length > 0) {
-      setStartTime(Date.now());
+      setStartTime(now);
+      setCurrentTime(now);
     }
 
     // Check last typed character
@@ -77,7 +89,8 @@ export function InteractiveRapidTyping() {
 
     // Completed level
     if (value.length >= targetText.length) {
-      setEndTime(Date.now());
+      setEndTime(now);
+      setCurrentTime(now);
       setIsCompleted(true);
     }
   };
@@ -87,9 +100,10 @@ export function InteractiveRapidTyping() {
   const typedLength = userInput.length;
   const progressPercent = Math.min(100, Math.round((typedLength / totalChars) * 100));
 
+  const effectiveEnd = endTime || currentTime || startTime || 0;
   const elapsedSeconds =
-    startTime && (endTime || Date.now())
-      ? Math.max(1, Math.round(((endTime || Date.now()) - startTime) / 1000))
+    startTime && effectiveEnd > startTime
+      ? Math.max(1, Math.round((effectiveEnd - startTime) / 1000))
       : 0;
 
   const wordsTyped = typedLength / 5;

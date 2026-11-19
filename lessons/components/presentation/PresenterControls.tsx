@@ -45,6 +45,11 @@ export function PresenterControls({
           </span>
           <span className="text-zinc-600">•</span>
           <span className="flex items-center gap-1">
+            <kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-200 border border-zinc-700">T</kbd>
+            <span className="ml-1">Teacher Guide</span>
+          </span>
+          <span className="text-zinc-600">•</span>
+          <span className="flex items-center gap-1">
             <kbd className="px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-200 border border-zinc-700">1-6</kbd>
             <span className="ml-1">Stage Jump</span>
           </span>

@@ -1,332 +1,231 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { iposAnalogies, iposHardwareSteps, module1ImageCards } from '../../data/module1';
+import { module1Info, iposAnalogies } from '../../data/module1';
 import { IPOSPhase } from '../../types/curriculum';
-import {
-  KeyboardIcon,
-  Cpu,
-  Monitor,
-  HardDrive,
-  Play,
-  RefreshCw,
-  ArrowRight,
-  CheckCircle,
-} from '../icons/Icons';
-import { EducationalImage } from '../presentation/EducationalImage';
+import { TeacherGuideDrawer } from '../presentation/TeacherGuideDrawer';
 
 const PHASES: IPOSPhase[] = ['input', 'processing', 'output', 'storage'];
 
-const PHASE_ICONS: Record<IPOSPhase, React.ComponentType<{ size?: number; className?: string }>> = {
-  input: KeyboardIcon,
-  processing: Cpu,
-  output: Monitor,
-  storage: HardDrive,
-};
-
-const PHASE_COLORS: Record<IPOSPhase, { ring: string; bg: string; text: string; border: string }> = {
+const PHASE_DETAILS: Record<
+  IPOSPhase,
+  {
+    name: string;
+    action: string;
+    icon: string;
+    simpleDesc: string;
+    hardware: string;
+    color: string;
+    badgeBg: string;
+  }
+> = {
   input: {
-    ring: 'ring-amber-500',
-    bg: 'bg-amber-500/10',
-    text: 'text-amber-400',
-    border: 'border-amber-500/40',
+    name: '1. INPUT',
+    action: 'You Feed It',
+    icon: '⌨️',
+    simpleDesc: 'Giving raw data and commands to the computer using your hands or voice.',
+    hardware: 'Keyboard, Mouse, Touchpad, Scanner, Microphone, ATM Keypad',
+    color: 'border-amber-500 text-amber-400 bg-amber-500/10',
+    badgeBg: 'bg-amber-950/80 text-amber-400 border-amber-800/60',
   },
   processing: {
-    ring: 'ring-sky-500',
-    bg: 'bg-sky-500/10',
-    text: 'text-sky-400',
-    border: 'border-sky-500/40',
+    name: '2. PROCESS',
+    action: 'It Works & Calculates',
+    icon: '⚙️',
+    simpleDesc: 'The microchip CPU brain calculates, checks passwords, and follows rules in milliseconds.',
+    hardware: 'CPU (Processor), Motherboard, RAM Memory',
+    color: 'border-sky-500 text-sky-400 bg-sky-500/10',
+    badgeBg: 'bg-sky-950/80 text-sky-400 border-sky-800/60',
   },
   output: {
-    ring: 'ring-emerald-500',
-    bg: 'bg-emerald-500/10',
-    text: 'text-emerald-400',
-    border: 'border-emerald-500/40',
+    name: '3. OUTPUT',
+    action: 'It Shows & Delivers',
+    icon: '🖥️',
+    simpleDesc: 'The machine delivers finished, meaningful results for you to see, hear, or hold.',
+    hardware: 'Monitor screen, Speakers, Printers, ATM Cash Dispenser',
+    color: 'border-emerald-500 text-emerald-400 bg-emerald-500/10',
+    badgeBg: 'bg-emerald-950/80 text-emerald-400 border-emerald-800/60',
   },
   storage: {
-    ring: 'ring-purple-500',
-    bg: 'bg-purple-500/10',
-    text: 'text-purple-400',
-    border: 'border-purple-500/40',
+    name: '4. STORAGE',
+    action: 'It Preserves for Later',
+    icon: '💾',
+    simpleDesc: 'Saves your work permanently so NEPA power cuts do not erase your notes.',
+    hardware: 'Hard Drive (HDD), Solid State Drive (SSD), Flash Drive, Cloud Server',
+    color: 'border-purple-500 text-purple-400 bg-purple-500/10',
+    badgeBg: 'bg-purple-950/80 text-purple-400 border-purple-800/60',
   },
-};
-
-const SIMPLE_ENGLISH_PHASES: Record<IPOSPhase, string> = {
-  input:
-    'You are feeding the machine! Just like putting raw ingredients into a cooking pot or typing your ATM PIN, you press keys, click the mouse, or tap the screen to give the computer something to work on.',
-  processing:
-    'The electronic brain is doing the heavy lifting! The CPU calculates, sorts, and organizes millions of numbers per second inside microscopic silicon circuits.',
-  output:
-    'The computer shows you the answer! It displays glowing words and pictures on the screen, plays sound through the speakers, or prints ink on paper so you can read your results.',
-  storage:
-    'Safe inside the digital cupboard! Even if NEPA takes light or your battery dies, your hard drive keeps your work preserved so you can continue tomorrow without losing anything.',
 };
 
 export function StageIPOS() {
-  const [selectedAnalogyId, setSelectedAnalogyId] = useState('cooking-yam');
-  const [activePhaseIndex, setActivePhaseIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [activePhase, setActivePhase] = useState<IPOSPhase>('input');
+  const [selectedAnalogyId, setSelectedAnalogyId] = useState<string>('cooking');
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
-  const activeAnalogy =
+  const stageMeta = module1Info.stages.find((s) => s.id === 'ipos-cycle');
+  const teacherNotes = stageMeta?.teacherNotes;
+
+  const currentAnalogy =
     iposAnalogies.find((a) => a.id === selectedAnalogyId) || iposAnalogies[0];
-  const activePhase = PHASES[activePhaseIndex];
-  const activeHardware = iposHardwareSteps[activePhase];
-  const activeAnalogyStep = activeAnalogy.steps[activePhase];
+  const activeDetail = PHASE_DETAILS[activePhase];
 
-  const iposImage = module1ImageCards.find((c) => c.id === 'ipos-poster') || {
-    id: 'ipos-poster',
-    title: 'The IPOS Cycle Architecture',
-    caption: 'Visual diagram showing Input (Keyboard) -> Processing (CPU) -> Output (Monitor) -> Storage (Drive).',
-    url: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80',
-    fallbackType: 'ipos' as const,
-    badge: 'Core Concept',
-  };
-
-  // Auto-play stepper
+  // Auto-play through IPOS cycle
   useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (isPlaying) {
-      timer = setInterval(() => {
-        setActivePhaseIndex((prev) => (prev + 1) % PHASES.length);
-      }, 2500);
-    }
-    return () => clearInterval(timer);
+    if (!isPlaying) return;
+    const interval = setInterval(() => {
+      setActivePhase((prev) => {
+        const idx = PHASES.indexOf(prev);
+        if (idx === PHASES.length - 1) {
+          setIsPlaying(false);
+          return PHASES[0];
+        }
+        return PHASES[idx + 1];
+      });
+    }, 2000);
+    return () => clearInterval(interval);
   }, [isPlaying]);
 
   return (
-    <div className="space-y-8 animate-fadeIn">
-      {/* Visual Poster & Overview */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="md:col-span-1">
-          <EducationalImage
-            src={iposImage.url}
-            alt={iposImage.title}
-            title={iposImage.title}
-            caption={iposImage.caption}
-            fallbackType={iposImage.fallbackType}
-            badge={iposImage.badge}
-          />
-        </div>
-        <div className="md:col-span-2 bg-gradient-to-br from-zinc-900 to-zinc-800 rounded-3xl border border-zinc-700/80 p-6 sm:p-8 flex flex-col justify-center space-y-3">
-          <span className="text-xs font-black uppercase tracking-wider text-emerald-400">
-            Lesson 1: The Data Processing Cycle
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-black text-white">
-            Every Computer Follows 4 Sacred Steps: IPOS
-          </h2>
-          <p className="text-zinc-300 text-sm sm:text-base leading-relaxed">
-            Whether you are typing a school essay, playing a video game, scanning a barcode, or withdrawing cash from an ATM, every single computer operation moves strictly through these four distinct stages.
-          </p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2">
-            <div className="p-3 rounded-2xl bg-zinc-950 border border-amber-500/40 text-center">
-              <div className="text-xs font-bold text-amber-400">1. INPUT</div>
-              <div className="text-sm font-black text-white mt-0.5">Receives</div>
-            </div>
-            <div className="p-3 rounded-2xl bg-zinc-950 border border-sky-500/40 text-center">
-              <div className="text-xs font-bold text-sky-400">2. PROCESS</div>
-              <div className="text-sm font-black text-white mt-0.5">Works</div>
-            </div>
-            <div className="p-3 rounded-2xl bg-zinc-950 border border-emerald-500/40 text-center">
-              <div className="text-xs font-bold text-emerald-400">3. OUTPUT</div>
-              <div className="text-sm font-black text-white mt-0.5">Shows</div>
-            </div>
-            <div className="p-3 rounded-2xl bg-zinc-950 border border-purple-500/40 text-center">
-              <div className="text-xs font-bold text-purple-400">4. STORAGE</div>
-              <div className="text-sm font-black text-white mt-0.5">Preserves</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Analogy Selection Bar */}
-      <section className="bg-zinc-900 border border-zinc-800 rounded-3xl p-5 sm:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div>
-          <div className="text-xs font-black uppercase tracking-wider text-emerald-400">
-            Teaching Analogy Switcher
-          </div>
-          <h3 className="text-lg sm:text-xl font-bold text-white mt-0.5">
-            Choose an everyday scenario to illustrate the IPOS cycle:
-          </h3>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2">
-          {iposAnalogies.map((analogy) => {
-            const isSelected = analogy.id === selectedAnalogyId;
-            return (
+    <div className="w-full max-w-5xl mx-auto flex flex-col gap-6 animate-fadeIn select-none">
+      {/* 16:9 Presentation Slide Card */}
+      <div className="bg-zinc-900/90 border border-zinc-800 rounded-3xl p-6 sm:p-10 shadow-2xl backdrop-blur-md flex flex-col justify-between min-h-[500px]">
+        {/* Slide Header */}
+        <div className="border-b border-zinc-800/80 pb-4 mb-5">
+          <div className="flex items-center justify-between gap-3 mb-2">
+            <span className="text-xs uppercase font-black tracking-wider px-2.5 py-1 rounded-full border bg-sky-950/80 text-sky-400 border-sky-800/60">
+              LESSON 1 • THE SACRED CYCLE
+            </span>
+            <div className="flex items-center gap-3">
               <button
-                key={analogy.id}
-                onClick={() => {
-                  setSelectedAnalogyId(analogy.id);
-                  setIsPlaying(false);
-                }}
-                className={`px-4 py-2 rounded-2xl text-sm font-bold transition-all cursor-pointer border ${
-                  isSelected
-                    ? 'bg-emerald-500 text-zinc-950 border-emerald-400 shadow-md ring-2 ring-emerald-500/30'
-                    : 'bg-zinc-800 text-zinc-300 border-zinc-700 hover:bg-zinc-700'
+                onClick={() => setIsPlaying((prev) => !prev)}
+                className={`px-3 py-1 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer border ${
+                  isPlaying
+                    ? 'bg-amber-500 text-zinc-950 border-amber-400 animate-pulse'
+                    : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border-zinc-700'
                 }`}
               >
-                {analogy.title}
+                <span>{isPlaying ? '⏸ Pause' : '▶ Auto-Play Cycle'}</span>
               </button>
-            );
-          })}
+              <span className="text-xs font-mono font-bold text-zinc-500">
+                STAGE 02 / 06
+              </span>
+            </div>
+          </div>
+          <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
+            The IPOS Cycle: Input ➔ Process ➔ Output ➔ Storage
+          </h1>
+          <p className="text-sm sm:text-base text-zinc-400 mt-1 font-medium">
+            Every computer on earth follows these 4 sacred steps in exact sequence.
+          </p>
         </div>
-      </section>
 
-      {/* Visual 4-Step Interactive Pipeline */}
-      <section className="space-y-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-          {PHASES.map((phase, idx) => {
-            const isSelected = idx === activePhaseIndex;
-            const Icon = PHASE_ICONS[phase];
-            const colors = PHASE_COLORS[phase];
-            const stepInfo = iposHardwareSteps[phase];
+        {/* 4 Interactive Phase Cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
+          {PHASES.map((phase) => {
+            const detail = PHASE_DETAILS[phase];
+            const isSelected = activePhase === phase;
 
             return (
               <button
                 key={phase}
+                type="button"
                 onClick={() => {
-                  setActivePhaseIndex(idx);
+                  setActivePhase(phase);
                   setIsPlaying(false);
                 }}
-                className={`p-4 sm:p-5 rounded-2xl text-left transition-all border cursor-pointer relative overflow-hidden flex flex-col justify-between ${
+                className={`p-4 rounded-2xl border-2 transition-all cursor-pointer text-left flex flex-col justify-between gap-2 ${
                   isSelected
-                    ? `${colors.bg} ${colors.border} ring-2 ${colors.ring} shadow-xl scale-[1.02]`
-                    : 'bg-zinc-900 border-zinc-800 hover:bg-zinc-800/80'
+                    ? `${detail.color} shadow-lg scale-105 ring-2 ring-white/20`
+                    : 'bg-zinc-950/60 border-zinc-800 hover:border-zinc-700 text-zinc-400'
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-extrabold uppercase tracking-wider text-zinc-400">
-                    Step {idx + 1}
-                  </span>
-                  <Icon
-                    size={26}
-                    className={isSelected ? colors.text : 'text-zinc-500'}
-                  />
+                  <span className="text-2xl">{detail.icon}</span>
+                  {isSelected && (
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  )}
                 </div>
-
-                <div className="mt-4">
-                  <h3 className={`text-xl sm:text-2xl font-black ${isSelected ? 'text-white' : 'text-zinc-300'}`}>
-                    {stepInfo.name}
-                  </h3>
-                  <p className="text-xs font-medium text-zinc-400 mt-1 line-clamp-2">
-                    {activeAnalogy.steps[phase].label}
+                <div>
+                  <h4 className="text-xs sm:text-sm font-black text-white">
+                    {detail.name}
+                  </h4>
+                  <p className="text-[11px] font-semibold opacity-80 mt-0.5">
+                    {detail.action}
                   </p>
                 </div>
-
-                {isSelected && (
-                  <div className={`mt-3 flex items-center gap-1.5 text-xs font-bold ${colors.text}`}>
-                    <CheckCircle size={14} /> Active Phase
-                  </div>
-                )}
               </button>
             );
           })}
         </div>
 
-        {/* Stepper Controls Bar */}
-        <div className="flex items-center justify-between bg-zinc-900 border border-zinc-800 px-4 py-3 rounded-xl">
-          <div className="text-xs sm:text-sm font-semibold text-zinc-300 flex items-center gap-2">
-            <span>Cycle Stepper:</span>
-            <span className="text-emerald-400 font-bold uppercase">
-              Step {activePhaseIndex + 1} of 4 — {activeHardware.name}
+        {/* Active Stage Deep Dive Card */}
+        <div className="bg-zinc-950/80 border border-zinc-800 rounded-2xl p-5 sm:p-6 mb-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-inner">
+          <div className="flex items-start gap-4">
+            <span className="text-4xl p-3 rounded-2xl bg-zinc-900 border border-zinc-800 shrink-0">
+              {activeDetail.icon}
             </span>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => {
-                setActivePhaseIndex((prev) => (prev > 0 ? prev - 1 : PHASES.length - 1));
-                setIsPlaying(false);
-              }}
-              className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-zinc-200 transition-colors cursor-pointer"
-            >
-              Previous Phase
-            </button>
-            <button
-              onClick={() => {
-                setActivePhaseIndex((prev) => (prev + 1) % PHASES.length);
-                setIsPlaying(false);
-              }}
-              className="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-zinc-200 transition-colors cursor-pointer"
-            >
-              Next Phase
-            </button>
-            <button
-              onClick={() => setIsPlaying((p) => !p)}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                isPlaying
-                  ? 'bg-amber-500 text-zinc-950 font-black'
-                  : 'bg-emerald-500 text-zinc-950 hover:bg-emerald-400 font-bold'
-              }`}
-            >
-              {isPlaying ? <RefreshCw size={14} className="animate-spin" /> : <Play size={14} />}
-              <span>{isPlaying ? 'Pause Auto' : 'Auto-Play Flow'}</span>
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Side-by-Side Deep Dive: Computer Reality vs. Real-World Analogy */}
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-        {/* Computer System Reality */}
-        <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-md flex flex-col justify-between">
-          <div>
-            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-sky-500/10 text-sky-400 text-xs font-bold uppercase tracking-wider mb-3">
-              <Cpu size={14} /> In Computer Hardware
-            </div>
-            <h4 className="text-2xl font-black text-white">
-              {activeHardware.name} Phase
-            </h4>
-            <p className="text-base text-zinc-300 mt-2 leading-relaxed">
-              {activeHardware.functionDesc}
-            </p>
-
-            {/* In Simple English Spotlight */}
-            <div className="mt-4 p-3.5 rounded-xl bg-zinc-950/80 border border-sky-500/30 space-y-1">
-              <span className="text-[11px] font-black uppercase text-sky-400 block tracking-wider">
-                💡 In Simple English:
-              </span>
-              <p className="text-xs text-zinc-200 leading-relaxed font-medium">
-                {SIMPLE_ENGLISH_PHASES[activePhase]}
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className={`px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider border ${activeDetail.badgeBg}`}>
+                  {activeDetail.name}
+                </span>
+                <span className="text-xs text-zinc-400 font-semibold">
+                  • {activeDetail.action}
+                </span>
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-white mb-1">
+                {activeDetail.simpleDesc}
+              </h3>
+              <p className="text-xs text-zinc-400">
+                <strong>Hardware Example:</strong> {activeDetail.hardware}
               </p>
             </div>
           </div>
-
-          <div className="mt-5 pt-4 border-t border-zinc-800/80">
-            <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
-              Typical Hardware Used:
-            </span>
-            <div className="text-base font-bold text-sky-300 mt-1">
-              {activeHardware.hardware}
-            </div>
-          </div>
         </div>
 
-        {/* Selected Analogy Mapping */}
-        <div className="bg-gradient-to-br from-zinc-900 to-zinc-900/90 border-2 border-emerald-500/30 rounded-2xl p-6 shadow-md flex flex-col justify-between">
-          <div>
-            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-3">
-              <ArrowRight size={14} /> Analogy: {activeAnalogy.title}
+        {/* Analogy Storyline Switcher (Cooking, ATM, Cassava) */}
+        <div className="bg-zinc-950/60 border border-zinc-800/80 rounded-2xl p-4 flex flex-col gap-2.5">
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <span className="text-xs uppercase font-extrabold tracking-wider text-amber-400 flex items-center gap-1.5">
+              <span>🇳🇬</span>
+              <span>Everyday Nigerian Analogy:</span>
+            </span>
+            <div className="flex items-center gap-1.5 text-xs font-semibold">
+              <button
+                type="button"
+                onClick={() => setSelectedAnalogyId('cooking')}
+                className={`px-2.5 py-1 rounded-lg transition-all ${
+                  selectedAnalogyId === 'cooking'
+                    ? 'bg-amber-500 text-zinc-950 font-bold'
+                    : 'bg-zinc-800 text-zinc-400 hover:text-white'
+                }`}
+              >
+                🍲 Cooking Yam
+              </button>
+              <button
+                type="button"
+                onClick={() => setSelectedAnalogyId('atm')}
+                className={`px-2.5 py-1 rounded-lg transition-all ${
+                  selectedAnalogyId === 'atm'
+                    ? 'bg-amber-500 text-zinc-950 font-bold'
+                    : 'bg-zinc-800 text-zinc-400 hover:text-white'
+                }`}
+              >
+                🏧 Using ATM
+              </button>
             </div>
-            <h4 className="text-2xl font-black text-emerald-300">
-              {activeAnalogyStep.label}
-            </h4>
-            <p className="text-base text-zinc-200 mt-2 leading-relaxed">
-              {activeAnalogyStep.description}
+          </div>
+
+          <div className="text-xs sm:text-sm text-zinc-300 leading-relaxed">
+            <p>
+              In <strong>{currentAnalogy.title}</strong>: {currentAnalogy.steps[activePhase].description}
             </p>
           </div>
-
-          <div className="mt-6 pt-4 border-t border-zinc-800/80 flex items-center justify-between">
-            <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
-              Analogy Key Role:
-            </span>
-            <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold border border-emerald-500/30">
-              {activeAnalogyStep.badge}
-            </span>
-          </div>
         </div>
-      </section>
+      </div>
+
+      {/* In-Slide Live Teacher Guide Drawer (Press 'T' or click button) */}
+      <TeacherGuideDrawer teacherNotes={teacherNotes} />
     </div>
   );
 }
-

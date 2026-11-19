@@ -10,11 +10,20 @@ export type StageType =
   | 'storage'
   | 'milestone';
 
+export interface TeacherNotes {
+  promptQuestion: string;
+  talkingPoint: string;
+  watchOutFor: string;
+  formalExamTerm?: string;
+  analogyStory?: string;
+}
+
 export interface StageMeta {
   id: string;
   title: string;
   subtitle: string;
   type: StageType;
+  teacherNotes?: TeacherNotes;
 }
 
 export interface LessonUnit {

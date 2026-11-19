@@ -29,36 +29,76 @@ export const module1Info: ModuleData = {
       title: '1. What is a Computer?',
       subtitle: 'Definition, Data vs. Information & 5 Superpowers',
       type: 'definition',
+      teacherNotes: {
+        promptQuestion: 'Ask the class: Who can tell me what a computer does when you type on the keyboard?',
+        talkingPoint: 'A computer is an electronic helper. You give it raw data (like ingredients), it processes them (cooks them), and shows you information (the finished meal!).',
+        watchOutFor: 'Students thinking the monitor itself is the computer, or confusing raw data (numbers/letters) with information (meaningful results).',
+        formalExamTerm: 'WAEC Definition: A computer is an electronic device that accepts data as input, processes it according to stored instructions, and produces meaningful information as output.',
+        analogyStory: 'Cassava Grinding: Raw peeled cassava tubers go in (Input), the machine blades crush and grind them (Processing), and out pours fine white garri flour (Output). You pack it into sacks for next week (Storage).',
+      },
     },
     {
       id: 'ipos-cycle',
       title: '2. The IPOS Cycle Simulator',
       subtitle: 'Input, Processing, Output & Storage with Cooking & ATM Analogies',
       type: 'ipos',
+      teacherNotes: {
+        promptQuestion: 'Ask: If you put a card into an ATM and press your PIN, which part of IPOS is that?',
+        talkingPoint: 'The 4 sacred steps: INPUT (you feed it), PROCESS (it calculates), OUTPUT (it shows or dispenses), STORAGE (it remembers in the account).',
+        watchOutFor: 'Students skipping the storage phase. Emphasize that without storage, all work disappears when NEPA takes the light.',
+        formalExamTerm: 'IPOS Cycle: The four fundamental hardware operations that convert raw unorganized data into meaningful, permanent information.',
+        analogyStory: 'ATM Cash Withdrawal: Insert card & enter PIN (Input) -> Bank server verifies balance and card safety (Processing) -> Screen displays success & cash dispenses (Output) -> New balance is saved in the bank records (Storage).',
+      },
     },
     {
       id: 'history-timeline',
       title: '3. Evolution of Computing',
       subtitle: 'From the Ancient Abacus to Babbage, Lovelace & 5 Generations',
       type: 'timeline',
+      teacherNotes: {
+        promptQuestion: 'Ask: Before electronic computers existed, how did market traders calculate big sums?',
+        talkingPoint: 'From counting beads on the wooden Abacus, to Charles Babbage designing the mechanical Analytical Engine, to vacuum tubes and modern smartphone microprocessors.',
+        watchOutFor: 'Students confusing Charles Babbage (Father of Computing) with Ada Lovelace (First Computer Programmer).',
+        formalExamTerm: 'Generations of Computers: 1st (Vacuum Tubes), 2nd (Transistors), 3rd (Integrated Circuits), 4th (Microprocessors / VLSI), 5th (Artificial Intelligence & Parallel Processing).',
+        analogyStory: 'The first electronic computer (ENIAC) was as big as an entire secondary school classroom and consumed enough electricity to power an entire neighborhood street!',
+      },
     },
     {
       id: 'device-sorting',
       title: '4. Device Classification Lab',
       subtitle: 'Interactive Sorting: Desktops, Laptops, Mobile & Supercomputers',
       type: 'sorting',
+      teacherNotes: {
+        promptQuestion: 'Ask: Is an Android phone in your pocket a real computer?',
+        talkingPoint: 'Yes! Any device with a CPU, memory, screen, and battery that follows the IPOS cycle is a computer. Desktops stay on desks, laptops travel in bags, phones fit in pockets, supercomputers forecast weather.',
+        watchOutFor: 'Students classifying smartphones as "just phones" rather than powerful pocket microcomputers.',
+        formalExamTerm: 'Classification by Size & Capability: Microcomputers (Desktops, Laptops, Tablets), Minicomputers, Mainframe Computers, and Supercomputers.',
+        analogyStory: 'A desktop is like a deep freezer in your kitchen—it stays in one place. A laptop is like a cooler box you carry on trips. A smartphone is like a pocket water flask!',
+      },
     },
     {
       id: 'applications',
       title: '5. Where Computers Are Used',
       subtitle: 'Impact on Schools, Hospitals, Banks, Agriculture & Lab Safety',
       type: 'applications',
+      teacherNotes: {
+        promptQuestion: 'Ask: Where in our town do you see computers making people\'s daily work faster and easier?',
+        talkingPoint: 'Computers transform schools (JAMB CBT exams, research), hospitals (patient diagnosis, ultrasound scans), banks (ATM, transfers), and modern farming.',
+        watchOutFor: 'Students viewing computers solely as gaming devices. Emphasize productive civic and professional applications.',
+        formalExamTerm: 'Societal Impact of ICT: Automation of industrial tasks, computerized medical record-keeping, electronic fund transfer, and online distance learning.',
+        analogyStory: 'Without banking computers, every money withdrawal would require searching huge dusty paper ledgers, making people wait 4 hours for ₦2,000!',
+      },
     },
     {
       id: 'module1-complete',
       title: '6. Module 1 Complete!',
       subtitle: 'Review Takeaways & Enter Live Quiz Arena Battle',
       type: 'milestone',
+      teacherNotes: {
+        promptQuestion: 'Challenge: Who can chant the 4 steps of IPOS without looking at the board?',
+        talkingPoint: 'Celebrate student mastery! Transition the class into the live Quiz Arena at /arena for the Module 1 quiz competition.',
+        watchOutFor: 'Students not having their exercise book notes completed before launching the quiz.',
+      },
     },
   ],
 };
@@ -1080,6 +1120,124 @@ export const module1Assignment: ModuleAssignment = {
         'Example summary: "My father uses a laptop at his office. He uses it to write letters, send emails, and balance bank accounts. The laptop helps him complete work much faster and keep files organized without losing papers."',
       placeholder:
         'Parent/Guardian Name: ...\nComputer Type Used: ...\nSummary:\n1. ...\n2. ...\n3. ...',
+    },
+  ],
+};
+
+export interface ModuleMasterBriefing {
+  moduleId: string;
+  moduleTitle: string;
+  duration: string;
+  targetAudience: string;
+  lessonObjective: string;
+  pacingSchedule: Array<{ time: string; stage: string; action: string }>;
+  formalDefinitions: Array<{ term: string; definition: string; examContext: string }>;
+  analogies: Array<{ title: string; story: string; takeaway: string }>;
+  labSafetyRules: string[];
+  verbalCheckQuestions: Array<{ question: string; answer: string }>;
+}
+
+export const module1MasterBriefing: ModuleMasterBriefing = {
+  moduleId: 'module-1',
+  moduleTitle: 'Module 1: Introduction to Computers',
+  duration: '40 Minutes (Standard Laboratory Period)',
+  targetAudience: 'Secondary School Students (Ages 12–18), Beginners',
+  lessonObjective:
+    'Equip students with foundational digital literacy: understand what a computer is, contrast raw data with processed information, master the IPOS cycle, identify computer generations, classify modern devices, and learn lab safety etiquette.',
+  pacingSchedule: [
+    {
+      time: '00 – 08 mins',
+      stage: 'Hook & Core Definition',
+      action: 'Ask prompt question: "What is a computer?" Demystify fear. Explain Data vs. Information using the cassava grinding analogy.',
+    },
+    {
+      time: '08 – 20 mins',
+      stage: 'IPOS Cycle Simulation',
+      action: 'Project the interactive IPOS simulator. Walk through Input ➔ Process ➔ Output ➔ Storage with ATM and cooking analogies.',
+    },
+    {
+      time: '20 – 30 mins',
+      stage: 'Classification & History',
+      action: 'Engage students in the Device Classification Lab on their laptops. Contrast desktops, laptops, mobile devices, and supercomputers.',
+    },
+    {
+      time: '30 – 35 mins',
+      stage: 'Applications & Lab Safety',
+      action: 'Review computers in schools, hospitals, banks, and agriculture. Emphasize lab rules (no liquids, clean hands, gentle clicking).',
+    },
+    {
+      time: '35 – 40 mins',
+      stage: 'Wrap-Up & Arena Battle',
+      action: 'Summarize the golden takeaways. Launch the 10-question Module 1 Kahoot battle in /arena on the classroom projector.',
+    },
+  ],
+  formalDefinitions: [
+    {
+      term: 'Computer',
+      definition:
+        'An electronic machine that operates under the control of instructions stored in its own memory, accepting data as input, processing it according to specified rules, producing information as output, and storing results for future use.',
+      examContext: 'WAEC / NECO Senior Secondary Computer Studies syllabus standard.',
+    },
+    {
+      term: 'Data vs. Information',
+      definition:
+        'Data consists of raw, unorganized, unprocessed facts, numbers, or symbols. Information is data that has been processed, organized, and structured in a meaningful context.',
+      examContext: 'Commonly tested in BECE and WAEC Section A/B objective and theory.',
+    },
+    {
+      term: 'GIGO (Garbage In, Garbage Out)',
+      definition:
+        'A fundamental computer principle stating that the accuracy of computer output is strictly dependent on the accuracy of the input provided. Computers do not fix incorrect input on their own.',
+      examContext: 'Essential exam mnemonic and concept.',
+    },
+    {
+      term: 'IPOS Cycle',
+      definition:
+        'The continuous four-stage information processing cycle: Input (receiving data), Processing (manipulating data), Output (presenting results), and Storage (saving data permanently).',
+      examContext: 'Primary framework for all secondary computer curricula.',
+    },
+  ],
+  analogies: [
+    {
+      title: 'Cassava Grinding (Data vs. Information)',
+      story:
+        'Raw, dirty cassava tubers dug up from the farm cannot be eaten directly—that is Data. You take them to the diesel grinder. The roaring machine crushes and processes the tubers (Processing). Out comes smooth, clean garri flour ready to make eba (Information).',
+      takeaway: 'Data is raw ingredients; Information is the delicious meal!',
+    },
+    {
+      title: 'ATM Cash Withdrawal (The IPOS Cycle)',
+      story:
+        'You insert your ATM debit card and punch your 4-digit secret PIN into the keypad (Input). The bank’s computer checks your account balance and confirms the money is there (Processing). The machine screen displays "Take Your Cash" and dispenses crisp banknotes (Output). Finally, the bank server records the new balance in its master database so you cannot spend the same money twice (Storage).',
+      takeaway: 'Receives -> Works -> Shows -> Stores.',
+    },
+  ],
+  labSafetyRules: [
+    'No food, water, or sugary drinks anywhere near the computer workstations.',
+    'Always use two hands when carrying laptops and place them gently on the flat desk.',
+    'Click mouse buttons and touchpads gently; pounding the keyboard damages switches.',
+    'Never pull power cables by the cord; always grip the insulated plug.',
+    'Before leaving the lab, save your work with Ctrl + S, close all apps, and push your chair in neatly.',
+  ],
+  verbalCheckQuestions: [
+    {
+      question: 'What is the full meaning of the acronym IPOS?',
+      answer: 'Input, Processing, Output, and Storage.',
+    },
+    {
+      question: 'Who is recognized as the Father of the Computer?',
+      answer: 'Charles Babbage (designed the Analytical Engine in the 1830s).',
+    },
+    {
+      question: 'Who was the world’s very first computer programmer?',
+      answer: 'Ada Lovelace (wrote the first algorithm for Babbage’s engine).',
+    },
+    {
+      question: 'What electronic component defined first-generation computers?',
+      answer: 'Vacuum Tubes (large, hot glass tubes like glowing lightbulbs).',
+    },
+    {
+      question: 'What keyboard shortcut protects your work from sudden NEPA power outages?',
+      answer: 'Ctrl + S (Save).',
     },
   ],
 };
