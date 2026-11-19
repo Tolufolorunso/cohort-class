@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ActiveView, ZoomLevel, StudentSession, SyncMode } from '../../types/platform';
 import {
@@ -216,6 +217,15 @@ export function Header({
               <span className="text-sm">🎮</span>
               <span>Quiz Arena</span>
             </button>
+
+            <Link
+              href="/today"
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-extrabold bg-gradient-to-r from-cyan-500 to-emerald-400 hover:from-cyan-400 hover:to-emerald-300 text-zinc-950 shadow-md transition-all active:scale-95 whitespace-nowrap ml-1"
+              title="Open Today's Practical Class Slides"
+            >
+              <span>⚡</span>
+              <span>Today&apos;s Class</span>
+            </Link>
           </div>
         </div>
 

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
+import Link from 'next/link';
 import { Header } from '../components/navigation/Header';
 import { StageShell } from '../components/presentation/StageShell';
 import { StudentNotesView } from '../components/notes/StudentNotesView';
@@ -219,6 +220,22 @@ export default function StudentPortal() {
 
       {/* Main View Router */}
       <div className="flex-1 flex flex-col relative">
+        {/* Today's Practical Class Banner */}
+        <div className="w-full bg-gradient-to-r from-cyan-950 via-zinc-900 to-emerald-950 border-b border-cyan-500/30 px-4 py-2 flex flex-wrap items-center justify-between gap-2 text-xs">
+          <div className="flex items-center gap-2 text-cyan-300">
+            <span className="text-base">⚡</span>
+            <span>
+              <strong>Today&apos;s Practical Class:</strong> Rapid-Typing, Folders &amp; Computer Navigation slides are ready!
+            </span>
+          </div>
+          <Link
+            href="/today"
+            className="px-3 py-1 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-zinc-950 font-black text-xs transition-all shadow-sm active:scale-95"
+          >
+            Launch Today&apos;s Slides →
+          </Link>
+        </div>
+
         {activeView === 'stage' && (
           <>
             {/* Real-time notification if teacher is on a different slide */}

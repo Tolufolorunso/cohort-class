@@ -489,6 +489,29 @@ export default function InstructorControlRoom() {
 
       {/* Main Command Surface */}
       <main className="max-w-7xl mx-auto w-full px-4 py-6 sm:px-6 sm:py-8 space-y-8 flex-1 pb-24">
+        {/* Today's Practical Presentation Deck Card */}
+        <div className="bg-gradient-to-r from-amber-950/60 via-zinc-900 to-cyan-950/60 border border-amber-500/40 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3 shadow-lg">
+          <div className="flex items-center gap-3">
+            <span className="text-2xl p-2 rounded-xl bg-amber-500/20 text-amber-400">⚡</span>
+            <div>
+              <h3 className="text-sm font-extrabold text-white">
+                Today&apos;s Practical Presentation Deck
+              </h3>
+              <p className="text-xs text-zinc-400">
+                PowerPoint slides for Rapid-Typing, Folder/File Creation &amp; Mouse/Window Navigation (with Instructor Talking Points).
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/today"
+              className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-emerald-400 hover:from-amber-400 hover:to-emerald-300 text-zinc-950 font-black text-xs shadow-md transition-all active:scale-95 flex items-center gap-1.5"
+            >
+              <span>🚀 Launch Slides</span>
+              <span>➔</span>
+            </Link>
+          </div>
+        </div>
         {/* Real-Time Classroom Attention Alert Banner */}
         {attentionAlerts.length > 0 && (
           <aside
