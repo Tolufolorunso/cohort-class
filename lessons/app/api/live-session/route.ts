@@ -235,6 +235,16 @@ export async function POST(request: Request) {
       liveSession.syncMode = body.syncMode;
     }
 
+    if (body.action === 'switch_module') {
+      if (body.moduleId) liveSession.activeModuleId = String(body.moduleId);
+      if (body.stageIndex !== undefined) liveSession.activeStageIndex = Number(body.stageIndex);
+    }
+
+    if (body.action === 'update_slide') {
+      if (body.stageIndex !== undefined) liveSession.activeStageIndex = Number(body.stageIndex);
+      if (body.moduleId) liveSession.activeModuleId = String(body.moduleId);
+    }
+
     // -------------------------------------------------------------
     // Quiz Host Management Actions
     // -------------------------------------------------------------

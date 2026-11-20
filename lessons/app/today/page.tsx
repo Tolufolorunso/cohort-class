@@ -1,12 +1,12 @@
 import { Metadata } from 'next';
-import { TodayClassDeck } from '../../components/today/TodayClassDeck';
+import { UnifiedSlideDeck } from '../../components/presentation/UnifiedSlideDeck';
 
 export const metadata: Metadata = {
-  title: "Today's Practical Class - Rapid-Typing, Folders & Navigation | Dzuels Computer Class",
+  title: "Today's Practical Class | Dzuels Computer Class",
   description:
-    'Straightforward, presentation-style lesson slides for secondary school students covering rapid touch typing, folder & file management, and mouse/window navigation.',
+    'Interactive 16:9 widescreen PowerPoint-style lesson slides for secondary school students covering today’s active curriculum module.',
 };
 
 export default function TodayClassPage() {
-  return <TodayClassDeck />;
+  return <UnifiedSlideDeck />;
 }

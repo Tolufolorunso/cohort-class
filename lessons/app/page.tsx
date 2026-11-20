@@ -3,34 +3,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { Header } from '../components/navigation/Header';
-import { StageShell } from '../components/presentation/StageShell';
 import { StudentNotesView } from '../components/notes/StudentNotesView';
 import { AssignmentView } from '../components/assignments/AssignmentView';
 import { StudentLogin } from '../components/auth/StudentLogin';
+import { UnifiedSlideDeck } from '../components/presentation/UnifiedSlideDeck';
 import { useClassroomAttention } from '../hooks/useClassroomAttention';
 
-import { StageDefinition } from '../components/stages/StageDefinition';
-import { StageIPOS } from '../components/stages/StageIPOS';
-import { StageTimeline } from '../components/stages/StageTimeline';
-import { StageDeviceSorting } from '../components/stages/StageDeviceSorting';
-import { StageApplications } from '../components/stages/StageApplications';
-
-import { StageHardwareAnatomy } from '../components/stages/StageHardwareAnatomy';
-import { StageInputOutputLab } from '../components/stages/StageInputOutputLab';
-import { StageSystemUnitDisassembly } from '../components/stages/StageSystemUnitDisassembly';
-import { StageStorageBytes } from '../components/stages/StageStorageBytes';
-import { StageModuleComplete } from '../components/stages/StageModuleComplete';
-
-import { StageBooting } from '../components/stages/StageBooting';
-import { StageDesktopControls } from '../components/stages/StageDesktopControls';
-import { StageMouseTrainer } from '../components/stages/StageMouseTrainer';
-import { StageFolderLab } from '../components/stages/StageFolderLab';
-import { StageTouchTyping } from '../components/stages/StageTouchTyping';
-import { StageErgonomics } from '../components/stages/StageErgonomics';
-
-import { module1Info, module1Notes, module1Assignment } from '../data/module1';
-import { module2Info, module2Notes, module2Assignment } from '../data/module2';
-import { module3Info, module3Notes, module3Assignment } from '../data/module3';
+import { module1Notes, module1Assignment } from '../data/module1';
+import { module2Notes, module2Assignment } from '../data/module2';
+import { module3Notes, module3Assignment } from '../data/module3';
 import {
   ActiveView,
   ZoomLevel,
@@ -41,6 +22,7 @@ import {
   getZoomLevel,
   setZoomLevel,
   getUnlockedModules,
+  getCurrentActiveModule,
 } from '../lib/platformStorage';
 import {
   getStudentSession,
@@ -52,20 +34,16 @@ export default function StudentPortal() {
   const [studentSession, setStudentSessionState] = useState<StudentSession | null>(null);
   const [hasCheckedSession, setHasCheckedSession] = useState(false);
 
-  const [currentModuleId, setCurrentModuleId] = useState<string>('module-1');
+  const [currentModuleId, setCurrentModuleId] = useState<string>(() => getCurrentActiveModule());
   const [activeView, setActiveView] = useState<ActiveView>('stage');
   const [zoomLevel, setZoomState] = useState<ZoomLevel>('normal');
   const [unlockedModuleIds, setUnlockedModuleIds] = useState<string[]>(['module-1']);
-  const [syncMode, setSyncMode] = useState<SyncMode>('follow-teacher');
-  const [liveStageIndex, setLiveStageIndex] = useState<number>(0);
-  const [studentStageIndex, setStudentStageIndex] = useState<number>(0);
-  const [hasUserNavigated, setHasUserNavigated] = useState<boolean>(false);
+  const [syncMode] = useState<SyncMode>('follow-teacher');
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
-  // Classroom attention tracking (inattention, tab switching, window blur)
-  const attention = useClassroomAttention();
+  // Classroom attention tracking
+  useClassroomAttention();
 
-  // Initialize student session on mount
   useEffect(() => {
     const timer = setTimeout(() => {
       const active = getStudentSession();
@@ -77,7 +55,6 @@ export default function StudentPortal() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Check 3-hour session expiry every 30 seconds
   useEffect(() => {
     if (!studentSession) return;
     const interval = setInterval(() => {
@@ -89,7 +66,6 @@ export default function StudentPortal() {
     return () => clearInterval(interval);
   }, [studentSession]);
 
-  // Synchronize visual zoom scaling across document (Normal: 18px, Large: 21px, X-Large: 24px)
   useEffect(() => {
     if (typeof document === 'undefined') return;
     const root = document.documentElement;
@@ -102,70 +78,14 @@ export default function StudentPortal() {
     }
   }, [zoomLevel]);
 
-  // Real-time live slide mirroring & heartbeat polling with attention metrics
-  useEffect(() => {
-    if (!studentSession) return;
-
-    const pollSession = async () => {
-      try {
-        const params = new URLSearchParams();
-        params.set('mode', studentSession.mode || 'solo');
-        params.set('patron', studentSession.patronNumber);
-        params.set('name', studentSession.studentName);
-        if (studentSession.mode === 'partner' && studentSession.partnerB) {
-          params.set('patronA', studentSession.partnerA.patronNumber);
-          params.set('nameA', studentSession.partnerA.studentName);
-          params.set('patronB', studentSession.partnerB.patronNumber);
-          params.set('nameB', studentSession.partnerB.studentName);
-        }
-        // Attach attention status
-        params.set('isFocused', String(attention.isFocused));
-        if (!attention.isFocused && attention.leftScreenAt) {
-          params.set('leftScreenAt', String(attention.leftScreenAt));
-        }
-
-        const url = `/api/live-session?${params.toString()}`;
-        const res = await fetch(url);
-        if (res.ok) {
-          const data = await res.json();
-          setSyncMode(data.syncMode || 'follow-teacher');
-
-          // If instructor is in Follow-Teacher mode, mirror stage if student has not navigated independently
-          if (typeof data.activeStageIndex === 'number') {
-            setLiveStageIndex(data.activeStageIndex);
-            if (!hasUserNavigated && data.syncMode === 'follow-teacher') {
-              setStudentStageIndex(data.activeStageIndex);
-            }
-          }
-          if (data.activeModuleId && data.activeModuleId !== currentModuleId) {
-            setCurrentModuleId(data.activeModuleId);
-          }
-        }
-      } catch {
-        // Fallback silently if offline in local computer lab
-      }
-    };
-
-    pollSession();
-    const interval = setInterval(pollSession, 1500); // Poll every 1.5s
-    return () => clearInterval(interval);
-  }, [studentSession, currentModuleId, attention.isFocused, attention.leftScreenAt, hasUserNavigated]);
-
-  // Fullscreen state listener
-  useEffect(() => {
-    const onFullscreenChange = () => {
-      setIsFullscreen(Boolean(document.fullscreenElement));
-    };
-    document.addEventListener('fullscreenchange', onFullscreenChange);
-    return () => document.removeEventListener('fullscreenchange', onFullscreenChange);
-  }, []);
-
   const handleToggleFullscreen = () => {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen().catch(() => {});
+      setIsFullscreen(true);
     } else {
       if (document.exitFullscreen) {
         document.exitFullscreen().catch(() => {});
+        setIsFullscreen(false);
       }
     }
   };
@@ -180,17 +100,11 @@ export default function StudentPortal() {
     setStudentSessionState(null);
   }, []);
 
-  const handleStageChange = useCallback((newIndex: number) => {
-    setStudentStageIndex(newIndex);
-    setHasUserNavigated(true);
-  }, []);
-
   const handleZoomChange = (level: ZoomLevel) => {
     setZoomState(level);
     setZoomLevel(level);
   };
 
-  // Prevent flicker before initial session check
   if (!hasCheckedSession) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-zinc-950 text-emerald-400 font-mono text-sm">
@@ -199,23 +113,17 @@ export default function StudentPortal() {
     );
   }
 
-  // If student is not logged in or session expired, show student login gate
   if (!studentSession) {
     return <StudentLogin onLoginSuccess={handleLoginSuccess} />;
   }
 
-  const activeModuleInfo =
-    currentModuleId === 'module-3'
-      ? module3Info
-      : currentModuleId === 'module-2'
-      ? module2Info
-      : module1Info;
   const activeNotes =
     currentModuleId === 'module-3'
       ? module3Notes
       : currentModuleId === 'module-2'
       ? module2Notes
       : module1Notes;
+
   const activeAssignment =
     currentModuleId === 'module-3'
       ? module3Assignment
@@ -225,7 +133,6 @@ export default function StudentPortal() {
 
   return (
     <div className="min-h-screen flex flex-col bg-zinc-950 text-zinc-100 selection:bg-emerald-500 selection:text-zinc-950">
-      {/* Student Portal Navigation Header */}
       <Header
         currentModuleId={currentModuleId}
         onSelectModule={setCurrentModuleId}
@@ -243,117 +150,32 @@ export default function StudentPortal() {
 
       {/* Main View Router */}
       <div className="flex-1 flex flex-col relative">
-        {/* Today's Practical Class Banner */}
+        {/* Today's Slide Deck Banner */}
         <div className="w-full bg-gradient-to-r from-cyan-950 via-zinc-900 to-emerald-950 border-b border-cyan-500/30 px-4 py-2 flex flex-wrap items-center justify-between gap-2 text-xs">
           <div className="flex items-center gap-2 text-cyan-300">
             <span className="text-base">⚡</span>
             <span>
-              <strong>Today&apos;s Practical Class:</strong> Rapid-Typing, Folders &amp; Computer Navigation slides are ready!
+              <strong>Today&apos;s Class Deck:</strong> Clean 16:9 PowerPoint slides for today&apos;s active module!
             </span>
           </div>
           <Link
             href="/today"
             className="px-3 py-1 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-zinc-950 font-black text-xs transition-all shadow-sm active:scale-95"
           >
-            Launch Today&apos;s Slides →
+            Launch Fullscreen Today Deck →
           </Link>
         </div>
 
         {activeView === 'stage' && (
-          <>
-            {/* Real-time notification if teacher is on a different slide */}
-            {hasUserNavigated &&
-              syncMode === 'follow-teacher' &&
-              liveStageIndex !== studentStageIndex && (
-                <div className="sticky top-14 z-30 w-full bg-emerald-950/90 border-b border-emerald-500/30 px-4 py-2 flex items-center justify-between text-xs backdrop-blur-md shadow-md">
-                  <div className="flex items-center gap-2 text-emerald-300">
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span>
-                      <strong>Independent Reading:</strong> You are on Stage {studentStageIndex + 1}. Teacher is presenting Stage {liveStageIndex + 1}.
-                    </span>
-                  </div>
-                  <button
-                    onClick={() => {
-                      setStudentStageIndex(liveStageIndex);
-                      setHasUserNavigated(false);
-                    }}
-                    className="px-3 py-1 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-black text-xs transition-all cursor-pointer shadow-sm active:scale-95"
-                  >
-                    Jump to Teacher (Stage {liveStageIndex + 1}) →
-                  </button>
-                </div>
-              )}
-
-            <StageShell
-              moduleInfo={activeModuleInfo}
-              currentStageIndex={studentStageIndex}
-              onStageChange={handleStageChange}
-            >
-            {(_currentStageIndex, currentStageId) => {
-              switch (currentStageId) {
-                // Module 1 Stages
-                case 'what-is-a-computer':
-                  return <StageDefinition />;
-                case 'ipos-cycle':
-                  return <StageIPOS />;
-                case 'history-timeline':
-                  return <StageTimeline />;
-                case 'device-sorting':
-                  return <StageDeviceSorting />;
-                case 'applications':
-                  return <StageApplications />;
-                case 'module1-complete':
-                case 'review-quiz':
-                  return <StageModuleComplete moduleId={currentModuleId} />;
-
-                // Module 2 Stages
-                case 'hardware-anatomy':
-                  return <StageHardwareAnatomy />;
-                case 'input-output-lab':
-                  return <StageInputOutputLab />;
-                case 'system-unit-disassembly':
-                  return <StageSystemUnitDisassembly />;
-                case 'storage-and-bytes':
-                  return <StageStorageBytes />;
-                case 'module2-complete':
-                case 'module2-quiz':
-                  return <StageModuleComplete moduleId={currentModuleId} />;
-
-                // Module 3 Stages
-                case 'booting-procedures':
-                  return <StageBooting />;
-                case 'desktop-navigation':
-                  return <StageDesktopControls />;
-                case 'mouse-touchpad-lab':
-                  return <StageMouseTrainer />;
-                case 'folder-file-lab':
-                  return <StageFolderLab />;
-                case 'touch-typing-lab':
-                  return <StageTouchTyping />;
-                case 'lab-safety-ergonomics':
-                  return <StageErgonomics />;
-                case 'module3-complete':
-                  return <StageModuleComplete moduleId={currentModuleId} />;
-
-                default:
-                  if (currentModuleId === 'module-3') return <StageBooting />;
-                  return currentModuleId === 'module-2' ? <StageHardwareAnatomy /> : <StageDefinition />;
-              }
-            }}
-          </StageShell>
-          </>
+          <UnifiedSlideDeck initialModuleId={currentModuleId} />
         )}
 
         {activeView === 'notes' && (
-          <main className="flex-1">
-            <StudentNotesView notes={activeNotes} />
-          </main>
+          <StudentNotesView notes={activeNotes} />
         )}
 
         {activeView === 'assignment' && (
-          <main className="flex-1">
-            <AssignmentView assignment={activeAssignment} />
-          </main>
+          <AssignmentView assignment={activeAssignment} />
         )}
       </div>
     </div>

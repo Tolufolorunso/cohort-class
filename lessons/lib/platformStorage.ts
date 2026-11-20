@@ -11,13 +11,26 @@ const STORAGE_KEYS = {
   UNLOCKED_MODULES: 'dzuels_unlocked_modules',
   SUBMISSIONS: 'dzuels_student_submissions',
   TEACHER_PIN: 'dzuels_teacher_pin',
+  CURRENT_ACTIVE_MODULE: 'dzuels_current_active_module',
 };
 
 const DEFAULT_UNLOCKED = ['module-1', 'module-2', 'module-3'];
 const DEFAULT_TEACHER_PIN = '1234';
+const DEFAULT_CURRENT_MODULE = 'module-1';
 
 function isBrowser(): boolean {
   return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
+}
+
+export function getCurrentActiveModule(): string {
+  if (!isBrowser()) return DEFAULT_CURRENT_MODULE;
+  const saved = localStorage.getItem(STORAGE_KEYS.CURRENT_ACTIVE_MODULE);
+  return saved || DEFAULT_CURRENT_MODULE;
+}
+
+export function setCurrentActiveModule(moduleId: string): void {
+  if (!isBrowser()) return;
+  localStorage.setItem(STORAGE_KEYS.CURRENT_ACTIVE_MODULE, moduleId);
 }
 
 export function getUserRole(): UserRole {

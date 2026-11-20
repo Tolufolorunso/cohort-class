@@ -515,10 +515,10 @@ export default function InstructorControlRoom() {
             <span className="text-2xl p-2 rounded-xl bg-amber-500/20 text-amber-400">⚡</span>
             <div>
               <h3 className="text-sm font-extrabold text-white">
-                Today&apos;s Practical Presentation Deck
+                Today&apos;s Classroom Presentation Deck
               </h3>
               <p className="text-xs text-zinc-400">
-                PowerPoint slides for Rapid-Typing, Folder/File Creation &amp; Mouse/Window Navigation (with Instructor Talking Points).
+                16:9 widescreen PowerPoint slides for today&apos;s active module with live student slide mirroring and in-slide teacher talking points.
               </p>
             </div>
           </div>
@@ -526,32 +526,32 @@ export default function InstructorControlRoom() {
             <button
               onClick={() => setShowModule1Briefing(true)}
               className="px-3.5 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-black text-xs transition-all active:scale-95 flex items-center gap-1.5 cursor-pointer shadow-sm"
-              title="Module 1 Lesson Plan, WAEC definitions and analogies"
+              title="Module 1: 1-Page Pre-Class Teacher Guide"
             >
               <span>📖</span>
-              <span>Mod 1 Brief</span>
+              <span>Mod 1 1-Page Guide</span>
             </button>
             <button
               onClick={() => setShowModule2Briefing(true)}
               className="px-3.5 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 font-black text-xs transition-all active:scale-95 flex items-center gap-1.5 cursor-pointer shadow-sm"
-              title="Module 2 Hardware Lab Brief, teardown checklist and safety plan"
+              title="Module 2: 1-Page Pre-Class Teacher Guide"
             >
               <span>🛠️</span>
-              <span>Mod 2 Hardware Brief</span>
+              <span>Mod 2 1-Page Guide</span>
             </button>
             <button
               onClick={() => setShowModule3Briefing(true)}
               className="px-3.5 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 font-black text-xs transition-all active:scale-95 flex items-center gap-1.5 cursor-pointer shadow-sm"
-              title="Module 3 Booting, Window Controls & Rapid-Typing Dossier"
+              title="Module 3: 1-Page Pre-Class Teacher Guide"
             >
-              <span>⌨️</span>
-              <span>Mod 3 Typing &amp; Booting Brief</span>
+              <span>💻</span>
+              <span>Mod 3 1-Page Guide</span>
             </button>
             <Link
-              href="/today"
+              href="/instructor/today"
               className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-emerald-400 hover:from-amber-400 hover:to-emerald-300 text-zinc-950 font-black text-xs shadow-md transition-all active:scale-95 flex items-center gap-1.5"
             >
-              <span>🚀 Launch Slides</span>
+              <span>🚀 Launch /instructor/today</span>
               <span>➔</span>
             </Link>
           </div>
