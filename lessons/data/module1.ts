@@ -12,6 +12,8 @@ import {
   DeviceItem,
   ApplicationSector,
   QuizQuestion,
+  ModuleMasterBriefing,
+  LectureNoteSection,
 } from '../types/curriculum';
 import { ModuleNotes, ModuleAssignment } from '../types/platform';
 
@@ -1124,18 +1126,7 @@ export const module1Assignment: ModuleAssignment = {
   ],
 };
 
-export interface ModuleMasterBriefing {
-  moduleId: string;
-  moduleTitle: string;
-  duration: string;
-  targetAudience: string;
-  lessonObjective: string;
-  pacingSchedule: Array<{ time: string; stage: string; action: string }>;
-  formalDefinitions: Array<{ term: string; definition: string; examContext: string }>;
-  analogies: Array<{ title: string; story: string; takeaway: string }>;
-  labSafetyRules: string[];
-  verbalCheckQuestions: Array<{ question: string; answer: string }>;
-}
+export type { ModuleMasterBriefing, LectureNoteSection };
 
 export const module1MasterBriefing: ModuleMasterBriefing = {
   moduleId: 'module-1',
@@ -1239,5 +1230,74 @@ export const module1MasterBriefing: ModuleMasterBriefing = {
       question: 'What keyboard shortcut protects your work from sudden NEPA power outages?',
       answer: 'Ctrl + S (Save).',
     },
+  ],
+  lectureDossier: [
+    {
+      title: 'Section 1: The Essential Epistemology & Definition of the Computer',
+      summary: 'Understanding the computer beyond a mere screen and keyboard: electronic computation, binary switches, and the conversion of raw symbols into knowledge.',
+      paragraphs: [
+        'A computer is not simply an appliance like a television or radio; it is an electronic machine capable of performing high-speed arithmetic and logical operations according to programmed instructions stored in its own internal memory. At its microscopic core, a modern computer consists of billions of semiconductor switches known as transistors etched onto silicon wafers. Each transistor can be either energized (ON, representing 1) or unenergized (OFF, representing 0).',
+        'By combining billions of these binary states, computers encode numbers, characters, colors, audio waves, and instructions. The fundamental breakthrough of modern computing—first conceptualized mathematically by Charles Babbage and Ada Lovelace, and later realized electronically by Alan Turing and John von Neumann—was the concept of the "Stored-Program Architecture": a computer does not have a single fixed mechanical job; its physical hardware is a general-purpose processor that alters its behavior completely depending on which software program is loaded into its memory.',
+        'When introducing secondary school students to this concept, emphasize that the computer has no innate consciousness or magical understanding. It is a tireless, ultra-precise tool that executes human instructions at near the speed of light. Its defining virtue is repeatability and speed, and its defining limitation is captured by the universal computer science principle GIGO: Garbage In, Garbage Out.'
+      ],
+      keyTakeaways: [
+        'Computers operate electronically using billions of microscopic binary switches (transistors).',
+        'Stored-program architecture allows a single physical machine to perform infinite distinct tasks.',
+        'Computers do not think creatively; they execute human instructions with extreme fidelity and speed.'
+      ],
+      teacherScript: 'Class, look at this laptop. When you shut it down, it is cold plastic, metal, and glass. When you press the power button, electrical currents rush through billions of microscopic switches. You are not looking at a magic television; you are looking at an obedient machine ready to follow your commands.'
+    },
+    {
+      title: 'Section 2: Deep Dive into the IPOS Cycle & von Neumann Architecture',
+      summary: 'The universal 4-stage data transformation pipeline and how hardware components cooperate to turn raw inputs into permanent records.',
+      paragraphs: [
+        'The Input-Processing-Output-Storage (IPOS) cycle is the universal functional paradigm taught across WAEC, NECO, and international computer science curricula. In the classic von Neumann architecture, hardware is segregated into distinct functional units: Input Units, Central Processing Unit (containing the Arithmetic Logic Unit and Control Unit), Output Units, and Memory/Storage Units.',
+        '1. Input Stage: Transducers convert human physical actions (pressing mechanical keyboard keys, moving an optical mouse across a pad, speaking into a diaphragm microphone) into electrical digital signals.',
+        '2. Processing Stage: The Central Processing Unit (CPU) interprets and executes instructions through the repetitive Fetch-Decode-Execute cycle. The Control Unit directs electronic traffic along data buses, while the Arithmetic Logic Unit (ALU) performs mathematical calculations (addition, subtraction) and logical comparisons (equal to, greater than).',
+        '3. Output Stage: Processed binary results are converted back into human-perceptible analog or visual forms via monitors, speakers, and printers.',
+        '4. Storage Stage: Results are written to magnetic, optical, or solid-state storage media so they persist when electrical power is disconnected. Explain to students that RAM is volatile (erased when NEPA cuts the power), whereas Hard Drives and SSDs are non-volatile (retain information permanently).'
+      ],
+      keyTakeaways: [
+        'The IPOS cycle represents the complete lifecycle of data inside any computing system.',
+        'The CPU fetch-decode-execute cycle is the heartbeat of all digital processing.',
+        'Storage is non-negotiable for real-world usefulness; without it, all computational output vanishes on power loss.'
+      ],
+      teacherScript: 'Remember our cassava grinder analogy: tubers are raw Input; the diesel engine and spinning blades are Processing; the white garri flour is Output; and the tied sack kept in your storehouse is Storage. Never forget storage!'
+    },
+    {
+      title: 'Section 3: Generational Evolution & Device Classifications',
+      summary: 'How computer hardware shrank from 30-ton classroom-sized vacuum tube giants to pocket-sized mobile superchips.',
+      paragraphs: [
+        'The history of computing is categorized into five distinct electronic generations based on the core switching technology utilized:',
+        'First Generation (1940–1956): Relied on Vacuum Tubes. These machines (e.g., ENIAC, UNIVAC) were massive, filled entire rooms, generated intense heat, broke down constantly due to blown glass tubes, and used magnetic drums for memory.',
+        'Second Generation (1956–1963): Replaced fragile vacuum tubes with Transistors made of semiconductor materials. Computers became 10 times smaller, dramatically faster, and significantly more energy-efficient.',
+        'Third Generation (1964–1971): Introduced Integrated Circuits (ICs), where hundreds of transistors were packed onto a single small silicon chip ("semiconductor microchip"). Operating systems emerged, allowing machines to run multiple programs simultaneously.',
+        'Fourth Generation (1971–Present): The Microprocessor era (Very Large Scale Integration / VLSI). Millions and now billions of transistors reside on a single microchip (e.g., Intel Core, Apple Silicon, ARM Cortex). This enabled the birth of personal computers (PCs), laptops, and smartphones.',
+        'Fifth Generation (Present & Beyond): Focuses on Artificial Intelligence (AI), parallel processing, and quantum computing, enabling machines to process natural language, recognize faces, and learn from patterns.'
+      ],
+      keyTakeaways: [
+        'Generations: 1st (Vacuum Tubes) -> 2nd (Transistors) -> 3rd (Integrated Circuits) -> 4th (Microprocessors) -> 5th (Artificial Intelligence).',
+        'Each generation brought exponential decreases in physical size and power consumption with exponential increases in speed.',
+        'Modern smartphones are far more powerful than the supercomputers that guided the Apollo moon missions.'
+      ],
+      teacherScript: 'When your grandparents were young, a computer weighed 30 tons and occupied a hall bigger than our school laboratory. Today, the smartphone in an instructor\'s pocket has a microprocessor that runs 100,000 times faster than those ancient giants!'
+    },
+    {
+      title: 'Section 4: African Socio-Economic Impact & Nigerian Digital Ecosystem',
+      summary: 'Connecting textbook theory to local reality: JAMB CBT, FinTech payments, medical telemedicine, and agricultural automation in Ekiti State.',
+      paragraphs: [
+        'Students must understand that computers are not foreign novelties; they are the operational backbone of contemporary African society. In Nigeria, digital literacy is a prerequisite for civic participation and academic progression:',
+        '1. Education: The Joint Admissions and Matriculation Board (JAMB) conducts Computer-Based Testing (CBT) across the federation. A student who cannot navigate a computer interface with confidence will struggle on exam day regardless of their academic knowledge.',
+        '2. Banking & Commerce: The Nigeria Inter-Bank Settlement System (NIBSS) and African FinTech pioneers process tens of millions of instant transactions daily. Without mainframe servers and database computers, modern commerce would collapse.',
+        '3. Healthcare: General hospitals and teaching hospitals in Ekiti State (such as EKSUTH in Ado-Ekiti) utilize digital records to track patient histories, analyze blood tests, and render ultrasound and radiological imagery.',
+        '4. Agriculture: Modern agribusinesses in southwestern Nigeria utilize computerized soil moisture sensors and drone GPS mapping to boost cassava, cocoa, and palm yields.'
+      ],
+      keyTakeaways: [
+        'Computer literacy is essential for passing national examinations such as JAMB CBT.',
+        'Nigeria has one of the world\'s most sophisticated real-time digital payment ecosystems.',
+        'Technology is a driver of local agricultural, healthcare, and economic transformation.'
+      ],
+      teacherScript: 'You are learning this so you can master your JAMB CBT exams, build businesses, and lead Nigeria\'s digital future. When you learn to type and navigate, you are taking command of your future.'
+    }
   ],
 };

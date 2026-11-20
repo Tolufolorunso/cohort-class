@@ -13,9 +13,12 @@ To ensure laboratory discipline and learning focus, the platform proactively ale
 ### A. Students (Secondary School Learners, Ages 12–18)
 - **Portal URL:** Main platform route (`/`).
 - **Direct-to-Lesson Entry:** Upon login, students land directly into the active lesson stage with self-paced slide controls and teacher catch-up.
-- **Flexible Access Modes (Shared Laptops & Solo Use):**
-  - **Solo Learner Mode:** For self-study or when a partner is absent. Logs in with 1 verified Patron Number and Name.
+- **Dynamic Workstation Login (No Hardcoded Names):**
+  - **Barcodes as Workstation / Lab Attendance Identifiers:** Barcodes strictly identify physical workstations and verify lab registration. No student names are hardcoded in the codebase.
+  - **Dynamic Name Input:** Students type in their actual names at login. The entered name dynamically maps to that workstation barcode for the session.
+  - **Solo Learner Mode:** For self-study or when a partner is absent. Logs in with 1 verified Patron/Workstation Barcode and student's entered Name.
   - **Equal Lab Partners Mode:** For paired classroom sessions. Two equal cards (*Partner A* and *Partner B*—no primary/secondary hierarchy). Both students enter their verified Patron Numbers and Full Names.
+  - **Instructor Visibility:** The instructor's attendance desk and live monitoring displays the dynamic names entered by students at login (or `Patron #<barcode>` if pending login).
 - **Roster Gatekeeper:** Only students matching the registered 30 lab Patron Numbers can log in (including `20250645` - Michael Olowookere).
 - **Complete Login Sanitization:**
   - The "View Class Patron List" dropdown is completely removed so student IDs remain private.
@@ -48,18 +51,19 @@ Every lesson stage and slide adheres to strict presentation cleanliness:
 4. **Focused Interactive Simulators:** Interactive widgets (e.g., IPOS drag-and-drop, device sorters, 7-step PC disassembly, and typing arena) occupy dedicated, uncluttered stages with clear visual feedback.
 5. **Presentation Navigation:** Full keyboard arrow support (`←`/`→`/`Space`), slide jump dropdown, and instant fullscreen projector mode (`F`).
 
-### B. The Dedicated Instructor Teaching System
-Teachers receive comprehensive instruction and classroom assistance without crowding the student slides:
-1. **In-Slide Live Teacher Guide Drawer (`T` Key or Button):**
-   - Available directly on the live presentation slide.
-   - Drops down 3 practical cards:
+### B. The Dedicated Instructor Teaching System (Complete Study & Lecture Notes)
+Teachers receive comprehensive, in-depth subject-matter preparation and real-time classroom assistance without crowding the student slides:
+1. **Complete Pre-Class Study Dossier & Master Briefing (`/instructor`):**
+   - Full-length, textbook-grade reading notes covering complete technical theory, electronic & mechanical operations, history, and architectural principles so instructors have 100% domain mastery before class.
+   - Comprehensive lesson overview: 40-minute laboratory pacing breakdown, formal academic definitions (for WAEC/NECO examination syllabus alignment), and detailed Nigerian analogies (yam cooking, market POS, NEPA power cuts) written out as ready-to-tell stories.
+   - **`🖨️ Print / Save Lesson Plan`** button for physical classroom reference and binder archives.
+2. **In-Slide Live Teacher Guide Drawer (`T` Key or Button):**
+   - Available directly on the live presentation slide (strictly restricted to authenticated instructors).
+   - Practical real-time presentation aids:
      - ❓ **Ask the Class:** Engaging prompt questions to ignite classroom discussion.
      - 🗣️ **Key Talking Point:** Exact conversational words to explain the concept.
      - ⚠️ **Watch Out For:** Common student pitfalls or mistakes during the practical session.
-2. **Instructor Module Master Briefing Desk (`/instructor`):**
-   - A dedicated pre-class briefing sheet for every module.
-   - Comprehensive lesson overview: 40-minute laboratory pacing breakdown, formal academic definitions (for WAEC/NECO examination syllabus alignment), and detailed Nigerian analogies (yam cooking, market POS, NEPA power cuts) written out as ready-to-tell stories.
-   - **`🖨️ Print / Save Lesson Plan`** button for physical classroom reference.
+     - 📖 **Full Note Reference:** Expandable complete subject-matter lecture text accessible on demand during class.
 
 ### C. Extensive Visuals & Cultural Authenticity Standard
 - **STRICT REPRESENTATION RULE:** Zero photos of white people. All human imagery exclusively depicts **Black / African secondary school students in uniforms, African ICT teachers, and African professionals** (doctors, bankers, engineers, mechanized farmers).
@@ -94,12 +98,10 @@ Teachers receive comprehensive instruction and classroom assistance without crow
 ## 5. Features & Build Roadmap
 
 ### Phase 1: Foundational Digital Literacy & Core Platform
-- **Module 1 (Shipped / Redo Planned in Feature 10):** Introduction to Computers.
-- **Module 2 (Shipped / Redo Planned in Feature 11):** Parts of a Computer.
-- **Features 7–9 (Shipped):** Platform Architecture & Attention Security, Official Cohort Attendance API, Standalone Quiz Arena.
-- **Feature 10 (Next):** Module 1 Complete Overhaul: Clean PowerPoint Slides & Comprehensive Instructor Teaching Guide.
-- **Feature 11 (Next):** Module 2 Complete Overhaul: Clean PowerPoint Slides & Hardware Lab Guide.
-- **Feature 12 (Next):** Module 3: Computer Usage, Booting & Rapid-Typing (integrating `/today` practical navigation, folders/files, and touch-typing into formal curriculum).
+- **Features 1–9 (Shipped):** Module 1 & 2 foundations, role separation, Kahoot arena, attendance sync, dual-partner login, and attention tracking.
+- **Feature 10 (Shipped):** Module 1 Complete Overhaul: Clean 16:9 PowerPoint Slides & Comprehensive Instructor Teaching Guide.
+- **Feature 11 (Shipped):** Module 2 Complete Overhaul: Clean 16:9 PowerPoint Slides & Hardware Lab Guide.
+- **Feature 12 (Next):** Module 3: Computer Usage, Booting, Dynamic Workstation Roster & 20-Level RapidTyping (remove hardcoded student names, integrate `/today` navigation, folder labs, 20-level typing progression, and complete instructor notes).
 - **Modules 4–7:** Operating Systems, File Management, Internet Basics, Microsoft Office Suite.
 
 ### Phase 2: Intermediate (Creative Logic & App Development)

@@ -19,6 +19,7 @@ export function TeacherGuideDrawer({
   const isInstructor = useIsInstructor();
   const [internalOpen, setInternalOpen] = useState(false);
   const [showPinModal, setShowPinModal] = useState(false);
+  const [showFullLectureNote, setShowFullLectureNote] = useState(false);
   const [pinInput, setPinInput] = useState('');
   const [pinError, setPinError] = useState('');
 
@@ -160,6 +161,33 @@ export function TeacherGuideDrawer({
                     <strong className="text-emerald-300">Story Analogy:</strong>{' '}
                     {teacherNotes.analogyStory}
                   </span>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Expandable In-Depth Study Dossier Reference */}
+          {teacherNotes.fullLectureReference && (
+            <div className="mt-3 pt-2.5 border-t border-amber-500/20">
+              <button
+                type="button"
+                onClick={() => setShowFullLectureNote((prev) => !prev)}
+                className="text-xs font-bold text-amber-300 hover:text-white flex items-center gap-1.5 bg-zinc-950/80 px-3 py-1.5 rounded-xl border border-amber-500/30 transition-all cursor-pointer"
+              >
+                <span>{showFullLectureNote ? '📖 Hide Full Lecture Notes' : '📖 Read Full Complete Lecture Notes for this Topic'}</span>
+                <span className="text-[10px] font-mono text-amber-400 font-normal">
+                  ({showFullLectureNote ? 'Collapse' : 'Expand full reading text'})
+                </span>
+              </button>
+
+              {showFullLectureNote && (
+                <div className="mt-2.5 p-4 rounded-xl bg-zinc-950/95 border border-amber-500/40 text-xs text-zinc-200 leading-relaxed space-y-2 animate-fadeIn">
+                  <span className="text-[10px] font-mono uppercase font-black text-amber-400 tracking-wider block mb-1">
+                    Pre-Class Master Dossier & Technical Theory:
+                  </span>
+                  <p className="whitespace-pre-line text-zinc-300">
+                    {teacherNotes.fullLectureReference}
+                  </p>
                 </div>
               )}
             </div>

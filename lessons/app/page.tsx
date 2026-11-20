@@ -21,8 +21,16 @@ import { StageSystemUnitDisassembly } from '../components/stages/StageSystemUnit
 import { StageStorageBytes } from '../components/stages/StageStorageBytes';
 import { StageModuleComplete } from '../components/stages/StageModuleComplete';
 
+import { StageBooting } from '../components/stages/StageBooting';
+import { StageDesktopControls } from '../components/stages/StageDesktopControls';
+import { StageMouseTrainer } from '../components/stages/StageMouseTrainer';
+import { StageFolderLab } from '../components/stages/StageFolderLab';
+import { StageTouchTyping } from '../components/stages/StageTouchTyping';
+import { StageErgonomics } from '../components/stages/StageErgonomics';
+
 import { module1Info, module1Notes, module1Assignment } from '../data/module1';
 import { module2Info, module2Notes, module2Assignment } from '../data/module2';
+import { module3Info, module3Notes, module3Assignment } from '../data/module3';
 import {
   ActiveView,
   ZoomLevel,
@@ -196,9 +204,24 @@ export default function StudentPortal() {
     return <StudentLogin onLoginSuccess={handleLoginSuccess} />;
   }
 
-  const activeModuleInfo = currentModuleId === 'module-2' ? module2Info : module1Info;
-  const activeNotes = currentModuleId === 'module-2' ? module2Notes : module1Notes;
-  const activeAssignment = currentModuleId === 'module-2' ? module2Assignment : module1Assignment;
+  const activeModuleInfo =
+    currentModuleId === 'module-3'
+      ? module3Info
+      : currentModuleId === 'module-2'
+      ? module2Info
+      : module1Info;
+  const activeNotes =
+    currentModuleId === 'module-3'
+      ? module3Notes
+      : currentModuleId === 'module-2'
+      ? module2Notes
+      : module1Notes;
+  const activeAssignment =
+    currentModuleId === 'module-3'
+      ? module3Assignment
+      : currentModuleId === 'module-2'
+      ? module2Assignment
+      : module1Assignment;
 
   return (
     <div className="min-h-screen flex flex-col bg-zinc-950 text-zinc-100 selection:bg-emerald-500 selection:text-zinc-950">
@@ -296,7 +319,24 @@ export default function StudentPortal() {
                 case 'module2-quiz':
                   return <StageModuleComplete moduleId={currentModuleId} />;
 
+                // Module 3 Stages
+                case 'booting-procedures':
+                  return <StageBooting />;
+                case 'desktop-navigation':
+                  return <StageDesktopControls />;
+                case 'mouse-touchpad-lab':
+                  return <StageMouseTrainer />;
+                case 'folder-file-lab':
+                  return <StageFolderLab />;
+                case 'touch-typing-lab':
+                  return <StageTouchTyping />;
+                case 'lab-safety-ergonomics':
+                  return <StageErgonomics />;
+                case 'module3-complete':
+                  return <StageModuleComplete moduleId={currentModuleId} />;
+
                 default:
+                  if (currentModuleId === 'module-3') return <StageBooting />;
                   return currentModuleId === 'module-2' ? <StageHardwareAnatomy /> : <StageDefinition />;
               }
             }}

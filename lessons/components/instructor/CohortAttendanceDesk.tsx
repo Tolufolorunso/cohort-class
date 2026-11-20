@@ -731,7 +731,6 @@ export function CohortAttendanceDesk({
           {filteredPatrons.map((patron) => {
             const isPresent = Boolean(serverAttendance[patron]);
             const isConnected = activeConnectedBarcodes.includes(patron);
-            const studentName = getStudentNameByBarcode(patron);
             const markedBy = markedByMap[patron];
 
             const live = activeStudents[patron];
@@ -744,6 +743,13 @@ export function CohortAttendanceDesk({
             }
             const liveRecord = live || (partnerOf ? activeStudents[partnerOf] : null);
             const isInattentive = Boolean(isConnected && liveRecord && liveRecord.isFocused === false);
+
+            const liveStudentName = live
+              ? live.studentName
+              : (partnerOf && activeStudents[partnerOf]?.partnerB?.studentName
+                  ? activeStudents[partnerOf].partnerB!.studentName
+                  : null);
+            const studentName = liveStudentName || getStudentNameByBarcode(patron);
 
             return (
               <div

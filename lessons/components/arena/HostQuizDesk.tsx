@@ -4,6 +4,7 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { neutralQuestions } from '../../data/neutralQuestions';
 import { kahootQuestions as module1Questions } from '../../data/module1';
 import { module2KahootQuestions } from '../../data/module2';
+import { module3KahootQuestions } from '../../data/module3';
 import { KahootQuestion, QuizScope } from '../../types/curriculum';
 import { LiveQuizState } from '../../types/platform';
 import { QuestionCreatorModal } from './QuestionCreatorModal';
@@ -84,6 +85,8 @@ export function HostQuizDesk() {
         return module1Questions;
       case 'module-2':
         return module2KahootQuestions;
+      case 'module-3':
+        return module3KahootQuestions;
       case 'custom':
         return customQuestions;
       case 'mixed':
@@ -91,6 +94,7 @@ export function HostQuizDesk() {
           ...neutralQuestions,
           ...module1Questions,
           ...module2KahootQuestions,
+          ...module3KahootQuestions,
           ...customQuestions,
         ];
       default:
@@ -112,6 +116,8 @@ export function HostQuizDesk() {
         return 'Module 1: Introduction to Computers (10 Qs)';
       case 'module-2':
         return 'Module 2: Hardware & Teardown (15 Qs)';
+      case 'module-3':
+        return 'Module 3: Usage, Booting & Rapid-Typing (10 Qs)';
       case 'custom':
         return `Custom In-Room Questions (${customQuestions.length} Qs)`;
       case 'mixed':
@@ -281,6 +287,23 @@ export function HostQuizDesk() {
             <div className="text-[10px] font-mono mt-1 font-extrabold">15 Questions</div>
           </button>
 
+          {/* Module 3 Pack */}
+          <button
+            onClick={() => {
+              setSelectedPackKey('module-3');
+              setInternalQuestionIndex(0);
+            }}
+            className={`p-3 rounded-2xl border text-left transition-all ${
+              selectedPackKey === 'module-3'
+                ? 'bg-cyan-400 text-zinc-950 border-cyan-300 shadow-md font-bold'
+                : 'bg-zinc-950 border-zinc-800 text-zinc-300 hover:border-zinc-700'
+            }`}
+          >
+            <div className="text-base">⌨️ Module 3</div>
+            <div className="text-[11px] mt-0.5 opacity-80">Booting & Rapid-Typing</div>
+            <div className="text-[10px] font-mono mt-1 font-extrabold">10 Questions</div>
+          </button>
+
           {/* Custom Pack */}
           <button
             onClick={() => {
@@ -315,7 +338,7 @@ export function HostQuizDesk() {
             <div className="text-base">🎲 Mixed Mega</div>
             <div className="text-[11px] mt-0.5 opacity-80">All Combined</div>
             <div className="text-[10px] font-mono mt-1 font-extrabold">
-              {neutralQuestions.length + module1Questions.length + module2KahootQuestions.length + customQuestions.length} Questions
+              {neutralQuestions.length + module1Questions.length + module2KahootQuestions.length + module3KahootQuestions.length + customQuestions.length} Questions
             </div>
           </button>
         </div>

@@ -9,6 +9,7 @@ import { useClassroomAttention } from '../../hooks/useClassroomAttention';
 
 import { module1Notes } from '../../data/module1';
 import { module2Notes } from '../../data/module2';
+import { module3Notes } from '../../data/module3';
 import { ZoomLevel, StudentSession, SyncMode } from '../../types/platform';
 import { getZoomLevel, setZoomLevel, getUnlockedModules } from '../../lib/platformStorage';
 import { getStudentSession, clearStudentSession, saveStudentSession } from '../../lib/roster';
@@ -128,7 +129,12 @@ export function NotesModuleView({ moduleId }: NotesModuleViewProps) {
     return <StudentLogin onLoginSuccess={handleLoginSuccess} />;
   }
 
-  const activeNotes = moduleId === 'module-2' ? module2Notes : module1Notes;
+  const activeNotes =
+    moduleId === 'module-3'
+      ? module3Notes
+      : moduleId === 'module-2'
+      ? module2Notes
+      : module1Notes;
 
   return (
     <div className="min-h-screen flex flex-col bg-zinc-950 text-zinc-100 selection:bg-emerald-500 selection:text-zinc-950">

@@ -16,6 +16,29 @@ export interface TeacherNotes {
   watchOutFor: string;
   formalExamTerm?: string;
   analogyStory?: string;
+  fullLectureReference?: string;
+}
+
+export interface LectureNoteSection {
+  title: string;
+  summary: string;
+  paragraphs: string[];
+  keyTakeaways: string[];
+  teacherScript?: string;
+}
+
+export interface ModuleMasterBriefing {
+  moduleId: string;
+  moduleTitle: string;
+  duration: string;
+  targetAudience: string;
+  lessonObjective: string;
+  pacingSchedule: Array<{ time: string; stage: string; action: string }>;
+  formalDefinitions: Array<{ term: string; definition: string; examContext: string }>;
+  analogies: Array<{ title: string; story: string; takeaway: string }>;
+  labSafetyRules: string[];
+  verbalCheckQuestions: Array<{ question: string; answer: string }>;
+  lectureDossier?: LectureNoteSection[];
 }
 
 export interface StageMeta {
@@ -95,7 +118,7 @@ export interface KahootOptionConfig {
   textColor: string;
 }
 
-export type QuizScope = 'module-1' | 'module-2' | 'neutral' | 'custom';
+export type QuizScope = 'module-1' | 'module-2' | 'module-3' | 'neutral' | 'custom';
 
 export interface KahootQuestion {
   id: number;

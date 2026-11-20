@@ -33,9 +33,9 @@ interface HeaderProps {
 const AVAILABLE_MODULES = [
   { id: 'module-1', number: 1, title: 'Intro to Computers', shortName: 'M1: Intro' },
   { id: 'module-2', number: 2, title: 'Hardware & Components', shortName: 'M2: Hardware' },
-  { id: 'module-3', number: 3, title: 'Operating Systems & Files', shortName: 'M3: OS & Files' },
-  { id: 'module-4', number: 4, title: 'Typing & Word Processing', shortName: 'M4: Typing' },
-  { id: 'module-5', number: 5, title: 'Internet & Online Safety', shortName: 'M5: Internet' },
+  { id: 'module-3', number: 3, title: 'Computer Usage & Rapid-Typing', shortName: 'M3: Usage & Typing' },
+  { id: 'module-4', number: 4, title: 'Operating Systems & Configurations', shortName: 'M4: OS' },
+  { id: 'module-5', number: 5, title: 'File Management & Organization', shortName: 'M5: Files' },
 ];
 
 export function Header({

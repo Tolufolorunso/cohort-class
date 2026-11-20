@@ -13,7 +13,7 @@ const STORAGE_KEYS = {
   TEACHER_PIN: 'dzuels_teacher_pin',
 };
 
-const DEFAULT_UNLOCKED = ['module-1'];
+const DEFAULT_UNLOCKED = ['module-1', 'module-2', 'module-3'];
 const DEFAULT_TEACHER_PIN = '1234';
 
 function isBrowser(): boolean {

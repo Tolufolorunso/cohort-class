@@ -77,6 +77,52 @@ export function Module2MasterBriefingModal({
             </p>
           </div>
 
+          {/* Complete In-Depth Pre-Class Lecture Dossier */}
+          {data.lectureDossier && data.lectureDossier.length > 0 && (
+            <div>
+              <h3 className="text-xs font-extrabold uppercase tracking-wider text-amber-400 mb-2.5 flex items-center gap-1.5">
+                <span>📚</span>
+                <span>Complete Pre-Class Subject Matter Dossier (Study before class):</span>
+              </h3>
+              <div className="space-y-4">
+                {data.lectureDossier.map((sec, idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 sm:p-5 rounded-2xl bg-zinc-950 border border-zinc-800 text-zinc-300 space-y-3"
+                  >
+                    <div className="border-b border-zinc-800/80 pb-2">
+                      <h4 className="text-sm font-extrabold text-white">
+                        {sec.title}
+                      </h4>
+                      <p className="text-xs text-amber-300/90 mt-0.5 italic">
+                        {sec.summary}
+                      </p>
+                    </div>
+                    <div className="space-y-2 text-xs leading-relaxed text-zinc-300">
+                      {sec.paragraphs.map((p, pIdx) => (
+                        <p key={pIdx}>{p}</p>
+                      ))}
+                    </div>
+                    {sec.teacherScript && (
+                      <div className="p-3 rounded-xl bg-amber-950/40 border border-amber-600/40 text-xs">
+                        <strong className="text-amber-400 block mb-1">🎙️ Suggested Teacher Lecture Script:</strong>
+                        <p className="text-amber-200 italic">&quot;{sec.teacherScript}&quot;</p>
+                      </div>
+                    )}
+                    <div className="pt-2 border-t border-zinc-800 text-[11px]">
+                      <strong className="text-emerald-400 block mb-1">Key Takeaways for Students:</strong>
+                      <ul className="list-disc list-inside space-y-0.5 text-zinc-400">
+                        {sec.keyTakeaways.map((k, kIdx) => (
+                          <li key={kIdx}>{k}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* 40-Minute Lesson Timeline Pacing */}
           <div>
             <h3 className="text-xs font-extrabold uppercase tracking-wider text-amber-400 mb-2.5 flex items-center gap-1.5">

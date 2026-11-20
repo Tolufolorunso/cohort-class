@@ -30,6 +30,7 @@ import {
 } from '../../lib/platformStorage';
 import { module1Info } from '../../data/module1';
 import { module2Info } from '../../data/module2';
+import { module3Info } from '../../data/module3';
 
 import {
   Shield,
@@ -54,17 +55,26 @@ import { StageInputOutputLab } from '../../components/stages/StageInputOutputLab
 import { StageSystemUnitDisassembly } from '../../components/stages/StageSystemUnitDisassembly';
 import { StageStorageBytes } from '../../components/stages/StageStorageBytes';
 import { StageModuleComplete } from '../../components/stages/StageModuleComplete';
+
+import { StageBooting } from '../../components/stages/StageBooting';
+import { StageDesktopControls } from '../../components/stages/StageDesktopControls';
+import { StageMouseTrainer } from '../../components/stages/StageMouseTrainer';
+import { StageFolderLab } from '../../components/stages/StageFolderLab';
+import { StageTouchTyping } from '../../components/stages/StageTouchTyping';
+import { StageErgonomics } from '../../components/stages/StageErgonomics';
+
 import { CohortAttendanceDesk } from '../../components/instructor/CohortAttendanceDesk';
 import { HostQuizDesk } from '../../components/arena/HostQuizDesk';
 import { Module1MasterBriefingModal } from '../../components/instructor/Module1MasterBriefingModal';
 import { Module2MasterBriefingModal } from '../../components/instructor/Module2MasterBriefingModal';
+import { Module3MasterBriefingModal } from '../../components/instructor/Module3MasterBriefingModal';
 
 const ALL_MODULES = [
   { id: 'module-1', number: 1, title: 'Module 1: Introduction to Computers' },
   { id: 'module-2', number: 2, title: 'Module 2: Hardware & Components' },
-  { id: 'module-3', number: 3, title: 'Module 3: Operating Systems & Files' },
-  { id: 'module-4', number: 4, title: 'Module 4: Typing & Word Processing' },
-  { id: 'module-5', number: 5, title: 'Module 5: Internet & Online Safety' },
+  { id: 'module-3', number: 3, title: 'Module 3: Computer Usage, Booting & Rapid-Typing' },
+  { id: 'module-4', number: 4, title: 'Module 4: Operating Systems & Basic Configurations' },
+  { id: 'module-5', number: 5, title: 'Module 5: File Management & Organization' },
 ];
 
 export default function InstructorControlRoom() {
@@ -75,7 +85,12 @@ export default function InstructorControlRoom() {
 
   // Live session state
   const [currentModuleId, setCurrentModuleId] = useState('module-1');
-  const activeModuleInfo = currentModuleId === 'module-2' ? module2Info : module1Info;
+  const activeModuleInfo =
+    currentModuleId === 'module-3'
+      ? module3Info
+      : currentModuleId === 'module-2'
+      ? module2Info
+      : module1Info;
   const [currentStageIndex, setCurrentStageIndex] = useState(0);
   const [syncMode, setSyncModeState] = useState<SyncMode>('follow-teacher');
   const [activeStudents, setActiveStudents] = useState<
@@ -102,6 +117,7 @@ export default function InstructorControlRoom() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showModule1Briefing, setShowModule1Briefing] = useState(false);
   const [showModule2Briefing, setShowModule2Briefing] = useState(false);
+  const [showModule3Briefing, setShowModule3Briefing] = useState(false);
 
   // Check existing session on mount
   useEffect(() => {
@@ -523,6 +539,14 @@ export default function InstructorControlRoom() {
               <span>🛠️</span>
               <span>Mod 2 Hardware Brief</span>
             </button>
+            <button
+              onClick={() => setShowModule3Briefing(true)}
+              className="px-3.5 py-2 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 font-black text-xs transition-all active:scale-95 flex items-center gap-1.5 cursor-pointer shadow-sm"
+              title="Module 3 Booting, Window Controls & Rapid-Typing Dossier"
+            >
+              <span>⌨️</span>
+              <span>Mod 3 Typing &amp; Booting Brief</span>
+            </button>
             <Link
               href="/today"
               className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-emerald-400 hover:from-amber-400 hover:to-emerald-300 text-zinc-950 font-black text-xs shadow-md transition-all active:scale-95 flex items-center gap-1.5"
@@ -654,6 +678,17 @@ export default function InstructorControlRoom() {
               {currentStage.id === 'storage-and-bytes' && <StageStorageBytes />}
               {(currentStage.id === 'module2-complete' || currentStage.id === 'module2-quiz') && (
                 <StageModuleComplete moduleId="module-2" />
+              )}
+
+              {/* Module 3 Stages */}
+              {currentStage.id === 'booting-procedures' && <StageBooting />}
+              {currentStage.id === 'desktop-navigation' && <StageDesktopControls />}
+              {currentStage.id === 'mouse-touchpad-lab' && <StageMouseTrainer />}
+              {currentStage.id === 'folder-file-lab' && <StageFolderLab />}
+              {currentStage.id === 'touch-typing-lab' && <StageTouchTyping />}
+              {currentStage.id === 'lab-safety-ergonomics' && <StageErgonomics />}
+              {currentStage.id === 'module3-complete' && (
+                <StageModuleComplete moduleId="module-3" />
               )}
             </div>
           </div>
@@ -930,6 +965,12 @@ export default function InstructorControlRoom() {
       <Module2MasterBriefingModal
         isOpen={showModule2Briefing}
         onClose={() => setShowModule2Briefing(false)}
+      />
+
+      {/* Module 3 Pre-Class Master Briefing Modal */}
+      <Module3MasterBriefingModal
+        isOpen={showModule3Briefing}
+        onClose={() => setShowModule3Briefing(false)}
       />
     </div>
   );

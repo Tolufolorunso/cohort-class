@@ -1159,6 +1159,72 @@ export const module2MasterBriefing = {
         'Unplug the power cable from the wall socket and discharge static electricity.',
     },
   ],
+  lectureDossier: [
+    {
+      title: 'Section 1: The Physics of Hardware & The Anatomy of the System Unit',
+      summary: 'Electromechanical fundamentals: How physical components convert electrical impulses into logic and computation.',
+      paragraphs: [
+        'Hardware encompasses all tangible electromechanical elements of a computer system. While software provides mathematical algorithms and instructions, hardware provides the physical substrate of silicon, copper, fiberglass, and aluminum through which electrons flow.',
+        'The centerpiece of any desktop computer is the System Unit chassis (often mistakenly called the CPU by beginners). The chassis serves two vital engineering functions: physical containment (protecting fragile silicon circuits from dust, physical impact, and moisture) and electromagnetic shielding (preventing electrical interference from disrupting other appliances).',
+        'Inside the chassis lies the Motherboard (or Printed Circuit Board / PCB). The motherboard is etched with thousands of micro-thin copper tracks called "buses" (Data Bus, Address Bus, Control Bus) that transmit electronic pulses at gigahertz frequencies between components. The central socket houses the Central Processing Unit (CPU), which is clamped beneath a heavy aluminum heat sink and electric fan. Because billions of transistors switching billions of times per second generate intense thermal energy (often reaching 70°C–90°C), thermal paste is applied between the CPU heat spreader and the copper base of the cooler to eliminate microscopic air pockets and ensure rapid heat conduction.'
+      ],
+      keyTakeaways: [
+        'The System Unit is the protective housing; the CPU is the small silicon microchip inside.',
+        'Copper traces on the motherboard act as electronic highways (buses) synchronizing components.',
+        'Thermal paste and cooling fans prevent catastrophic semiconductor heat breakdown.'
+      ],
+      teacherScript: 'Class, look inside this opened computer case. This big green board is the Motherboard. It is the town map. That metal box with all the colorful cables is the Power Supply Unit (PSU)—the NEPA transformer of the computer. And under this heavy fan sits the CPU, the brain.'
+    },
+    {
+      title: 'Section 2: Memory Hierarchy — The Critical Boundary Between RAM and Persistent Storage',
+      summary: 'Understanding volatile semiconductor memory vs magnetic platters and non-volatile NAND flash cells.',
+      paragraphs: [
+        'A foundational concept that every ICT educator must teach with clarity is the difference between primary memory (RAM) and secondary storage (Hard Drives / SSDs).',
+        'Random Access Memory (RAM) consists of Dynamic RAM (DRAM) integrated circuits. Each memory cell in DRAM consists of a single microscopic transistor and capacitor. Because capacitors leak charge continuously, they must be electrically refreshed thousands of times per second. This makes RAM "volatile": as soon as power is disconnected (e.g., during sudden NEPA blackouts), the electrical charge dissipates and all data stored in RAM vanishes instantaneously.',
+        'Secondary storage, in contrast, is "non-volatile": data remains physically recorded even when the machine is powered down for months or years. Traditional Hard Disk Drives (HDDs) record binary 1s and 0s magnetically on spinning aluminum or glass platters rotating at 5,400 to 7,200 RPM, read by a floating magnetic head. Modern Solid-State Drives (SSDs) replace moving mechanical parts with NAND flash memory cells, storing electrons within floating-gate transistors. SSDs are 5 to 10 times faster than mechanical HDDs, consume less power, and are immune to physical shock.'
+      ],
+      keyTakeaways: [
+        'RAM is volatile and fast; data is lost on power shutdown.',
+        'Secondary storage (HDD, SSD) is non-volatile; data is permanent.',
+        'SSDs utilize silent flash semiconductor gates and are significantly faster and more durable than spinning HDDs.'
+      ],
+      teacherScript: 'If you are writing a letter on your computer and NEPA takes the light before you press Ctrl + S, why did your letter disappear? Because your letter was living in temporary RAM! Once you press Ctrl + S, the computer copies the letter into the permanent Hard Drive or SSD.'
+    },
+    {
+      title: 'Section 3: Input/Output Transduction & The Byte Scale Conversion',
+      summary: 'How analog human sensations become digital bits, and how bytes scale from 8 bits to Petabytes.',
+      paragraphs: [
+        'Peripheral devices are transducers: they convert energy from one form to another. An input device converts human physical actions (sound waves, mechanical finger pressure, optical reflections) into digital bitstreams. An output device converts digital bitstreams into human sensory experiences (photons on an IPS display, vibrations from speaker cones, or ink drops on paper).',
+        'Data Units Hierarchy: At the base level is the Bit (Binary Digit: 0 or 1). Exactly 8 bits grouped together form 1 Byte. One byte is the exact volume of memory required to store a single ASCII text character (e.g., letter "K" or number "7"). In binary arithmetic, computers count in powers of 2 (2^10 = 1,024). Therefore:',
+        '- 1 Kilobyte (KB) = 1,024 Bytes (about one paragraph of typed text).',
+        '- 1 Megabyte (MB) = 1,024 KB (about one high-resolution smartphone photo or one 3-minute MP3 song).',
+        '- 1 Gigabyte (GB) = 1,024 MB (about one full-length feature film or 250 songs).',
+        '- 1 Terabyte (TB) = 1,024 GB (about 1,000 films or an entire secondary school library of digital books).'
+      ],
+      keyTakeaways: [
+        'Input/Output peripherals are electronic transducers bridging human senses and digital bits.',
+        '8 Bits = 1 Byte = 1 Character.',
+        'Multipliers follow powers of 2 (1,024 multiplier): 1,024 B = 1 KB, 1,024 KB = 1 MB, 1,024 MB = 1 GB, 1,024 GB = 1 TB.'
+      ],
+      teacherScript: 'Think of 1 bit as a single coin. 8 coins make a bag called a Byte. 1,024 bags fill a small wheelbarrow (Kilobyte). 1,024 wheelbarrows fill a pickup truck (Megabyte). 1,024 pickup trucks fill a shipping container (Gigabyte)!'
+    },
+    {
+      title: 'Section 4: Laboratory Safety, Electrostatic Discharge (ESD) & Tropical Maintenance',
+      summary: 'Preventing hardware breakdown in African classrooms: humidity, dust, static electricity, and power surges.',
+      paragraphs: [
+        'Operating computer laboratories in tropical West African environments poses specific maintenance challenges:',
+        '1. Electrostatic Discharge (ESD): The human body naturally collects static electrical charges, especially when wearing rubber-soled shoes or synthetic fabrics on tiled or carpeted floors. A static shock of merely 100 volts—completely imperceptible to human touch—can permanently fry microscopic silicon junctions inside a CPU or RAM stick. Instructors must train students to always ground themselves by touching an unpainted metal section of the computer case before handling components.',
+        '2. Power Surges & NEPA Fluctuations: Erratic voltage spikes and sudden dropouts damage power supplies and motherboard capacitors. Every laboratory circuit must pass through an Uninterruptible Power Supply (UPS) with Automatic Voltage Regulation (AVR) to deliver a clean sine wave and provide 15–20 minutes of battery runtime to save open work.',
+        '3. Dust and Harmattan Season: Fine dust coats cooling fan bearings and forms an insulating blanket over heatsinks, causing CPUs to overheat and thermally throttle. Regular dusting with dry compressed air and keeping lab windows screened with insect mesh is essential.'
+      ],
+      keyTakeaways: [
+        'Always ground yourself before touching internal circuit boards to prevent ESD damage.',
+        'UPS and voltage stabilizers are mandatory equipment in Nigerian school computer labs.',
+        'Keep dust off heatsinks and fans to prevent thermal throttling and component burnout.'
+      ],
+      teacherScript: 'Before you touch any green circuit board, touch the metal frame of the case with your bare hands. This releases static electricity safely so you do not accidentally zap the computer!'
+    }
+  ],
 };
 
 

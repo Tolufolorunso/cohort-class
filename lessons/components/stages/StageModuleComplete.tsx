@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { BookOpen, FileText, ChevronRight } from '../icons/Icons';
 import { module1Info } from '../../data/module1';
 import { module2Info } from '../../data/module2';
+import { module3Info } from '../../data/module3';
 import { TeacherGuideDrawer } from '../presentation/TeacherGuideDrawer';
 
 interface StageModuleCompleteProps {
@@ -13,12 +14,26 @@ interface StageModuleCompleteProps {
 }
 
 export function StageModuleComplete({ moduleId, moduleTitle }: StageModuleCompleteProps) {
+  const isM3 = moduleId === 'module-3';
   const isM2 = moduleId === 'module-2';
   const displayTitle =
     moduleTitle ||
-    (isM2 ? 'Module 2: Computer Hardware & Teardown' : 'Module 1: Introduction to Computers');
+    (isM3
+      ? 'Module 3: Computer Usage, Booting & Rapid-Typing'
+      : isM2
+      ? 'Module 2: Computer Hardware & Teardown'
+      : 'Module 1: Introduction to Computers');
 
-  const takeaways = isM2
+  const takeaways = isM3
+    ? [
+        'Cold vs Warm Booting & BIOS POST Diagnostic Routine',
+        'Desktop Workspace & Window Control Trio (Minimize, Maximize, Close)',
+        'The 4 Golden Pointer Gestures (Left, Double, Right-Click & Drag)',
+        'Hierarchical Directory Trees & Clean School Folder Organization',
+        'Home Row F/J Secret Anchors & 20-Level Touch-Typing Mastery',
+        'Healthy Posture Ergonomics, 20-20-20 Rule & Ctrl+S Power Protection',
+      ]
+    : isM2
     ? [
         'Hardware vs Software distinction',
         'Input, Output & Storage Peripheral Classifications',
@@ -135,7 +150,9 @@ export function StageModuleComplete({ moduleId, moduleTitle }: StageModuleComple
       <div className="w-full max-w-xl text-left mt-4">
         <TeacherGuideDrawer
           teacherNotes={
-            isM2
+            isM3
+              ? module3Info.stages.find((s) => s.id === 'lab-safety-ergonomics')?.teacherNotes
+              : isM2
               ? module2Info.stages.find((s) => s.id === 'module2-complete')?.teacherNotes
               : module1Info.stages.find((s) => s.id === 'module1-complete')?.teacherNotes
           }

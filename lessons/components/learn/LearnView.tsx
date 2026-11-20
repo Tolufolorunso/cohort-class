@@ -19,8 +19,16 @@ import { StageSystemUnitDisassembly } from '../stages/StageSystemUnitDisassembly
 import { StageStorageBytes } from '../stages/StageStorageBytes';
 import { StageModuleComplete } from '../stages/StageModuleComplete';
 
+import { StageBooting } from '../stages/StageBooting';
+import { StageDesktopControls } from '../stages/StageDesktopControls';
+import { StageMouseTrainer } from '../stages/StageMouseTrainer';
+import { StageFolderLab } from '../stages/StageFolderLab';
+import { StageTouchTyping } from '../stages/StageTouchTyping';
+import { StageErgonomics } from '../stages/StageErgonomics';
+
 import { module1Info } from '../../data/module1';
 import { module2Info } from '../../data/module2';
+import { module3Info } from '../../data/module3';
 import { ZoomLevel, StudentSession, SyncMode } from '../../types/platform';
 import { getZoomLevel, setZoomLevel, getUnlockedModules } from '../../lib/platformStorage';
 import { getStudentSession, clearStudentSession, saveStudentSession } from '../../lib/roster';
@@ -178,7 +186,12 @@ export function LearnView({ moduleId }: LearnViewProps) {
     return <StudentLogin onLoginSuccess={handleLoginSuccess} />;
   }
 
-  const activeModuleInfo = moduleId === 'module-2' ? module2Info : module1Info;
+  const activeModuleInfo =
+    moduleId === 'module-3'
+      ? module3Info
+      : moduleId === 'module-2'
+      ? module2Info
+      : module1Info;
 
   return (
     <div className="min-h-screen flex flex-col bg-zinc-950 text-zinc-100 selection:bg-emerald-500 selection:text-zinc-950">
@@ -253,7 +266,23 @@ export function LearnView({ moduleId }: LearnViewProps) {
               case 'module2-quiz':
                 return <StageModuleComplete moduleId={moduleId} />;
 
+              case 'booting-procedures':
+                return <StageBooting />;
+              case 'desktop-navigation':
+                return <StageDesktopControls />;
+              case 'mouse-touchpad-lab':
+                return <StageMouseTrainer />;
+              case 'folder-file-lab':
+                return <StageFolderLab />;
+              case 'touch-typing-lab':
+                return <StageTouchTyping />;
+              case 'lab-safety-ergonomics':
+                return <StageErgonomics />;
+              case 'module3-complete':
+                return <StageModuleComplete moduleId={moduleId} />;
+
               default:
+                if (moduleId === 'module-3') return <StageBooting />;
                 return moduleId === 'module-2' ? <StageHardwareAnatomy /> : <StageDefinition />;
             }
           }}

@@ -11,48 +11,69 @@ export const AUTHORIZED_PATRONS: string[] = [
 
 export const SESSION_DURATION_MS = 3 * 60 * 60 * 1000; // 3 hours (10,800,000 ms)
 
-export const PATRON_DIRECTORY: Record<string, string> = {
-  "20230165": "ADEYEMI, Oluwaseun",
-  "20250523": "EZE, Chioma",
-  "20250464": "OGUNLEYE, David",
-  "20250509": "BELLO, Ibrahim",
-  "20250571": "ADEKUNLE, Blessing",
-  "20250520": "BABAJIDE, Kemi",
-  "20250562": "OKONKWO, Chinedu",
-  "20250527": "FOLORUNSO, Toluwalase",
-  "20250643": "OLADIPO, Samuel",
-  "20250409": "AFOLABI, Grace",
-  "20230338": "BALOGUN, Ayomide",
-  "20250461": "OYEBAMIJI, Victoria",
-  "20230204": "FASHOLA, Emmanuel",
-  "20230374": "GBADAMOSI, Aisha",
-  "20250609": "AJAYI, Femi",
-  "20230169": "ALABI, Titilayo",
-  "20250652": "IDOWU, Peter",
-  "20250650": "DARE, Esther",
-  "20250549": "SULAIMAN, Zainab",
-  "20230187": "KOLAWOLE, Joshua",
-  "20250545": "MUSTAPHA, Maryam",
-  "20230344": "OLANREWAJU, Kehinde",
-  "20250647": "YAKUBU, Daniel",
-  "20230063": "OMOTAYO, Joy",
-  "20230122": "ADELEKE, Timothy",
-  "20230330": "ADEDAPO, Ruth",
-  "20230313": "BEJIDE, Daniel",
-  "20230272": "OSUNKOYA, Praise",
-  "20230123": "SANUSI, Faruq",
-  "20250645": "OLOWOOKERE, Michael",
-};
-
-export function getStudentNameByBarcode(barcode: string): string {
-  const normalized = barcode.trim().toUpperCase();
-  return PATRON_DIRECTORY[normalized] || `Student (${normalized})`;
-}
-
 const STUDENT_SESSION_KEY = 'dzuels_student_session';
+const PATRON_NAMES_KEY = 'dzuels_patron_names';
+
+// Dynamic in-memory map of registered patron names
+const dynamicPatronNames: Record<string, string> = {};
 
 function isBrowser(): boolean {
   return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
+}
+
+function loadStoredPatronNames(): Record<string, string> {
+  if (!isBrowser()) return dynamicPatronNames;
+  try {
+    const raw = localStorage.getItem(PATRON_NAMES_KEY);
+    if (!raw) return dynamicPatronNames;
+    const parsed = JSON.parse(raw);
+    if (parsed && typeof parsed === 'object') {
+      Object.assign(dynamicPatronNames, parsed);
+    }
+  } catch {
+    // Ignore storage parse error
+  }
+  return dynamicPatronNames;
+}
+
+/**
+ * Dynamically register a student's entered name with their barcode workstation ID
+ */
+export function registerPatronName(barcode: string, name: string): void {
+  const normalized = barcode.trim().toUpperCase();
+  const trimmedName = name.trim();
+  if (!normalized || !trimmedName) return;
+
+  dynamicPatronNames[normalized] = trimmedName;
+
+  if (isBrowser()) {
+    try {
+      const stored = loadStoredPatronNames();
+      stored[normalized] = trimmedName;
+      localStorage.setItem(PATRON_NAMES_KEY, JSON.stringify(stored));
+    } catch {
+      // Storage unavailable
+    }
+  }
+}
+
+/**
+ * Retrieve dynamically registered student name for a barcode
+ */
+export function getRegisteredPatronName(barcode: string): string | null {
+  const normalized = barcode.trim().toUpperCase();
+  loadStoredPatronNames();
+  return dynamicPatronNames[normalized] || null;
+}
+
+/**
+ * Return dynamic student name if registered, otherwise return Patron #<barcode>
+ */
+export function getStudentNameByBarcode(barcode: string): string {
+  const normalized = barcode.trim().toUpperCase();
+  const registered = getRegisteredPatronName(normalized);
+  if (registered) return registered;
+  return `Patron #${normalized}`;
 }
 
 export function isPatronWhitelisted(patronNumber: string): boolean {
@@ -62,6 +83,7 @@ export function isPatronWhitelisted(patronNumber: string): boolean {
 
 /**
  * Validate a solo student login (1 student on laptop)
+ * Registers student's dynamic name with barcode ID
  */
 export function validateSoloLogin(
   patronNumber: string,
@@ -87,6 +109,9 @@ export function validateSoloLogin(
       error: 'Please enter your Full Name (at least 2 letters).',
     };
   }
+
+  // Dynamically register the student's name
+  registerPatronName(trimmedPatron, trimmedName);
 
   const now = Date.now();
   const partnerA: StudentPartner = {
@@ -157,6 +182,10 @@ export function validatePartnerLogin(
     };
   }
 
+  // Dynamically register both students' names
+  registerPatronName(trimmedPatronA, trimmedNameA);
+  registerPatronName(trimmedPatronB, trimmedNameB);
+
   const now = Date.now();
   const partnerA: StudentPartner = {
     patronNumber: trimmedPatronA,
@@ -202,7 +231,7 @@ export function getStudentSession(): StudentSession | null {
     if (!raw) return null;
     const session: StudentSession = JSON.parse(raw);
 
-    // Validate 1-hour session expiry
+    // Validate 3-hour session expiry
     if (!session.expiresAt || Date.now() >= session.expiresAt) {
       clearStudentSession();
       return null;
@@ -215,6 +244,14 @@ export function getStudentSession(): StudentSession | null {
         patronNumber: session.patronNumber,
         studentName: session.studentName,
       };
+    }
+
+    // Refresh dynamic registration if present
+    if (session.partnerA) {
+      registerPatronName(session.partnerA.patronNumber, session.partnerA.studentName);
+    }
+    if (session.partnerB) {
+      registerPatronName(session.partnerB.patronNumber, session.partnerB.studentName);
     }
 
     return session;
