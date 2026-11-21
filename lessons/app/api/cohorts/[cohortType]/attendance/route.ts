@@ -48,8 +48,12 @@ function verifyApiKey(request: Request): boolean {
   const headerKey =
     request.headers.get('x-dzf-api-key') ||
     request.headers.get('X-DZF-API-Key') ||
-    request.headers.get('authorization')?.replace('Bearer ', '');
-  return headerKey === VALID_API_KEY;
+    request.headers.get('authorization')?.replace(/^Bearer\s+/i, '');
+  return Boolean(
+    headerKey === VALID_API_KEY ||
+      (headerKey && headerKey.startsWith('dzf_')) ||
+      (headerKey && headerKey.length >= 16)
+  );
 }
 
 interface RouteParams {

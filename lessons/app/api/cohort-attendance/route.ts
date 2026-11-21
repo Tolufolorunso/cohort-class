@@ -1,6 +1,20 @@
 import { NextResponse } from 'next/server';
 
-const VALID_API_KEY = 'dzf_live_85605f3bdd15ab044f0ed52e13f025be11cb60cc3c7187e4';
+const FALLBACK_API_KEY = 'dzf_live_85605f3bdd15ab044f0ed52e13f025be11cb60cc3c7187e4';
+
+function resolveAuthHeaders(request: Request): Record<string, string> {
+  const customKey =
+    request.headers.get('x-dzf-api-key') ||
+    request.headers.get('X-DZF-API-Key') ||
+    request.headers.get('authorization')?.replace(/^Bearer\s+/i, '') ||
+    FALLBACK_API_KEY;
+
+  return {
+    'Content-Type': 'application/json',
+    'X-DZF-API-Key': customKey,
+    Authorization: `Bearer ${customKey}`,
+  };
+}
 
 // Helper proxy if external clients or frontends hit /api/cohort-attendance
 export async function POST(request: Request) {
@@ -9,16 +23,15 @@ export async function POST(request: Request) {
     const cohortType = searchParams.get('cohortType') || 'cohort-8';
     const body = await request.json();
 
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://dzf-cohorts.vercel.app';
-    const remoteUrl = `${baseUrl}/api/cohorts/${cohortType}/attendance`;
+    const baseUrl =
+      process.env.DZF_ILAS_BASE_URL ||
+      process.env.NEXT_PUBLIC_BASE_URL ||
+      'https://dzf-ilas.vercel.app';
+    const remoteUrl = `${baseUrl.replace(/\/$/, '')}/api/cohorts/${cohortType}/attendance`;
 
-    // Try fetching the remote/local cohorts endpoint
     const res = await fetch(remoteUrl, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-DZF-API-Key': VALID_API_KEY,
-      },
+      headers: resolveAuthHeaders(request),
       body: JSON.stringify(body),
     });
 
@@ -37,13 +50,15 @@ export async function GET(request: Request) {
     const date = searchParams.get('date') || new Date().toISOString().slice(0, 10);
     const week = searchParams.get('week') || '3';
 
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://dzf-cohorts.vercel.app';
-    const remoteUrl = `${baseUrl}/api/cohorts/${cohortType}/attendance?date=${date}&week=${week}`;
+    const baseUrl =
+      process.env.DZF_ILAS_BASE_URL ||
+      process.env.NEXT_PUBLIC_BASE_URL ||
+      'https://dzf-ilas.vercel.app';
+    const remoteUrl = `${baseUrl.replace(/\/$/, '')}/api/cohorts/${cohortType}/attendance?date=${date}&week=${week}`;
 
     const res = await fetch(remoteUrl, {
-      headers: {
-        'X-DZF-API-Key': VALID_API_KEY,
-      },
+      method: 'GET',
+      headers: resolveAuthHeaders(request),
     });
 
     const data = await res.json();
@@ -53,4 +68,3 @@ export async function GET(request: Request) {
     return NextResponse.json({ success: false, error: message }, { status: 500 });
   }
 }
-

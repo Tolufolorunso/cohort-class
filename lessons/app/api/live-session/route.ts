@@ -273,6 +273,7 @@ export async function POST(request: Request) {
       if (!liveSession.quizState) {
         liveSession.quizState = { ...initialQuizState };
       }
+      liveSession.quizState.quizActive = true;
       liveSession.quizState.activeQuestionIndex = Number(body.activeQuestionIndex ?? 0);
       liveSession.quizState.activeQuestion = body.activeQuestion || null;
       liveSession.quizState.isRevealed = false;
@@ -287,6 +288,15 @@ export async function POST(request: Request) {
         liveSession.activeKahootQuestionId = body.activeQuestion.id;
         liveSession.isKahootRevealed = false;
       }
+    } else if (body.action === 'pause-quiz') {
+      if (liveSession.quizState) {
+        liveSession.quizState.quizActive = false;
+        liveSession.quizState.activeQuestion = null;
+        liveSession.quizState.isRevealed = false;
+      }
+      liveSession.kahootVotes = {};
+      liveSession.activeKahootQuestionId = null;
+      liveSession.isKahootRevealed = false;
     } else if (body.action === 'reveal-quiz-answer') {
       if (liveSession.quizState) {
         liveSession.quizState.isRevealed = true;

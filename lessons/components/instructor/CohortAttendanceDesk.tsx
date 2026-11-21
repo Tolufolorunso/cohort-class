@@ -11,7 +11,10 @@ import {
   Info,
 } from '../icons/Icons';
 
-const DZF_API_KEY = 'dzf_live_85605f3bdd15ab044f0ed52e13f025be11cb60cc3c7187e4';
+const DZF_STORAGE_API_KEY = 'dzf_external_attendance_api_key';
+const DZF_STORAGE_BASE_URL = 'dzf_external_attendance_base_url';
+const DEFAULT_BASE_URL = 'https://dzf-ilas.vercel.app';
+const DEFAULT_API_KEY = 'dzf_live_85605f3bdd15ab044f0ed52e13f025be11cb60cc3c7187e4';
 
 interface CohortAttendanceDeskProps {
   activeStudents: Record<
@@ -40,7 +43,36 @@ export function CohortAttendanceDesk({
   const [selectedDate, setSelectedDate] = useState(() => {
     return new Date().toISOString().slice(0, 10);
   });
-  const [apiEndpointMode, setApiEndpointMode] = useState<'local' | 'cloud'>('local');
+  const [apiEndpointMode, setApiEndpointMode] = useState<'local' | 'cloud'>('cloud');
+
+  // API Key Governance configuration state with lazy initializers
+  const [apiKey, setApiKey] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const savedKey = localStorage.getItem(DZF_STORAGE_API_KEY);
+        if (savedKey) return savedKey;
+      } catch {
+        // Quiet fail
+      }
+    }
+    return DEFAULT_API_KEY;
+  });
+
+  const [baseUrl, setBaseUrl] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const savedUrl = localStorage.getItem(DZF_STORAGE_BASE_URL);
+        if (savedUrl) return savedUrl;
+      } catch {
+        // Quiet fail
+      }
+    }
+    return DEFAULT_BASE_URL;
+  });
+
+  const [isConfigOpen, setIsConfigOpen] = useState<boolean>(false);
+  const [apiKeyInput, setApiKeyInput] = useState<string>(apiKey);
+  const [baseUrlInput, setBaseUrlInput] = useState<string>(baseUrl);
 
   // Attendance ledger from server: barcode -> attended boolean
   const [serverAttendance, setServerAttendance] = useState<Record<string, boolean>>({});
@@ -92,12 +124,20 @@ export function CohortAttendanceDesk({
     return list;
   }, [activeStudents, currentTime]);
 
+  const authHeaders = useMemo(() => {
+    return {
+      'Content-Type': 'application/json',
+      'X-DZF-API-Key': apiKey,
+      Authorization: `Bearer ${apiKey}`,
+    };
+  }, [apiKey]);
+
   const getBaseApiUrl = useCallback(() => {
     if (apiEndpointMode === 'cloud') {
-      return `https://dzf-cohorts.vercel.app/api/cohorts/${cohortType}/attendance`;
+      return `${baseUrl.replace(/\/$/, '')}/api/cohorts/${cohortType}/attendance`;
     }
     return `/api/cohorts/${cohortType}/attendance`;
-  }, [apiEndpointMode, cohortType]);
+  }, [apiEndpointMode, baseUrl, cohortType]);
 
   // Synchronize with server on mount or when filters change without synchronous setState inside effect
   useEffect(() => {
@@ -109,9 +149,21 @@ export function CohortAttendanceDesk({
         const res = await fetch(url, {
           method: 'GET',
           headers: {
-            'X-DZF-API-Key': DZF_API_KEY,
+            'X-DZF-API-Key': apiKey,
+            Authorization: `Bearer ${apiKey}`,
           },
         });
+
+        if (res.status === 401) {
+          if (!ignore) {
+            setFeedback({
+              type: 'error',
+              message:
+                'Authentication required: External API Key is invalid or not yet configured. Click "🔑 Key Governance" above to paste your key from /dashboard/admin.',
+            });
+          }
+          return;
+        }
 
         if (!res.ok) return;
 
@@ -142,7 +194,7 @@ export function CohortAttendanceDesk({
     return () => {
       ignore = true;
     };
-  }, [getBaseApiUrl, selectedDate, selectedWeek]);
+  }, [getBaseApiUrl, selectedDate, selectedWeek, apiKey]);
 
   // Manual refresh triggered by user action
   const handleManualRefresh = async () => {
@@ -153,9 +205,17 @@ export function CohortAttendanceDesk({
       const res = await fetch(url, {
         method: 'GET',
         headers: {
-          'X-DZF-API-Key': DZF_API_KEY,
+          'X-DZF-API-Key': apiKey,
+          Authorization: `Bearer ${apiKey}`,
         },
       });
+
+      if (res.status === 401) {
+        throw new Error(
+          '401 Unauthorized: Invalid External API Key. Please click "🔑 Key Governance" above to paste your active key from /dashboard/admin on ' +
+            baseUrl
+        );
+      }
 
       if (!res.ok) {
         throw new Error(`Server returned HTTP ${res.status}`);
@@ -202,10 +262,7 @@ export function CohortAttendanceDesk({
     try {
       const res = await fetch(getBaseApiUrl(), {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-DZF-API-Key': DZF_API_KEY,
-        },
+        headers: authHeaders,
         body: JSON.stringify({
           barcode,
           date: selectedDate,
@@ -213,6 +270,16 @@ export function CohortAttendanceDesk({
           attended,
         }),
       });
+
+      if (res.status === 401) {
+        setFeedback({
+          type: 'error',
+          message:
+            '401 Unauthorized: Invalid External API Key. Click "🔑 Key Governance" above to paste your active key from /dashboard/admin.',
+        });
+        setIsSubmitting(false);
+        return;
+      }
 
       const data: CohortAttendanceSummary = await res.json();
       if (data.success) {
@@ -266,10 +333,7 @@ export function CohortAttendanceDesk({
     try {
       const res = await fetch(getBaseApiUrl(), {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-DZF-API-Key': DZF_API_KEY,
-        },
+        headers: authHeaders,
         body: JSON.stringify({
           barcodes,
           date: selectedDate,
@@ -277,6 +341,16 @@ export function CohortAttendanceDesk({
           attended,
         }),
       });
+
+      if (res.status === 401) {
+        setFeedback({
+          type: 'error',
+          message:
+            '401 Unauthorized: Invalid External API Key. Click "🔑 Key Governance" above to paste your active key from /dashboard/admin.',
+        });
+        setIsSubmitting(false);
+        return;
+      }
 
       const data: CohortAttendanceSummary = await res.json();
       if (data.success) {
@@ -327,16 +401,23 @@ export function CohortAttendanceDesk({
 
       const res = await fetch(getBaseApiUrl(), {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-DZF-API-Key': DZF_API_KEY,
-        },
+        headers: authHeaders,
         body: JSON.stringify({
           date: selectedDate,
           week: selectedWeek,
           records,
         }),
       });
+
+      if (res.status === 401) {
+        setFeedback({
+          type: 'error',
+          message:
+            '401 Unauthorized: Invalid External API Key. Click "🔑 Key Governance" above to paste your active key from /dashboard/admin.',
+        });
+        setIsSubmitting(false);
+        return;
+      }
 
       const data: CohortAttendanceSummary = await res.json();
       if (data.success) {
@@ -366,6 +447,32 @@ export function CohortAttendanceDesk({
     if (!clean) return;
     handleSingleCheckIn(clean, true);
     setBarcodeInput('');
+  };
+
+  // Save API Credentials & URL
+  const handleSaveApiConfig = (e: React.FormEvent) => {
+    e.preventDefault();
+    const cleanKey = apiKeyInput.trim();
+    const cleanUrl = baseUrlInput.trim() || DEFAULT_BASE_URL;
+    if (cleanKey) {
+      setApiKey(cleanKey);
+      try {
+        localStorage.setItem(DZF_STORAGE_API_KEY, cleanKey);
+      } catch {
+        // Quiet fail
+      }
+    }
+    setBaseUrl(cleanUrl);
+    try {
+      localStorage.setItem(DZF_STORAGE_BASE_URL, cleanUrl);
+    } catch {
+      // Quiet fail
+    }
+    setIsConfigOpen(false);
+    setFeedback({
+      type: 'info',
+      message: `API configuration saved for ${cleanUrl}. Click Sync to refresh attendance.`,
+    });
   };
 
   // Filtered student list
@@ -461,13 +568,88 @@ export function CohortAttendanceDesk({
           {/* API Mode toggle */}
           <button
             onClick={() => setApiEndpointMode((prev) => (prev === 'local' ? 'cloud' : 'local'))}
-            title={apiEndpointMode === 'local' ? 'Target: Local Next.js API' : 'Target: Production Vercel Server'}
+            title={apiEndpointMode === 'local' ? 'Target: Local Next.js API (/api)' : `Target: Cloud Server (${baseUrl})`}
             className="text-[10px] font-mono px-2 py-1 rounded-lg border border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-white"
           >
-            {apiEndpointMode === 'local' ? 'Target: /api' : 'Target: dzf-cohorts'}
+            {apiEndpointMode === 'local' ? 'Target: /api' : 'Target: dzf-ilas'}
+          </button>
+
+          {/* Key Governance Toggle Button */}
+          <button
+            onClick={() => setIsConfigOpen((prev) => !prev)}
+            className={`flex items-center gap-1 text-[10px] font-bold px-2.5 py-1 rounded-lg border transition-all ${
+              isConfigOpen
+                ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                : 'border-zinc-800 bg-zinc-950 text-zinc-400 hover:text-white'
+            }`}
+            title="Configure External Attendance API Key & Base URL"
+          >
+            <span>🔑</span>
+            <span>API Key</span>
           </button>
         </div>
       </div>
+
+      {/* API Key Governance & Server Config Drawer */}
+      {isConfigOpen && (
+        <div className="bg-zinc-950/90 border border-amber-500/30 rounded-2xl p-4 sm:p-5 space-y-4 shadow-xl">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-800 pb-3">
+            <div>
+              <h4 className="text-xs font-black uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
+                <span>🔑</span> External Attendance API Key Governance
+              </h4>
+              <p className="text-[11px] text-zinc-400 mt-0.5">
+                Permanently stored in database. Copy your active key from <strong>/dashboard/admin</strong> on {baseUrl}.
+              </p>
+            </div>
+            <a
+              href={`${baseUrl.replace(/\/$/, '')}/dashboard/admin`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[11px] font-bold text-amber-400 hover:text-amber-300 hover:underline flex items-center gap-1 shrink-0"
+            >
+              <span>Open Admin Dashboard ↗</span>
+            </a>
+          </div>
+
+          <form onSubmit={handleSaveApiConfig} className="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
+            <div className="md:col-span-5 space-y-1">
+              <label className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 block">
+                Base API URI:
+              </label>
+              <input
+                type="url"
+                value={baseUrlInput}
+                onChange={(e) => setBaseUrlInput(e.target.value)}
+                placeholder="https://dzf-ilas.vercel.app"
+                className="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white font-mono focus:outline-none focus:ring-1 focus:ring-amber-500"
+              />
+            </div>
+
+            <div className="md:col-span-5 space-y-1">
+              <label className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 block">
+                Secret API Key (X-DZF-API-Key / Bearer):
+              </label>
+              <input
+                type="text"
+                value={apiKeyInput}
+                onChange={(e) => setApiKeyInput(e.target.value)}
+                placeholder="dzf_live_..."
+                className="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-3 py-2 text-xs text-white font-mono focus:outline-none focus:ring-1 focus:ring-amber-500"
+              />
+            </div>
+
+            <div className="md:col-span-2 flex items-center gap-2">
+              <button
+                type="submit"
+                className="w-full py-2 px-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-black text-xs transition-all shadow-md"
+              >
+                Save Key
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
 
       {/* KPI Stats Summary Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">

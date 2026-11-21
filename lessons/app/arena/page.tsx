@@ -1,19 +1,28 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import Link from 'next/link';
 import { Header } from '../../components/navigation/Header';
 import { StudentLogin } from '../../components/auth/StudentLogin';
 import { useClassroomAttention } from '../../hooks/useClassroomAttention';
 import { getStudentSession, clearStudentSession, saveStudentSession } from '../../lib/roster';
+import {
+  getTeacherSession,
+  validateTeacherPin,
+  saveTeacherSession,
+  clearTeacherSession,
+} from '../../lib/auth';
 import { getZoomLevel, setZoomLevel, getUnlockedModules } from '../../lib/platformStorage';
 import {
   StudentSession,
+  TeacherSession,
   ZoomLevel,
   LiveQuizState,
   QuizParticipantScore,
 } from '../../types/platform';
 import { KahootQuestion, KahootShape } from '../../types/curriculum';
-import { Sparkles, Award, CheckCircle, Clock, Flame } from '../../components/icons/Icons';
+import { Sparkles, Award, CheckCircle, Clock, Flame, Shield } from '../../components/icons/Icons';
+import { HostQuizDesk } from '../../components/arena/HostQuizDesk';
 
 const SHAPE_BUTTONS: {
   shape: KahootShape;
@@ -80,25 +89,43 @@ const SHAPE_BUTTONS: {
 
 export default function StudentArenaPage() {
   const [studentSession, setStudentSession] = useState<StudentSession | null>(null);
-  const [hasCheckedSession, setHasCheckedSession] = useState(false);
+  const [teacherSession, setTeacherSession] = useState<TeacherSession | null>(null);
+  const [isHostMode, setIsHostMode] = useState<boolean>(false);
+  const [hasCheckedSession, setHasCheckedSession] = useState<boolean>(false);
   const [zoomLevel, setZoomState] = useState<ZoomLevel>('normal');
   const [unlockedModuleIds, setUnlockedModuleIds] = useState<string[]>(['module-1']);
+
+  // Teacher PIN gate on /arena
+  const [showTeacherPinModal, setShowTeacherPinModal] = useState<boolean>(false);
+  const [teacherPinInput, setTeacherPinInput] = useState<string>('');
+  const [teacherPinError, setTeacherPinError] = useState<string>('');
 
   // Live session state polled from server
   const [quizState, setQuizState] = useState<LiveQuizState | null>(null);
   const [selectedOptionIndex, setSelectedOptionIndex] = useState<number | null>(null);
-  const [answeredQuestionId, setAnsweredQuestionId] = useState<number | null>(null);
-  const [lastQuestionStartTime, setLastQuestionStartTime] = useState<number>(0);
   const [secondsRemaining, setSecondsRemaining] = useState<number>(30);
 
   // Classroom attention tracking
   const attentionState = useClassroomAttention();
+  const attentionRef = useRef(attentionState);
+  useEffect(() => {
+    attentionRef.current = attentionState;
+  }, [attentionState]);
 
-  // Load student session
+  // Stable refs for tracking question transitions without triggering pollSession recreation
+  const answeredQuestionIdRef = useRef<number | null>(null);
+  const lastQuestionStartTimeRef = useRef<number>(0);
+
+  // Load sessions on mount
   useEffect(() => {
     const timer = setTimeout(() => {
-      const session = getStudentSession();
-      setStudentSession(session);
+      const sSession = getStudentSession();
+      const tSession = getTeacherSession();
+      setStudentSession(sSession);
+      setTeacherSession(tSession);
+      if (tSession && !sSession) {
+        setIsHostMode(true);
+      }
       setZoomState(getZoomLevel());
       setUnlockedModuleIds(getUnlockedModules());
       setHasCheckedSession(true);
@@ -116,7 +143,13 @@ export default function StudentArenaPage() {
     setStudentSession(null);
   };
 
-  // Poll live session state
+  const handleTeacherLogout = () => {
+    clearTeacherSession();
+    setTeacherSession(null);
+    setIsHostMode(false);
+  };
+
+  // Poll live session state (stable dependency - never recreated by attention changes)
   const pollSession = useCallback(async () => {
     if (!studentSession) return;
     try {
@@ -132,25 +165,43 @@ export default function StudentArenaPage() {
         params.set('name', studentSession.studentName);
       }
 
-      params.set('isFocused', String(attentionState.isFocused));
-      if (attentionState.leftScreenAt) {
-        params.set('leftScreenAt', String(attentionState.leftScreenAt));
+      const currentAttention = attentionRef.current;
+      params.set('isFocused', String(currentAttention.isFocused));
+      if (currentAttention.leftScreenAt) {
+        params.set('leftScreenAt', String(currentAttention.leftScreenAt));
       }
 
       const res = await fetch(`/api/live-session?${params.toString()}`);
       if (res.ok) {
         const data = await res.json();
         if (data.quizState) {
-          setQuizState(data.quizState);
+          // Compare before updating state to avoid infinite render storms
+          setQuizState((prev) => {
+            if (
+              prev &&
+              prev.quizActive === data.quizState.quizActive &&
+              prev.activeQuestion?.id === data.quizState.activeQuestion?.id &&
+              prev.questionStartTime === data.quizState.questionStartTime &&
+              prev.isRevealed === data.quizState.isRevealed &&
+              prev.tally?.join(',') === data.quizState.tally?.join(',') &&
+              JSON.stringify(prev.participants) === JSON.stringify(data.quizState.participants)
+            ) {
+              return prev;
+            }
+            return data.quizState;
+          });
 
           // Reset local answered option if active question has changed or timer restarted
+          const newQ = data.quizState.activeQuestion;
+          const newStartTime = data.quizState.questionStartTime;
           if (
-            data.quizState.activeQuestion &&
-            (data.quizState.activeQuestion.id !== answeredQuestionId ||
-              data.quizState.questionStartTime !== lastQuestionStartTime)
+            newQ &&
+            (newQ.id !== answeredQuestionIdRef.current ||
+              newStartTime !== lastQuestionStartTimeRef.current)
           ) {
-            setAnsweredQuestionId(data.quizState.activeQuestion.id);
-            setLastQuestionStartTime(data.quizState.questionStartTime);
+            answeredQuestionIdRef.current = newQ.id;
+            lastQuestionStartTimeRef.current = newStartTime;
+
             // Check if server already has our answer recorded
             const myScore = data.quizState.participants?.[studentSession.patronNumber];
             if (myScore?.lastOptionIndex !== undefined) {
@@ -164,7 +215,7 @@ export default function StudentArenaPage() {
     } catch {
       // Quiet fail on network jitter
     }
-  }, [studentSession, attentionState, answeredQuestionId, lastQuestionStartTime]);
+  }, [studentSession]);
 
   useEffect(() => {
     if (!studentSession) return;
@@ -183,14 +234,17 @@ export default function StudentArenaPage() {
   const isRevealed = Boolean(quizState?.isRevealed);
   const quizActive = Boolean(quizState?.quizActive);
 
-  // Synchronize countdown timer based on questionStartTime
+  // Synchronize countdown timer strictly when activeQuestion or questionStartTime changes
+  const activeQuestionId = activeQuestion?.id;
+  const questionStartTime = quizState?.questionStartTime;
+  const timeLimit = activeQuestion?.timeLimitSeconds || 30;
+
   useEffect(() => {
-    if (!quizState || !activeQuestion || isRevealed) return;
-    const timeLimit = activeQuestion.timeLimitSeconds || 30;
+    if (!quizActive || !activeQuestionId || isRevealed || !questionStartTime) return;
 
     const updateTimer = () => {
       const now = Date.now();
-      const elapsed = Math.max(0, Math.floor((now - quizState.questionStartTime) / 1000));
+      const elapsed = Math.max(0, Math.floor((now - questionStartTime) / 1000));
       const remaining = Math.max(0, timeLimit - elapsed);
       setSecondsRemaining(remaining);
     };
@@ -198,7 +252,7 @@ export default function StudentArenaPage() {
     updateTimer();
     const timer = setInterval(updateTimer, 500);
     return () => clearInterval(timer);
-  }, [quizState, activeQuestion, isRevealed]);
+  }, [quizActive, activeQuestionId, questionStartTime, isRevealed, timeLimit]);
 
   // Current participant stats (personal only, privacy protected)
   const myParticipant: QuizParticipantScore | null = useMemo(() => {
@@ -251,6 +305,22 @@ export default function StudentArenaPage() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedOptionIndex, isRevealed, activeQuestion, handleVote]);
 
+  // Handle Instructor PIN Submit on /arena
+  const handleTeacherPinSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setTeacherPinError('');
+    const res = validateTeacherPin(teacherPinInput);
+    if (!res.success || !res.session) {
+      setTeacherPinError(res.error || 'Invalid PIN');
+      return;
+    }
+    saveTeacherSession(res.session);
+    setTeacherSession(res.session);
+    setIsHostMode(true);
+    setShowTeacherPinModal(false);
+    setTeacherPinInput('');
+  };
+
   if (!hasCheckedSession) {
     return (
       <div className="min-h-screen bg-zinc-950 flex items-center justify-center text-zinc-400">
@@ -259,9 +329,70 @@ export default function StudentArenaPage() {
     );
   }
 
+  // -------------------------------------------------------------
+  // Instructor / Projector Host Mode View on /arena
+  // -------------------------------------------------------------
+  if (isHostMode && teacherSession) {
+    return (
+      <div className="min-h-screen bg-zinc-950 text-white flex flex-col font-sans select-none">
+        {/* Projector Header Bar */}
+        <header className="sticky top-0 z-40 w-full border-b border-zinc-800 bg-zinc-950/95 backdrop-blur-md px-4 py-3 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 font-black text-xl">
+              🎮
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h1 className="font-black text-base sm:text-lg text-white">
+                  Dzuels Quiz Arena • Projector Host Desk
+                </h1>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                  Projector Screen
+                </span>
+              </div>
+              <p className="text-xs text-zinc-400">
+                Logged in as <strong>{teacherSession.displayName}</strong>
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 flex-wrap">
+            {studentSession && (
+              <button
+                onClick={() => setIsHostMode(false)}
+                className="px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-bold border border-zinc-700 transition-all"
+              >
+                📱 Switch to Student Controller
+              </button>
+            )}
+            <Link
+              href="/instructor"
+              className="px-3.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 text-xs font-black transition-all shadow-md"
+            >
+              Control Room (/instructor) →
+            </Link>
+            <button
+              onClick={handleTeacherLogout}
+              className="px-3 py-1.5 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-rose-400 text-xs font-bold transition-colors"
+            >
+              Exit Host
+            </button>
+          </div>
+        </header>
+
+        <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-6">
+          <HostQuizDesk />
+        </main>
+      </div>
+    );
+  }
+
+  // -------------------------------------------------------------
+  // Student Login / Unauthenticated Gate
+  // -------------------------------------------------------------
   if (!studentSession) {
     return (
-      <div className="min-h-screen bg-zinc-950 text-white flex flex-col items-center justify-center p-4">
+      <div className="min-h-screen bg-zinc-950 text-white flex flex-col items-center justify-center p-4 relative">
         <div className="w-full max-w-md">
           <div className="text-center mb-6">
             <span className="text-4xl">🎮</span>
@@ -270,17 +401,88 @@ export default function StudentArenaPage() {
               Enter your Patron ID or Pair Up with a Lab Partner to join the live classroom quiz battle!
             </p>
           </div>
+
           <StudentLogin
             onLoginSuccess={(session) => {
               saveStudentSession(session);
               setStudentSession(session);
             }}
           />
+
+          {/* Quick Switch to Instructor Projector Mode */}
+          <div className="mt-6 text-center border-t border-zinc-800/80 pt-4">
+            <button
+              onClick={() => setShowTeacherPinModal(true)}
+              className="text-xs text-zinc-400 hover:text-amber-400 transition-colors inline-flex items-center gap-1.5 font-bold"
+            >
+              <Shield size={14} className="text-amber-400" />
+              <span>Projector Host Mode (Instructor PIN)</span>
+            </button>
+          </div>
         </div>
+
+        {/* Instructor PIN Modal */}
+        {showTeacherPinModal && (
+          <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 max-w-sm w-full space-y-4 shadow-2xl">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-xl">👨‍🏫</span>
+                  <h3 className="text-base font-bold text-white">Instructor Host Access</h3>
+                </div>
+                <button
+                  onClick={() => setShowTeacherPinModal(false)}
+                  className="text-zinc-500 hover:text-white text-sm"
+                >
+                  ✕
+                </button>
+              </div>
+              <p className="text-xs text-zinc-400">
+                Enter your instructor PIN to launch and control the Quiz Arena on the classroom projector screen.
+              </p>
+
+              <form onSubmit={handleTeacherPinSubmit} className="space-y-3">
+                <input
+                  type="password"
+                  required
+                  autoFocus
+                  value={teacherPinInput}
+                  onChange={(e) => {
+                    setTeacherPinInput(e.target.value);
+                    setTeacherPinError('');
+                  }}
+                  placeholder="Enter PIN"
+                  className="w-full px-4 py-2.5 rounded-xl bg-zinc-950 border border-zinc-700 text-white font-mono text-center text-lg tracking-widest focus:outline-none focus:ring-2 focus:ring-amber-500"
+                />
+                {teacherPinError && (
+                  <p className="text-xs text-rose-400 font-medium">⚠️ {teacherPinError}</p>
+                )}
+                <div className="flex items-center gap-2 pt-1">
+                  <button
+                    type="button"
+                    onClick={() => setShowTeacherPinModal(false)}
+                    className="flex-1 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-xs font-bold text-zinc-300"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="flex-1 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 text-xs font-black"
+                  >
+                    Unlock Host
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
 
+  // -------------------------------------------------------------
+  // Student Player Game Screen
+  // -------------------------------------------------------------
   const isAnswerCorrect =
     selectedOptionIndex !== null &&
     activeQuestion !== null &&
@@ -427,6 +629,8 @@ export default function StudentArenaPage() {
                       ? 'Module 1 Pack'
                       : quizState.scope === 'module-2'
                       ? 'Module 2 Pack'
+                      : quizState.scope === 'module-3'
+                      ? 'Module 3 Pack'
                       : 'Custom Question'}
                   </span>
                 )}

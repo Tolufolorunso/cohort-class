@@ -46,7 +46,20 @@ export function HostQuizDesk() {
       if (res.ok) {
         const data = await res.json();
         if (data.quizState) {
-          setQuizState(data.quizState);
+          setQuizState((prev) => {
+            if (
+              prev &&
+              prev.quizActive === data.quizState.quizActive &&
+              prev.activeQuestion?.id === data.quizState.activeQuestion?.id &&
+              prev.questionStartTime === data.quizState.questionStartTime &&
+              prev.isRevealed === data.quizState.isRevealed &&
+              prev.tally?.join(',') === data.quizState.tally?.join(',') &&
+              JSON.stringify(prev.participants) === JSON.stringify(data.quizState.participants)
+            ) {
+              return prev;
+            }
+            return data.quizState;
+          });
         }
       }
     } catch {
@@ -167,6 +180,13 @@ export function HostQuizDesk() {
   const handleRevealAnswer = () => {
     broadcastAction({
       action: 'reveal-quiz-answer',
+    });
+  };
+
+  // Pause / Return to Lobby
+  const handlePauseQuiz = () => {
+    broadcastAction({
+      action: 'pause-quiz',
     });
   };
 
@@ -383,6 +403,16 @@ export function HostQuizDesk() {
               >
                 {quizActive ? '⚡ Broadcast Question' : '▶️ Launch Quiz Arena'}
               </button>
+
+              {quizActive && (
+                <button
+                  onClick={handlePauseQuiz}
+                  className="px-3 py-2 rounded-xl text-xs font-bold bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-zinc-700 transition-all"
+                  title="Pause Quiz and return students to lobby"
+                >
+                  ⏸️ Lobby
+                </button>
+              )}
 
               <button
                 onClick={handleRevealAnswer}
