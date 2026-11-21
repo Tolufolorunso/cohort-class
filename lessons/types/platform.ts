@@ -81,6 +81,12 @@ export interface LiveQuizState {
   activeQuestion: KahootQuestion | null;
   isRevealed: boolean;
   questionStartTime: number;
+  timeLimitSeconds: number; // Configurable duration in seconds (10, 15, 20, 30, 45, 60)
+  isTimerRunning: boolean; // false when paused or ended
+  timerPausedAt?: number | null; // Timestamp when paused
+  timeRemainingSeconds?: number; // Precomputed remaining seconds
+  autoRevealOnTimeout?: boolean; // If true, auto-reveal when timer reaches 0
+  showLeaderboard?: boolean; // When true, projector displays leaderboard / podium
   participants: Record<string, QuizParticipantScore>;
   tally: [number, number, number, number];
 }

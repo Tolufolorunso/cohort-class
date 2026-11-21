@@ -23,6 +23,14 @@ import {
 import { KahootQuestion, KahootShape } from '../../types/curriculum';
 import { Sparkles, Award, CheckCircle, Clock, Flame, Shield } from '../../components/icons/Icons';
 import { HostQuizDesk } from '../../components/arena/HostQuizDesk';
+import {
+  playUrgentTick,
+  playCorrectSound,
+  playIncorrectSound,
+  playTimesUpSound,
+  isQuizAudioMuted,
+  toggleQuizAudio,
+} from '../../lib/quizAudio';
 
 const SHAPE_BUTTONS: {
   shape: KahootShape;
@@ -95,6 +103,9 @@ export default function StudentArenaPage() {
   const [zoomLevel, setZoomState] = useState<ZoomLevel>('normal');
   const [unlockedModuleIds, setUnlockedModuleIds] = useState<string[]>(['module-1']);
 
+  // Audio FX toggle
+  const [isAudioMuted, setIsAudioMuted] = useState<boolean>(false);
+
   // Teacher PIN gate on /arena
   const [showTeacherPinModal, setShowTeacherPinModal] = useState<boolean>(false);
   const [teacherPinInput, setTeacherPinInput] = useState<string>('');
@@ -115,6 +126,8 @@ export default function StudentArenaPage() {
   // Stable refs for tracking question transitions without triggering pollSession recreation
   const answeredQuestionIdRef = useRef<number | null>(null);
   const lastQuestionStartTimeRef = useRef<number>(0);
+  const hasPlayedRevealSoundRef = useRef<boolean>(false);
+  const lastTickSecondRef = useRef<number>(-1);
 
   // Load sessions on mount
   useEffect(() => {
@@ -128,6 +141,7 @@ export default function StudentArenaPage() {
       }
       setZoomState(getZoomLevel());
       setUnlockedModuleIds(getUnlockedModules());
+      setIsAudioMuted(isQuizAudioMuted());
       setHasCheckedSession(true);
     }, 0);
     return () => clearTimeout(timer);
@@ -136,6 +150,11 @@ export default function StudentArenaPage() {
   const handleZoomChange = (level: ZoomLevel) => {
     setZoomState(level);
     setZoomLevel(level);
+  };
+
+  const handleToggleAudio = () => {
+    const next = toggleQuizAudio();
+    setIsAudioMuted(next);
   };
 
   const handleLogout = () => {
@@ -183,6 +202,10 @@ export default function StudentArenaPage() {
               prev.activeQuestion?.id === data.quizState.activeQuestion?.id &&
               prev.questionStartTime === data.quizState.questionStartTime &&
               prev.isRevealed === data.quizState.isRevealed &&
+              prev.isTimerRunning === data.quizState.isTimerRunning &&
+              prev.timeLimitSeconds === data.quizState.timeLimitSeconds &&
+              prev.timeRemainingSeconds === data.quizState.timeRemainingSeconds &&
+              prev.showLeaderboard === data.quizState.showLeaderboard &&
               prev.tally?.join(',') === data.quizState.tally?.join(',') &&
               JSON.stringify(prev.participants) === JSON.stringify(data.quizState.participants)
             ) {
@@ -233,26 +256,67 @@ export default function StudentArenaPage() {
   const activeQuestion: KahootQuestion | null = quizState?.activeQuestion || null;
   const isRevealed = Boolean(quizState?.isRevealed);
   const quizActive = Boolean(quizState?.quizActive);
-
-  // Synchronize countdown timer strictly when activeQuestion or questionStartTime changes
+  const isTimerRunning = Boolean(quizState?.isTimerRunning);
   const activeQuestionId = activeQuestion?.id;
   const questionStartTime = quizState?.questionStartTime;
-  const timeLimit = activeQuestion?.timeLimitSeconds || 30;
+  const timeLimit = quizState?.timeLimitSeconds || activeQuestion?.timeLimitSeconds || 30;
 
+  // Synchronize countdown timer strictly
   useEffect(() => {
-    if (!quizActive || !activeQuestionId || isRevealed || !questionStartTime) return;
+    if (!quizActive || !activeQuestionId || isRevealed || !questionStartTime) {
+      return;
+    }
 
     const updateTimer = () => {
       const now = Date.now();
-      const elapsed = Math.max(0, Math.floor((now - questionStartTime) / 1000));
-      const remaining = Math.max(0, timeLimit - elapsed);
+      let remaining = 0;
+      if (isTimerRunning) {
+        const elapsed = Math.max(0, Math.floor((now - questionStartTime) / 1000));
+        remaining = Math.max(0, timeLimit - elapsed);
+      } else if (quizState?.timeRemainingSeconds !== undefined) {
+        remaining = quizState.timeRemainingSeconds;
+      } else {
+        remaining = timeLimit;
+      }
       setSecondsRemaining(remaining);
+
+      // Audio tick during final 5 seconds
+      if (isTimerRunning && remaining <= 5 && remaining > 0 && lastTickSecondRef.current !== remaining) {
+        lastTickSecondRef.current = remaining;
+        playUrgentTick();
+      }
     };
 
     updateTimer();
     const timer = setInterval(updateTimer, 500);
     return () => clearInterval(timer);
-  }, [quizActive, activeQuestionId, questionStartTime, isRevealed, timeLimit]);
+  }, [
+    quizActive,
+    activeQuestionId,
+    questionStartTime,
+    isRevealed,
+    timeLimit,
+    isTimerRunning,
+    quizState?.timeRemainingSeconds,
+  ]);
+
+  // Audio trigger on Reveal
+  useEffect(() => {
+    if (!isRevealed) {
+      hasPlayedRevealSoundRef.current = false;
+    } else if (!hasPlayedRevealSoundRef.current && activeQuestion) {
+      hasPlayedRevealSoundRef.current = true;
+      if (selectedOptionIndex !== null) {
+        if (selectedOptionIndex === activeQuestion.correctIndex) {
+          playCorrectSound();
+        } else {
+          playIncorrectSound();
+        }
+      } else {
+        playTimesUpSound();
+      }
+    }
+  }, [isRevealed, activeQuestion, selectedOptionIndex]);
 
   // Current participant stats (personal only, privacy protected)
   const myParticipant: QuizParticipantScore | null = useMemo(() => {
@@ -263,7 +327,13 @@ export default function StudentArenaPage() {
   // Handle student voting
   const handleVote = useCallback(
     async (optionIndex: number) => {
-      if (!studentSession || !activeQuestion || selectedOptionIndex !== null || isRevealed) {
+      if (
+        !studentSession ||
+        !activeQuestion ||
+        selectedOptionIndex !== null ||
+        isRevealed ||
+        secondsRemaining <= 0
+      ) {
         return;
       }
 
@@ -288,13 +358,15 @@ export default function StudentArenaPage() {
         // Offline fallback: selection persists locally
       }
     },
-    [studentSession, activeQuestion, selectedOptionIndex, isRevealed, pollSession]
+    [studentSession, activeQuestion, selectedOptionIndex, isRevealed, secondsRemaining, pollSession]
   );
 
   // Keyboard shortcut listener (1-4 or A-D)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (selectedOptionIndex !== null || isRevealed || !activeQuestion) return;
+      if (selectedOptionIndex !== null || isRevealed || !activeQuestion || secondsRemaining <= 0) {
+        return;
+      }
       if (['1', 'a', 'A'].includes(e.key)) handleVote(0);
       else if (['2', 'b', 'B'].includes(e.key)) handleVote(1);
       else if (['3', 'c', 'C'].includes(e.key)) handleVote(2);
@@ -303,7 +375,7 @@ export default function StudentArenaPage() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedOptionIndex, isRevealed, activeQuestion, handleVote]);
+  }, [selectedOptionIndex, isRevealed, activeQuestion, secondsRemaining, handleVote]);
 
   // Handle Instructor PIN Submit on /arena
   const handleTeacherPinSubmit = (e: React.FormEvent) => {
@@ -357,6 +429,19 @@ export default function StudentArenaPage() {
           </div>
 
           <div className="flex items-center gap-2 flex-wrap">
+            <button
+              onClick={handleToggleAudio}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold border transition-colors flex items-center gap-1.5 ${
+                isAudioMuted
+                  ? 'bg-zinc-900 border-zinc-800 text-zinc-500'
+                  : 'bg-amber-500/10 border-amber-500/40 text-amber-300'
+              }`}
+              title="Toggle Game Sound FX"
+            >
+              <span>{isAudioMuted ? '🔇' : '🔊'}</span>
+              <span>{isAudioMuted ? 'Sound Muted' : 'Sound ON'}</span>
+            </button>
+
             {studentSession && (
               <button
                 onClick={() => setIsHostMode(false)}
@@ -483,10 +568,24 @@ export default function StudentArenaPage() {
   // -------------------------------------------------------------
   // Student Player Game Screen
   // -------------------------------------------------------------
+  const effectiveSecondsRemaining = isRevealed ? 0 : secondsRemaining;
+
   const isAnswerCorrect =
     selectedOptionIndex !== null &&
     activeQuestion !== null &&
     selectedOptionIndex === activeQuestion.correctIndex;
+
+  // Compute countdown percentage
+  const timePercent = Math.max(
+    0,
+    Math.min(100, Math.round((effectiveSecondsRemaining / timeLimit) * 100))
+  );
+  const timerBarColor =
+    effectiveSecondsRemaining <= 5
+      ? 'bg-rose-500'
+      : effectiveSecondsRemaining <= 10
+      ? 'bg-amber-500'
+      : 'bg-emerald-500';
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white flex flex-col font-sans select-none">
@@ -501,9 +600,9 @@ export default function StudentArenaPage() {
         onLogout={handleLogout}
       />
 
-      <main className="flex-1 max-w-6xl w-full mx-auto p-3 sm:p-6 flex flex-col justify-between">
+      <main className="flex-1 max-w-5xl w-full mx-auto p-3 sm:p-6 flex flex-col justify-between">
         {/* Top Personal Performance Bar (Student Privacy Standard) */}
-        <section className="bg-zinc-900/90 border border-zinc-800 rounded-2xl p-3 sm:p-4 mb-4 shadow-xl flex flex-wrap items-center justify-between gap-3">
+        <section className="bg-zinc-900/90 border border-zinc-800 rounded-2xl p-3 sm:p-4 mb-3 shadow-xl flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 font-black text-lg">
               🎮
@@ -525,7 +624,20 @@ export default function StudentArenaPage() {
           </div>
 
           {/* Student Score, Streak & Private Rank Badges */}
-          <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
+          <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+            {/* Audio Toggle */}
+            <button
+              onClick={handleToggleAudio}
+              className={`p-2 rounded-xl border text-xs font-bold transition-colors ${
+                isAudioMuted
+                  ? 'bg-zinc-800 border-zinc-700 text-zinc-500'
+                  : 'bg-amber-500/10 border-amber-500/40 text-amber-300'
+              }`}
+              title="Toggle sound"
+            >
+              {isAudioMuted ? '🔇' : '🔊'}
+            </button>
+
             {/* Score Badge */}
             <div className="bg-amber-500/10 border border-amber-500/30 px-3 py-1.5 rounded-xl flex items-center gap-2 shadow-inner">
               <Sparkles className="w-4 h-4 text-amber-400" />
@@ -552,12 +664,12 @@ export default function StudentArenaPage() {
               </div>
             </div>
 
-            {/* Personal Rank (Student sees ONLY their own rank, not class list) */}
+            {/* Personal Rank */}
             <div className="bg-emerald-500/10 border border-emerald-500/30 px-3 py-1.5 rounded-xl flex items-center gap-2 shadow-inner">
               <Award className="w-4 h-4 text-emerald-400" />
               <div>
                 <div className="text-[10px] uppercase font-bold text-emerald-400/80 leading-none">
-                  Your Rank
+                  Rank
                 </div>
                 <div className="text-base sm:text-lg font-black text-emerald-300">
                   {myParticipant?.rank ? `#${myParticipant.rank}` : 'Ready'}
@@ -569,17 +681,35 @@ export default function StudentArenaPage() {
             {activeQuestion && (
               <div
                 className={`px-3 py-1.5 rounded-xl border flex items-center gap-2 font-mono font-black text-base sm:text-lg transition-colors ${
-                  secondsRemaining <= 5
+                  !isTimerRunning && !isRevealed
+                    ? 'bg-amber-500/20 border-amber-500/50 text-amber-300'
+                    : effectiveSecondsRemaining <= 5 && !isRevealed
                     ? 'bg-red-500/20 border-red-500 text-red-300 animate-pulse'
                     : 'bg-zinc-800/80 border-zinc-700 text-zinc-200'
                 }`}
               >
                 <Clock className="w-4 h-4 text-zinc-400" />
-                <span>{secondsRemaining}s</span>
+                <span>
+                  {!isTimerRunning && !isRevealed
+                    ? '⏸️ Paused'
+                    : isRevealed
+                    ? 'Revealed'
+                    : `${effectiveSecondsRemaining}s`}
+                </span>
               </div>
             )}
           </div>
         </section>
+
+        {/* Dynamic Countdown Progress Bar */}
+        {quizActive && activeQuestion && !isRevealed && (
+          <div className="w-full bg-zinc-900 border border-zinc-800 rounded-full h-3 overflow-hidden shadow-inner mb-4">
+            <div
+              className={`h-full transition-all duration-300 ease-linear rounded-full ${timerBarColor}`}
+              style={{ width: `${timePercent}%` }}
+            />
+          </div>
+        )}
 
         {/* Main Quiz Interactive Area */}
         {!quizActive || !activeQuestion ? (
@@ -616,7 +746,7 @@ export default function StudentArenaPage() {
           /* Active Question & Shape Response Panel */
           <div className="flex-1 flex flex-col justify-between gap-4">
             {/* Active Question Banner */}
-            <div className="bg-zinc-900/95 border border-zinc-800 rounded-3xl p-5 sm:p-8 text-center shadow-2xl relative overflow-hidden">
+            <div className="bg-zinc-900/95 border border-zinc-800 rounded-3xl p-5 sm:p-7 text-center shadow-2xl relative overflow-hidden">
               <div className="flex items-center justify-center gap-2 mb-3">
                 <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-500/20 text-amber-300 border border-amber-500/30">
                   {activeQuestion.topic || 'Classroom Question'}
@@ -636,29 +766,59 @@ export default function StudentArenaPage() {
                 )}
               </div>
 
-              <h2 className="text-xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-snug max-w-4xl mx-auto">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-white tracking-tight leading-snug max-w-3xl mx-auto">
                 {activeQuestion.question}
               </h2>
 
-              {/* Status Indicator */}
+              {/* Status Indicator Banner */}
               <div className="mt-4 flex items-center justify-center gap-2 text-xs font-bold">
-                {selectedOptionIndex === null && !isRevealed && (
+                {selectedOptionIndex === null && !isRevealed && effectiveSecondsRemaining > 0 && (
                   <span className="text-amber-400 flex items-center gap-1.5 animate-pulse">
-                    <span>⚡</span> Tap your answer shape below quickly for max speed bonus!
+                    <span>⚡</span> Tap your answer shape quickly for maximum speed bonus!
+                  </span>
+                )}
+                {selectedOptionIndex === null && !isRevealed && effectiveSecondsRemaining <= 0 && (
+                  <span className="text-rose-400 flex items-center gap-1.5">
+                    <span>⏱️</span> Time is up! Waiting for the instructor to reveal results...
                   </span>
                 )}
                 {selectedOptionIndex !== null && !isRevealed && (
                   <span className="text-emerald-400 flex items-center gap-1.5">
-                    <CheckCircle className="w-4 h-4" /> Answer locked in! Waiting for the instructor to reveal...
+                    <CheckCircle className="w-4 h-4" /> Answer locked in! Waiting for the countdown to complete...
                   </span>
                 )}
                 {isRevealed && (
                   <span className="text-zinc-300 font-semibold">
-                    Answer revealed by instructor! Review explanation below.
+                    Round completed! Review explanation and score below.
                   </span>
                 )}
               </div>
             </div>
+
+            {/* Answer Locked-In Confirmation Card (Tactile Feedback) */}
+            {selectedOptionIndex !== null && !isRevealed && (
+              <div className="p-4 rounded-2xl bg-zinc-900 border border-zinc-700 shadow-xl flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <div
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center text-white font-black text-sm shrink-0 ${SHAPE_BUTTONS[selectedOptionIndex]?.bgClass}`}
+                  >
+                    {SHAPE_BUTTONS[selectedOptionIndex]?.label}
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
+                      Your Selected Answer:
+                    </div>
+                    <div className="text-sm sm:text-base font-extrabold text-white">
+                      {activeQuestion.options[selectedOptionIndex]}
+                    </div>
+                  </div>
+                </div>
+                <div className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold flex items-center gap-1.5 shrink-0">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                  <span>Locked In 🔒</span>
+                </div>
+              </div>
+            )}
 
             {/* Answer Explanation on Reveal */}
             {isRevealed && (
@@ -666,22 +826,34 @@ export default function StudentArenaPage() {
                 className={`p-4 sm:p-6 rounded-2xl border text-left shadow-xl transition-all ${
                   isAnswerCorrect
                     ? 'bg-emerald-950/40 border-emerald-600/50 text-emerald-100'
+                    : selectedOptionIndex === null
+                    ? 'bg-amber-950/30 border-amber-600/40 text-amber-100'
                     : 'bg-zinc-900/90 border-zinc-700 text-zinc-200'
                 }`}
               >
                 <div className="flex items-start gap-3">
                   <div
                     className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0 ${
-                      isAnswerCorrect ? 'bg-emerald-500 text-zinc-950' : 'bg-red-500 text-white'
+                      isAnswerCorrect
+                        ? 'bg-emerald-500 text-zinc-950'
+                        : selectedOptionIndex === null
+                        ? 'bg-amber-500 text-zinc-950'
+                        : 'bg-red-500 text-white'
                     }`}
                   >
-                    {isAnswerCorrect ? '🎉' : '💡'}
+                    {isAnswerCorrect ? '🎉' : selectedOptionIndex === null ? '⏱️' : '💡'}
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <h4 className="text-base font-black text-white">
                       {isAnswerCorrect
-                        ? 'Spot On! Excellent Speed!'
-                        : `Correct Answer: Option ${String.fromCharCode(65 + activeQuestion.correctIndex)} (${SHAPE_BUTTONS[activeQuestion.correctIndex]?.name})`}
+                        ? 'Spot On! Excellent Speed Bonus Awarded!'
+                        : selectedOptionIndex === null
+                        ? `Time's Up! The Correct Answer was Option ${String.fromCharCode(
+                            65 + activeQuestion.correctIndex
+                          )} (${SHAPE_BUTTONS[activeQuestion.correctIndex]?.name})`
+                        : `Nice Effort! The Correct Answer was Option ${String.fromCharCode(
+                            65 + activeQuestion.correctIndex
+                          )} (${SHAPE_BUTTONS[activeQuestion.correctIndex]?.name})`}
                     </h4>
                     <p className="text-xs sm:text-sm mt-1 text-zinc-300 leading-relaxed">
                       {activeQuestion.explanation}
@@ -697,19 +869,25 @@ export default function StudentArenaPage() {
                 const isSelected = selectedOptionIndex === idx;
                 const isCorrectOption = isRevealed && activeQuestion.correctIndex === idx;
                 const isIncorrectOption = isRevealed && isSelected && !isCorrectOption;
+                const isInteractionDisabled =
+                  selectedOptionIndex !== null || isRevealed || effectiveSecondsRemaining <= 0;
 
                 return (
                   <button
                     key={s.label}
                     onClick={() => handleVote(idx)}
-                    disabled={selectedOptionIndex !== null || isRevealed}
-                    className={`relative p-4 sm:p-6 rounded-2xl sm:rounded-3xl flex items-center gap-4 text-left transition-all duration-150 shadow-xl ${
+                    disabled={isInteractionDisabled}
+                    className={`relative p-4 sm:p-5 rounded-2xl sm:rounded-3xl flex items-center gap-4 text-left transition-all duration-150 shadow-xl ${
                       s.bgClass
                     } ${s.hoverClass} ${
                       isSelected ? `${s.activeRing} scale-[1.02] shadow-2xl` : ''
                     } ${
                       selectedOptionIndex !== null && !isSelected && !isRevealed
                         ? 'opacity-40 grayscale-[20%] cursor-not-allowed'
+                        : ''
+                    } ${
+                      effectiveSecondsRemaining <= 0 && selectedOptionIndex === null && !isRevealed
+                        ? 'opacity-50 cursor-not-allowed'
                         : ''
                     } ${
                       isCorrectOption

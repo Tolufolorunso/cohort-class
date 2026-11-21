@@ -3,6 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import { QuizParticipantScore } from '../../types/platform';
 import { CheckCircle, Clock } from '../icons/Icons';
+import { playPodiumFanfare } from '../../lib/quizAudio';
 
 interface ParticipantPerformanceTableProps {
   participants: Record<string, QuizParticipantScore>;
@@ -139,7 +140,10 @@ export function ParticipantPerformanceTable({
           </div>
 
           <button
-            onClick={() => setShowPodium(true)}
+            onClick={() => {
+              setShowPodium(true);
+              playPodiumFanfare();
+            }}
             className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-black bg-gradient-to-r from-amber-500 to-yellow-400 text-zinc-950 shadow-lg shadow-amber-500/20 hover:scale-[1.02] transition-all"
           >
             <span>🎉</span>
