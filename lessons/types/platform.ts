@@ -111,6 +111,8 @@ export interface LiveSessionState {
       isFocused?: boolean;
       leftScreenAt?: number | null;
       awayDurationSeconds?: number;
+      workstationId?: string;
+      sharedWith?: StudentPartner;
     }
   >;
   activeLaptops?: Record<string, LiveConnectedLaptop>;

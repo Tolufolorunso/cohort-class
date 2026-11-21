@@ -175,11 +175,25 @@ export async function GET(request: Request) {
     };
     liveSession.activeLaptops[laptopId] = laptop;
 
+    // Register Partner A as an independent student
     liveSession.activeStudents[patronA] = {
-      studentName: `${nameA || 'Student A'} & ${nameB || 'Student B'} (Lab Partners)`,
+      studentName: nameA || 'Student A',
       lastSeen: now,
       mode: 'partner',
-      partnerB: { patronNumber: patronB, studentName: nameB || 'Partner B' },
+      workstationId: laptopId,
+      sharedWith: { patronNumber: patronB, studentName: nameB || 'Partner B' },
+      isFocused,
+      leftScreenAt,
+      awayDurationSeconds,
+    };
+
+    // Register Partner B as an independent student
+    liveSession.activeStudents[patronB] = {
+      studentName: nameB || 'Student B',
+      lastSeen: now,
+      mode: 'partner',
+      workstationId: laptopId,
+      sharedWith: { patronNumber: patronA, studentName: nameA || 'Partner A' },
       isFocused,
       leftScreenAt,
       awayDurationSeconds,

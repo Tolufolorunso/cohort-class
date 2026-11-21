@@ -375,17 +375,7 @@ export default function InstructorControlRoom() {
 
   const activeConnectedCount = AUTHORIZED_PATRONS.filter((patron) => {
     const direct = activeStudents[patron];
-    if (direct && currentTime - direct.lastSeen <= 45000) return true;
-    for (const student of Object.values(activeStudents)) {
-      if (
-        student.partnerB &&
-        student.partnerB.patronNumber === patron &&
-        currentTime - student.lastSeen <= 45000
-      ) {
-        return true;
-      }
-    }
-    return false;
+    return direct && currentTime - direct.lastSeen <= 45000;
   }).length;
   const currentStage =
     activeModuleInfo.stages[Math.min(currentStageIndex, activeModuleInfo.stages.length - 1)] ||

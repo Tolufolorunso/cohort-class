@@ -27,6 +27,8 @@ interface CohortAttendanceDeskProps {
       isFocused?: boolean;
       leftScreenAt?: number | null;
       awayDurationSeconds?: number;
+      workstationId?: string;
+      sharedWith?: { patronNumber: string; studentName: string };
     }
   >;
   currentTime: number;
@@ -108,17 +110,6 @@ export function CohortAttendanceDesk({
       const direct = activeStudents[patron];
       if (direct && currentTime - direct.lastSeen <= 45000) {
         list.push(patron);
-        continue;
-      }
-      for (const student of Object.values(activeStudents)) {
-        if (
-          student.partnerB &&
-          student.partnerB.patronNumber === patron &&
-          currentTime - student.lastSeen <= 45000
-        ) {
-          list.push(patron);
-          break;
-        }
       }
     }
     return list;
@@ -916,22 +907,10 @@ export function CohortAttendanceDesk({
             const markedBy = markedByMap[patron];
 
             const live = activeStudents[patron];
-            let partnerOf: string | null = null;
-            for (const [key, student] of Object.entries(activeStudents)) {
-              if (student.partnerB && student.partnerB.patronNumber === patron) {
-                partnerOf = key;
-                break;
-              }
-            }
-            const liveRecord = live || (partnerOf ? activeStudents[partnerOf] : null);
-            const isInattentive = Boolean(isConnected && liveRecord && liveRecord.isFocused === false);
-
-            const liveStudentName = live
-              ? live.studentName
-              : (partnerOf && activeStudents[partnerOf]?.partnerB?.studentName
-                  ? activeStudents[partnerOf].partnerB!.studentName
-                  : null);
-            const studentName = liveStudentName || getStudentNameByBarcode(patron);
+            const isInattentive = Boolean(isConnected && live && live.isFocused === false);
+            const studentName = live?.studentName || getStudentNameByBarcode(patron);
+            const isSharedWorkstation = Boolean(live?.mode === 'partner' && live?.sharedWith);
+            const partnerName = live?.sharedWith?.studentName;
 
             return (
               <div
@@ -958,11 +937,19 @@ export function CohortAttendanceDesk({
                   </div>
                 </div>
 
-                {/* Student Name */}
-                <div className="min-h-[2.5rem]">
+                {/* Student Name & Workstation Pair Indicator */}
+                <div className="min-h-[2.8rem]">
                   <p className="text-xs font-bold text-white line-clamp-2 leading-tight">
                     {studentName}
                   </p>
+                  {isSharedWorkstation && partnerName && (
+                    <span
+                      className="text-[9px] px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-300 border border-blue-500/30 font-semibold block truncate mt-1"
+                      title={`Sharing workstation with ${partnerName}`}
+                    >
+                      💻 Workstation Pair: with {partnerName}
+                    </span>
+                  )}
                   <span className="text-[10px] text-zinc-500 block mt-0.5">
                     {isConnected ? (isInattentive ? '🔴 Away' : '🟢 Laptop Active') : '⚪ Device Offline'}
                   </span>
